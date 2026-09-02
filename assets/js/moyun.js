@@ -871,7 +871,7 @@ createApp({
     function addNovelVolume() { novel.value.volumes = normalizeNovelVolumes(novel.value.volumes); const n = novel.value.volumes.length + 1; novel.value.volumes.push({ id:uid(), title:'第' + n + '卷', startChapter:n === 1 ? 1 : (novel.value.volumes[n - 2]?.endChapter || 0) + 1, endChapter:(novel.value.volumes[n - 2]?.endChapter || 0) + 10, summary:'', characterIds:[], entryIds:[], eventIds:[] }); saveData(); }
     function removeNovelVolume(index) { novel.value.volumes.splice(index, 1); saveData(); }
     function isNovelVolumeCollapsed(volume) { return novelVolumesCollapsed.value || novelVolumeCollapsedIds.value.has(String(volume?.id || '')); }
-    function toggleNovelVolumeCollapsed(volume) { const id = String(volume?.id || ''); if (!id) return; const next = new Set(novelVolumeCollapsedIds.value); if (next.has(id)) next.delete(id); else next.add(id); novelVolumeCollapsedIds.value = next; }
+    function toggleNovelVolumeCollapsed(volume) { const id = String(volume?.id || ''); if (!id) return; const next = new Set(novelVolumeCollapsedIds.value); if (novelVolumesCollapsed.value) { novelVolumesCollapsed.value = false; novelVolumes.value.forEach(item => { const itemId = String(item?.id || ''); if (!itemId) return; if (itemId === id) next.delete(itemId); else next.add(itemId); }); } else if (next.has(id)) next.delete(id); else next.add(id); novelVolumeCollapsedIds.value = next; }
     function toggleAllNovelVolumes() { novelVolumesCollapsed.value = !novelVolumesCollapsed.value; if (!novelVolumesCollapsed.value) novelVolumeCollapsedIds.value = new Set(); }
     function ensureDefaultNovelVolume() { if (novelVolumes.value.length) return; addNovelVolume(); }
     function applyAiVolumeUpdates(text) {
