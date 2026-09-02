@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/moyun.css?v=da06ea3774b4">
+<link rel="stylesheet" href="./assets/css/moyun.css?v=e88d336e5bf1">
 </head>
 
 <body class="h-screen flex overflow-hidden">
@@ -600,7 +600,7 @@
                       </template>
                     </select>
                     <input v-model="rel.type" @change="saveData()" placeholder="关系类型" class="input-field text-[10px] flex-1" style="height:24px;padding:0 6px;min-width:60px">
-                    <input v-model="rel.attitude" @change="saveData()" placeholder="态度描述" class="input-field text-[10px] flex-1" style="height:24px;padding:0 6px;min-width:80px">
+                    <input v-model="rel.attitude" @change="saveData()" maxlength="30" placeholder="态度描述（30字内）" class="input-field text-[10px] flex-1" style="height:24px;padding:0 6px;min-width:80px">
                     <button @click="confirmRemoveRelationship(char,ri)" class="text-[10px] shrink-0 moyun-compact-tap" style="color:var(--err)" :aria-label="'删除'+(char.name || '未命名角色')+'的第'+(ri+1)+'条关系'" title="删除角色关系">✕</button>
                   </div>
                 </div>
@@ -1209,12 +1209,20 @@
 
           <div class="moyun-event-layout">
             <aside class="card p-3 space-y-3 h-fit min-w-0" data-story-event-index>
-              <div class="flex items-center justify-between gap-2"><div class="text-xs font-black" style="color:var(--tx)">纵向时间线</div><span class="text-[10px] px-2 py-1 rounded-full" style="background:var(--accent-soft);color:var(--accent)">{{ filteredStoryBibleEvents.length }} 项</span></div>
-              <div v-if="filteredStoryBibleEvents.length" class="moyun-event-timeline">
+              <div class="flex items-center justify-between gap-2"><div class="flex items-center gap-2 min-w-0"><div class="text-xs font-black shrink-0" style="color:var(--tx)">纵向时间线</div>
+                <button type="button" v-if="filteredStoryBibleEvents.length" @click="storyEventTimelineExpanded=!storyEventTimelineExpanded" class="btn-ghost text-[10px] px-2 py-1" :aria-expanded="String(storyEventTimelineExpanded)" data-story-event-collapse>{{ storyEventTimelineExpanded ? '折叠列表' : '展开列表' }}</button></div><span class="text-[10px] px-2 py-1 rounded-full" style="background:var(--accent-soft);color:var(--accent)">{{ filteredStoryBibleEvents.length }} 项</span></div>
+              <div v-if="filteredStoryBibleEvents.length" class="moyun-event-timeline" :class="{ 'is-folded': !storyEventTimelineExpanded }">
+                <template v-if="storyEventTimelineExpanded">
                 <button v-for="event in filteredStoryBibleEvents" :key="event.id" type="button" @click="selectStoryBibleEvent(event.id)" class="moyun-event-node" :data-story-event-id="event.id" :aria-pressed="selectedStoryBibleEventId===event.id">
                   <span class="moyun-event-node-head"><span class="moyun-event-node-order">{{ getStoryBibleEventOrderLabel(event) }}</span><span class="moyun-event-node-time">{{ event.timeText || '时间待定' }}</span></span>
                   <span class="moyun-event-node-title">{{ event.title || '未命名事件' }}</span>
                   <span class="moyun-event-node-meta"><span class="moyun-event-badge">{{ getStoryBibleEventScopeLabel(event.scope) }}</span><span>{{ event.readerVisible?'读者可见':'仅作者' }}</span><span>{{ getStoryBibleEventAssociationCount(event) }} 个关联</span></span>
+                </button>
+                </template>
+                <button v-else type="button" @click="storyEventTimelineExpanded=true" class="moyun-event-node" data-story-event-folded-summary>
+                  <span class="moyun-event-node-head"><span class="moyun-event-node-order">折叠中</span><span class="moyun-event-node-time">{{ filteredStoryBibleEvents.length }} 项</span></span>
+                  <span class="moyun-event-node-title">时间线已折叠，点击展开</span>
+                  <span class="moyun-event-node-meta"><span class="moyun-event-badge">{{ selectedStoryBibleEvent ? '已选中：' + (selectedStoryBibleEvent.title || '未命名事件') : '右侧继续编辑选中事件' }}</span></span>
                 </button>
               </div>
               <div v-else class="moyun-event-empty">没有匹配事件。可新建事件，或调整搜索和筛选条件。</div>
@@ -1227,10 +1235,10 @@
               </div>
 
               <div class="moyun-event-fields three">
-                <label><span class="label">事件标题</span><input v-model="selectedStoryBibleEvent.title" @change="touchSelectedStoryBibleEvent" class="input-field" placeholder="发生了什么？" data-story-event-title></label>
+                <label><span class="label">事件标题</span><input v-model="selectedStoryBibleEvent.title" @change="touchSelectedStoryBibleEvent" class="input-field" maxlength="120" placeholder="发生了什么？（建议 20 字以内）" data-story-event-title></label>
                 <label><span class="label">人工排序值</span><input v-model.number="selectedStoryBibleEvent.sortOrder" @change="touchSelectedStoryBibleEvent" type="number" step="any" class="input-field" placeholder="可留空" data-story-event-order></label>
                 <label><span class="label">事件范围</span><select v-model="selectedStoryBibleEvent.scope" @change="touchSelectedStoryBibleEvent" class="select-field" data-story-event-scope><option v-for="scope in storyBibleEventScopeOptions" :key="scope.id" :value="scope.id">{{ scope.label }}</option></select></label>
-                <label class="full"><span class="label">时间文本</span><input v-model="selectedStoryBibleEvent.timeText" @change="touchSelectedStoryBibleEvent" class="input-field" placeholder="例如：帝国历 317 年冬 / 故事开始前三天" data-story-event-time></label>
+                <label class="full"><span class="label">时间文本</span><input v-model="selectedStoryBibleEvent.timeText" @change="touchSelectedStoryBibleEvent" class="input-field" maxlength="40" placeholder="例如：帝国历 317 年冬 / 故事开始前三天" data-story-event-time></label>
               </div>
 
               <div class="moyun-event-fields">
@@ -1581,7 +1589,7 @@
               <div class="moyun-character-fields three">
                 <label><span class="label">关联角色</span><select v-model="rel.targetId" @change="touchSelectedCharacterWorkbench" class="select-field"><option value="">选择角色</option><option v-for="other in structuredCharacters.filter(item=>item.id!==selectedWorkbenchCharacter.id)" :key="other.id" :value="other.id">{{ other.name || '未命名' }}</option></select></label>
                 <label><span class="label">关系类型</span><input v-model="rel.type" @change="touchSelectedCharacterWorkbench" class="input-field" placeholder="盟友、师徒、对手..."></label>
-                <label data-character-field="relationshipState"><span class="label">当前态</span><input v-model="rel.attitude" @change="touchSelectedCharacterWorkbench" class="input-field" placeholder="信任、疏离、试探..."></label>
+                <label data-character-field="relationshipState"><span class="label">当前态</span><input v-model="rel.attitude" @change="touchSelectedCharacterWorkbench" class="input-field" maxlength="30" placeholder="信任、疏离、试探…（30字内）"></label>
                 <label class="full" data-character-field="changeReason"><span class="label">变化原因</span><textarea v-model="rel.changeReason" @change="touchSelectedCharacterWorkbench" rows="2" class="textarea-field" placeholder="关系为何处于当前状态？"></textarea></label>
               </div>
             </div>
@@ -1682,8 +1690,15 @@
           </div>
           <!-- 普通编辑模式 -->
           <div v-if="isGeneratingOutline && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成大纲…</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
-          <div v-if="!outlineRevisions.length && !activeVolumeEditor" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)">
-            <div class="flex items-center justify-between gap-2 mb-2"><div><span class="text-xs font-black" style="color:var(--tx)">卷纲（必选·分层写作边界）</span><div class="text-[10px] mt-0.5" style="color:var(--tx3)">AI 会读取并使用已有卷纲；作者仍可随时编辑与调整。</div></div><div class="flex items-center gap-1.5"><button v-if="novelVolumes.length" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="toggleAllNovelVolumes" :aria-pressed="novelVolumesCollapsed">{{ novelVolumesCollapsed ? '展开全部' : '收起全部' }}</button><button type="button" class="btn-primary text-[10px] px-2 py-1" @click="addNovelVolume">＋新增卷</button></div></div>
+          <div v-if="!outlineRevisions.length && !activeVolumeEditor && novelVolumesBoardMinimized" class="moyun-volume-board moyun-volume-board-minimized mb-2 p-2 rounded-xl flex items-center gap-2" style="background:var(--bg-inset);border:1px solid var(--bd)" data-moyun-volume-board-minimized>
+            <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="btn-ghost text-[10px] px-2 py-1 shrink-0" :aria-expanded="String(!novelVolumesBoardMinimized)" aria-label="展开卷纲板">展开卷纲</button>
+            <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="flex-1 min-w-0 text-left" :title="'共 ' + novelVolumes.length + ' 卷；点击展开卷纲板'">
+              <span class="block text-[10px] font-black" style="color:var(--tx)">卷纲已整体收起 · {{ novelVolumes.length }} 卷</span>
+              <span class="block text-[10px] truncate mt-0.5" style="color:var(--tx3)">{{ novelVolumes.map(vol => vol.title + '（第' + vol.startChapter + '-' + vol.endChapter + '章）').join(' · ') }}</span>
+            </button>
+          </div>
+          <div v-if="!outlineRevisions.length && !activeVolumeEditor && !novelVolumesBoardMinimized" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)">
+            <div class="flex items-center justify-between gap-2 mb-2"><div><span class="text-xs font-black" style="color:var(--tx)">卷纲（必选·分层写作边界）</span><div class="text-[10px] mt-0.5" style="color:var(--tx3)">AI 会读取并使用已有卷纲；作者仍可随时编辑与调整。</div></div><div class="flex items-center gap-1.5"><button v-if="novelVolumes.length" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="toggleNovelVolumesBoardMinimized()" :aria-pressed="novelVolumesBoardMinimized" title="收起后只留一条摘要行，大纲文本回到中部正常位置">整体收起</button><button v-if="novelVolumes.length" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="toggleAllNovelVolumes" :aria-pressed="novelVolumesCollapsed">{{ novelVolumesCollapsed ? '展开全部' : '收起全部' }}</button><button type="button" class="btn-primary text-[10px] px-2 py-1" @click="addNovelVolume">＋新增卷</button></div></div>
             <div v-if="!novelVolumes.length" class="text-[10px]" style="color:var(--tx4)">尚未建立卷纲；生成大纲时会自动建立“第一卷”作为默认边界。</div>
             <div v-else class="moyun-volume-list">
               <div v-for="(vol,vi) in novelVolumes" :key="vol.id" class="moyun-volume-card p-2 mb-2 rounded-lg" :class="{'is-collapsed':isNovelVolumeCollapsed(vol)}" style="background:var(--bg-card);border:1px solid var(--bd)">
@@ -1693,7 +1708,7 @@
             </div>
           </div>
           <div v-if="activeVolumeEditor" class="moyun-volume-editor flex-1 flex flex-col gap-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between gap-2"><div><div class="text-sm font-black" style="color:var(--tx)">编辑{{ activeVolumeEditor.title }}</div><div class="text-[10px]" style="color:var(--tx3)">收起后返回大纲文本；修改会自动保存。</div></div><button type="button" class="btn-ghost text-xs px-3 py-2" @click="closeVolumeEditor">收起卷纲</button></div><div class="grid grid-cols-1 md:grid-cols-3 gap-2"><label class="text-xs" style="color:var(--tx2)">卷名<input :value="activeVolumeEditor.title" @input="updateVolumeField(activeVolumeEditor,'title',$event.target.value)" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">起始章<input type="number" :value="activeVolumeEditor.startChapter" @change="updateVolumeField(activeVolumeEditor,'startChapter',$event.target.value)" min="1" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">结束章<input type="number" :value="activeVolumeEditor.endChapter" @change="updateVolumeField(activeVolumeEditor,'endChapter',$event.target.value)" min="1" class="input-field mt-1"></label></div><textarea :value="activeVolumeEditor.summary" @input="updateVolumeField(activeVolumeEditor,'summary',$event.target.value)" class="textarea-field flex-1 text-sm" placeholder="填写本卷框架摘要…" aria-label="卷纲框架摘要"></textarea></div>
-          <div v-if="novelVolumes.length && !activeVolumeEditor" class="flex flex-wrap gap-2 mb-2"><button v-for="vol in novelVolumes" :key="'edit-'+vol.id" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="openVolumeEditor(vol)">放大编辑{{ vol.title }}</button></div>
+          <div v-if="novelVolumes.length && !activeVolumeEditor && !novelVolumesBoardMinimized" class="flex flex-wrap gap-2 mb-2"><button v-for="vol in novelVolumes" :key="'edit-'+vol.id" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="openVolumeEditor(vol)">放大编辑{{ vol.title }}</button></div>
           <textarea v-if="!activeVolumeEditor" v-model="novel.outline" @change="saveData()" data-story-target="outline"
                     placeholder="在此编写大纲，或在下方用 AI 生成..."
                     class="flex-1 w-full min-h-[340px] outline-none resize-none text-base leading-loose"
@@ -4518,7 +4533,7 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
                     <label><span class="label">目标角色</span><select v-model="item.relationTargetId" @change="refreshCharacterDraftRelationItem(item,target)" class="select-field text-xs" style="min-height:44px"><option value="">请选择目标角色</option><option v-for="option in getCharacterDraftRelationOptions(target)" :key="option.id" :value="option.id">{{ option.label }}</option></select></label>
                     <label><span class="label">关系类型</span><input v-model="item.relationshipType" class="input-field text-xs" style="min-height:44px" placeholder="盟友、对手、师徒..."></label>
-                    <label><span class="label">当前态/态度</span><input v-model="item.relationshipAttitude" class="input-field text-xs" style="min-height:44px" placeholder="当前态度描述"></label>
+                    <label><span class="label">当前态/态度</span><input v-model="item.relationshipAttitude" class="input-field text-xs" style="min-height:44px" maxlength="30" placeholder="当前态度描述（30字内）"></label>
                   </div>
                 </template>
                 <template v-else>
@@ -6046,7 +6061,7 @@
 <!-- PART_1_END -->
 </div><!-- #app 结束 -->
 
-<script src="./assets/js/moyun.js?v=4102319b220a"></script>
+<script src="./assets/js/moyun.js?v=87808a515113"></script>
 <!-- PART_1_END -->
 </body>
 </html>

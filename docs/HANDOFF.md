@@ -21,17 +21,18 @@ Moyun 是本地优先的纯前端长篇小说写作工作台。书籍、章节�
 - `novel.value` 保存当前书籍，`novelVolumes` 保存卷纲，`activeVolumeEditor` 控制卷纲放大编辑。
 - 生成正文、大纲、细纲、评论和工作台补充时，会通过上下文构建逻辑注入设定、资料、事件和卷纲边界。
 - `toggleNovelVolumeCollapsed` 管理卷纲全局/单项折叠；v0.0.7 修复了全局收起后单项展开。
+- v0.0.9 新增 `novelVolumesBoardMinimized`：卷纲板“整体收起”状态（收起后仅一条摘要行 + 展开卷纲按钮），与逐卷折叠状态相互独立；大纲生成提示词要求模型输出【卷纲更新】小节，由 `applyAiVolumeUpdates` 回填。
 - 所有本地数据通过既有保存逻辑持久化；不要在测试中写入真实作品或 API Key。
 
 ## 版本和分支规则
 
-当前文档版本：`v0.0.8`。
+当前文档版本：`v0.0.9`。
 
 接手下一轮时：
 
 1. 先读取 `AGENTS.md`、本文件、[UPDATE_LOG.md](./UPDATE_LOG.md) 和 [TEST_REPORT.md](./TEST_REPORT.md)。
 2. 检查 `git status --short --branch`，确认没有覆盖用户未提交的修改。
-3. 从上一稳定版本创建临时分支，例如 `temp/v0.0.8-v009-work`，再开始任何源码修改。
+3. 从上一稳定版本创建临时分支，例如 `temp/v0.0.9-v010-work`，再开始任何源码修改。
 4. 每轮只把最后一位加 1，并在完成测试后更新日志和检测报告。
 5. 需要回滚时使用对应分支/提交；不要使用 `git reset --hard` 或删除用户数据。
 

@@ -864,6 +864,9 @@ createApp({
     const activeVolumeEditorId = ref('');
     const novelVolumesCollapsed = ref(false);
     const novelVolumeCollapsedIds = ref(new Set());
+    // 中文注释：整体收起是比“收起全部”更深的一档——收起后卷纲板只留一行摘要条，
+    // 大纲文本回到工作台中部正常位置；点这一行即恢复常规展开态。
+    const novelVolumesBoardMinimized = ref(false);
     const activeVolumeEditor = computed(() => novelVolumes.value.find(volume => String(volume.id) === String(activeVolumeEditorId.value)) || null);
     function openVolumeEditor(volume) { if (volume?.id) activeVolumeEditorId.value = String(volume.id); }
     function closeVolumeEditor() { activeVolumeEditorId.value = ''; saveData(); }
@@ -873,6 +876,8 @@ createApp({
     function isNovelVolumeCollapsed(volume) { return novelVolumesCollapsed.value || novelVolumeCollapsedIds.value.has(String(volume?.id || '')); }
     function toggleNovelVolumeCollapsed(volume) { const id = String(volume?.id || ''); if (!id) return; const next = new Set(novelVolumeCollapsedIds.value); if (novelVolumesCollapsed.value) { novelVolumesCollapsed.value = false; novelVolumes.value.forEach(item => { const itemId = String(item?.id || ''); if (!itemId) return; if (itemId === id) next.delete(itemId); else next.add(itemId); }); } else if (next.has(id)) next.delete(id); else next.add(id); novelVolumeCollapsedIds.value = next; }
     function toggleAllNovelVolumes() { novelVolumesCollapsed.value = !novelVolumesCollapsed.value; if (!novelVolumesCollapsed.value) novelVolumeCollapsedIds.value = new Set(); }
+    // 中文注释：整体收起只动本地 UI 状态，不改卷数据；再次点击或点摘要行即返回常规态。
+    function toggleNovelVolumesBoardMinimized() { novelVolumesBoardMinimized.value = !novelVolumesBoardMinimized.value; }
     function ensureDefaultNovelVolume() { if (novelVolumes.value.length) return; addNovelVolume(); }
     function applyAiVolumeUpdates(text) {
       const source = String(text || '');
@@ -880,6 +885,9 @@ createApp({
       if (!match) return 0;
       let changed = 0;
       const rows = match[1].split(/\n+/).map(line => line.trim()).filter(Boolean);
+      // 中文注释：AI 可能输出超出既有卷数的行（例如凭空发明新卷）。宿主侧只按既有卷数量回填，
+      // 多出的行会被忽略；卷数量与边界由作者在卷纲板上控制，不交给模型扩容。
+      const updates = [];
       rows.forEach(line => {
         const no = Number((line.match(/第\s*(\d+)\s*卷/) || [])[1] || 0);
         if (!no || !novelVolumes.value[no - 1]) return;
@@ -887,6 +895,9 @@ createApp({
         const title = (line.match(/(?:卷名|名称)\s*[：:]\s*([^｜|;；]+)/) || [])[1];
         const range = (line.match(/(?:章节|范围)\s*[：:]?\s*(\d+)\s*[-—至]\s*(\d+)/) || []);
         const summary = (line.match(/(?:框架摘要|摘要)\s*[：:]\s*(.+)$/) || [])[1];
+        updates.push({ volume, title, range, summary });
+      });
+      updates.forEach(({ volume, title, range, summary }) => {
         if (title && title.trim() && title.trim() !== volume.title) { volume.title = title.trim(); changed++; }
         if (range.length >= 3) { const start = Math.max(1, Number(range[1]) || volume.startChapter); const end = Math.max(start, Number(range[2]) || volume.endChapter); if (start !== volume.startChapter || end !== volume.endChapter) { volume.startChapter = start; volume.endChapter = end; changed++; } }
         if (summary && summary.trim() && summary.trim() !== volume.summary) { volume.summary = summary.trim(); changed++; }
@@ -1044,7 +1055,7 @@ createApp({
       if (!id || reservedIds.has(id)) id = base.id;
       reservedIds.add(id);
       next.id = id;
-      next.title = String(next.title || '');
+      next.title = String(next.title || '').slice(0, 120);
       next.timeText = String(next.timeText || '');
       next.sortOrder = normalizeStoryBibleEventSortOrder(next.sortOrder);
       next.scope = ['world', 'story'].includes(next.scope) ? next.scope : 'story';
@@ -1763,6 +1774,8 @@ createApp({
     const storyBibleEventScopeFilter = ref('all');
     const storyBibleEventVisibilityFilter = ref('all');
     const storyBibleEventSortDirection = ref('asc');
+    // 中文注释：纵向时间线默认只展示前几条，长列表不再把工作台推下去；可一键展开完整列表。
+    const storyEventTimelineExpanded = ref(true);
     const selectedStoryBibleEventId = ref('');
     const storyBibleEventReturnTargetId = ref('');
     const storyBibleEvents = computed(() => Array.isArray(storyBible.value?.world?.events) ? storyBible.value.world.events : []);
@@ -2072,7 +2085,8 @@ createApp({
         const outlineText = (chapterOutlines.value || []).map((item, i) => '第' + (i + 1) + '章 ' + (item.title || '') + '\n' + (item.content || '')).join('\n\n');
         const characterText = (structuredCharacters.value || []).map(item => buildSingleCharacterPromptBlock(item)).join('\n');
         const entryText = (bible.world?.entries || []).map(item => JSON.stringify({ type:item.type, customTypeName:item.customTypeName, name:item.name, summary:item.summary, details:item.details, tags:item.tags })).join('\n');
-        const prompt = '你是小说设定编辑。请完整阅读并理解以下细纲、大纲、角色设定和已有资料条目，只补充作者尚未填写或明显缺失的设定。不得改写、否定或覆盖已有内容，不得臆造与正文冲突的事实；无法确认的字段留空。\n\n' +
+        const prompt = '你是小说设定编辑。请完整阅读并理解以下细纲、大纲、角色设定和已有资料条目，只补充作者尚未填写或明显缺失的设定。不得改写、否定或覆盖已有内容，不得臆造与正文冲突的事实。\n' +
+          '硬性要求：本次输出中 project 的五个字段（premise/coreConflict/themeQuestion/toneNotes/narrativeRules）和 worldView 都必须填写实际内容，禁止留空、禁止写“无/暂无/待定”；素材确实不足时，也要基于现有大纲和角色信息写出可用的合理推断，并在句末标注“（据现有信息推断）”。entries 数组必须给出至少 3 条来自大纲/角色的资料（地点、势力、规则、物件、术语等），每条的 name/summary 必填，details 尽量写满。\n\n' +
           '输出严格 JSON：{"project":{"premise":"","coreConflict":"","themeQuestion":"","toneNotes":"","narrativeRules":""},"worldView":"","entries":[{"type":"location|faction|rule|culture|item|term|custom","customTypeName":"","name":"","summary":"","details":"","tags":[]}]}' +
           '\n\n【大纲】\n' + (novel.value.outline || '（空）') + '\n\n【细纲】\n' + (outlineText || '（空）') + '\n\n【角色设定】\n' + (characterText || '（空）') + '\n\n【已有资料条目】\n' + (entryText || '（空）');
         const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
@@ -2086,7 +2100,13 @@ createApp({
         Object.keys(bible.project || {}).forEach(key => {
           if (!String(bible.project[key] || '').trim() && String(project[key] || '').trim()) { bible.project[key] = String(project[key]).trim(); changed++; }
         });
+        // 中文注释：素材极端不足（完全没写大纲、角色、细纲）时模型会整段留空，这里兜底给占位说明，
+        // 避免工作台在“AI已补充”之后仍然一片空白。
+        ['premise','coreConflict','themeQuestion','toneNotes','narrativeRules'].forEach(key => {
+          if (bible.project && !String(bible.project[key] || '').trim()) { bible.project[key] = '（暂无素材，待大纲或角色设定完成后由 AI 补充）'; changed++; }
+        });
         if (!String(novel.value.worldView || '').trim() && String(parsed.worldView || '').trim()) { novel.value.worldView = formatWorldViewText(parsed.worldView); changed++; }
+        if (!String(novel.value.worldView || '').trim()) { novel.value.worldView = '（暂无素材，待大纲或角色设定完成后由 AI 补充）'; changed++; }
         const existingNames = new Set((bible.world.entries || []).map(item => String(item?.name || '').trim().toLowerCase()).filter(Boolean));
         (Array.isArray(parsed.entries) ? parsed.entries : []).slice(0, 12).forEach(raw => {
           const name = String(raw?.name || '').trim();
@@ -2117,7 +2137,7 @@ createApp({
       try {
         const bible = ensureStoryBible();
         const relatedChars = structuredCharacters.value.filter(c => normalizeStoryBibleIdList(entry.characterIds).includes(String(c.id))).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
-        const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。别名字段现在表示“类似词”，请根据设定补充可用于关键词匹配的同义称呼。仅输出JSON：{"summary":"","details":"","aliases":[],"tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, aliases:entry.aliases, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
+        const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。别名字段现在表示“类似词”，请根据设定补充可用于关键词匹配的同义称呼。\n硬性要求：summary/details 必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。summary 不超过 60 字，details 不超过 300 字。\n仅输出JSON：{"summary":"","details":"","aliases":[],"tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, aliases:entry.aliases, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
         const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(entry.summary || '').trim() && String(parsed.summary || '').trim()) entry.summary = String(parsed.summary).trim();
@@ -2139,12 +2159,14 @@ createApp({
         const bible = ensureStoryBible();
         const characters = (structuredCharacters.value || []).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
         const entries = (bible.world?.entries || []).map(e => (e.name || '') + '：' + (e.summary || e.details || '')).join('\n');
-        const prompt = '你是小说时间线编辑。请完整阅读当前大纲、细纲、角色设定、资料条目和正文，根据已有事件条目补齐空白字段。只填空，不覆盖作者已有内容，不臆造与正文冲突的事实。别名/类似词可作为关键词匹配。仅输出 JSON：{"title":"","timeText":"","summary":"","cause":"","result":"","legacyImpact":"","characterNames":[]}。\n【当前事件】\n' + JSON.stringify({ title:event.title, timeText:event.timeText, summary:event.summary, cause:event.cause, result:event.result, legacyImpact:event.legacyImpact }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【角色设定】\n' + (characters || '（空）') + '\n【资料条目】\n' + (entries || '（空）') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-16000);
+        const prompt = '你是小说时间线编辑。请完整阅读当前大纲、细纲、角色设定、资料条目和正文，根据已有事件条目补齐空白字段。只填空，不覆盖作者已有内容，不臆造与正文冲突的事实。别名/类似词可作为关键词匹配。\n硬性要求：JSON 的每个字段（title/timeText/summary/cause/result/legacyImpact）都必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。事件记录必须内置缩写要求：title 是短语式概括、不超过 20 字；timeText 不超过 24 字；summary 不超过 60 字；cause/result/legacyImpact 各不超过 80 字，先给一句话结论，再允许一句必要补充。\n仅输出 JSON：{"title":"","timeText":"","summary":"","cause":"","result":"","legacyImpact":"","characterNames":[]}。\n【当前事件】\n' + JSON.stringify({ title:event.title, timeText:event.timeText, summary:event.summary, cause:event.cause, result:event.result, legacyImpact:event.legacyImpact }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【角色设定】\n' + (characters || '（空）') + '\n【资料条目】\n' + (entries || '（空）') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-16000);
         const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
         const raw = cleanAIResponse(getAdapterCompletionText(result));
         const a = raw.indexOf('{'), b = raw.lastIndexOf('}');
         const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a, b + 1)) : {};
-        ['title','timeText','summary','cause','result','legacyImpact'].forEach(key => { if (!String(event[key] || '').trim() && String(parsed[key] || '').trim()) event[key] = String(parsed[key]).trim(); });
+        // 中文注释：AI 字数约束只在提示词里不够稳，落库前再按事件可读性硬截断，超长文本不再挤爆时间线。
+        const EVENT_FIELD_MAX = { title:20, timeText:24, summary:60, cause:80, result:80, legacyImpact:80 };
+        ['title','timeText','summary','cause','result','legacyImpact'].forEach(key => { const incoming = String(parsed[key] || '').trim(); if (!String(event[key] || '').trim() && incoming) event[key] = incoming.slice(0, EVENT_FIELD_MAX[key]); });
         if ((!Array.isArray(event.characterIds) || !event.characterIds.length) && Array.isArray(parsed.characterNames)) event.characterIds = structuredCharacters.value.filter(c => parsed.characterNames.some(name => String(name || '').trim() && String(c.name || '').includes(String(name).trim()))).map(c => c.id);
         event.updatedAt = Date.now(); touchStoryBible(); showToast('事件已流式补充完成', 'success');
       } catch (e) { if (e?.name !== 'AbortError') showToast('事件补充失败：' + sanitizeApiErrorDetail(e.message || e), 'error'); }
@@ -2158,7 +2180,7 @@ createApp({
       isAiSupplementingStoryBible.value = true;
       workbenchAiStreamPreview.value = '';
       try {
-        const prompt = '你是小说角色编辑。请完整阅读当前大纲、细纲、正文、资料条目和该角色已有档案，只补充空白字段，不覆盖已有内容，不臆造与事实冲突的信息。仅输出 JSON：{"desc":"","currentState":"","publicGoal":"","realNeed":"","fear":"","innerConflict":"","speakingStyle":"","characterPrompt":""}。\n【当前角色】\n' + JSON.stringify({ name:character.name, desc:character.desc, profile:character.profile, speakingStyle:character.speakingStyle, characterPrompt:character.characterPrompt }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【细纲】\n' + (chapterOutlines.value || []).map((o,i) => '第' + (i+1) + '章：' + (o.content || '')).join('\n\n') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-18000);
+        const prompt = '你是小说角色编辑。请完整阅读当前大纲、细纲、正文、资料条目和该角色已有档案，只补充空白字段，不覆盖已有内容，不臆造与事实冲突的信息。\n硬性要求：JSON 的每个字段（desc/currentState/publicGoal/realNeed/fear/innerConflict/speakingStyle/characterPrompt）都必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。currentState 控制在 60 字以内，其余字段 30-120 字。\n仅输出 JSON：{"desc":"","currentState":"","publicGoal":"","realNeed":"","fear":"","innerConflict":"","speakingStyle":"","characterPrompt":""}。\n【当前角色】\n' + JSON.stringify({ name:character.name, desc:character.desc, profile:character.profile, speakingStyle:character.speakingStyle, characterPrompt:character.characterPrompt }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【细纲】\n' + (chapterOutlines.value || []).map((o,i) => '第' + (i+1) + '章：' + (o.content || '')).join('\n\n') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-18000);
         const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(character.desc || '').trim() && String(parsed.desc || '').trim()) character.desc = String(parsed.desc).trim();
@@ -4068,8 +4090,10 @@ createApp({
           next.id = id;
           next.targetId = String(next.targetId || '');
           next.type = String(next.type || '');
-          next.attitude = String(next.attitude || '');
-          next.changeReason = String(next.changeReason || '');
+          // 中文注释：关系“当前态”是图谱连线与关系卡片的短标签，AI 常生成整段描述导致弹窗溢出。
+          // 保存层统一截到 30 字，任何来源（手填、AI、导入）都不会超限。
+          next.attitude = String(next.attitude || '').slice(0, 30);
+          next.changeReason = String(next.changeReason || '').slice(0, 120);
           return next;
         });
     }
@@ -8796,13 +8820,13 @@ function cleanAIResponse(text) {
               const existing = character.relationships.find(relationship => relationship && relationship.targetId === relationTargetId);
               if (existing) {
                 existing.type = String(item.relationshipType || '').trim();
-                existing.attitude = String(item.relationshipAttitude || '').trim();
+existing.attitude = String(item.relationshipAttitude || '').trim().slice(0, 30);
                 existing.changeReason = String(existing.changeReason || '');
               } else {
                 character.relationships.push(createCharacterRelationshipRecord({
                   targetId:relationTargetId,
                   type:String(item.relationshipType || '').trim(),
-                  attitude:String(item.relationshipAttitude || '').trim(),
+                  attitude:String(item.relationshipAttitude || '').trim().slice(0, 30),
                   changeReason:''
                 }));
               }
@@ -8860,7 +8884,7 @@ function cleanAIResponse(text) {
     大纲: ${(novel.value.outline || '暂无').substring(0, 800)}
     已有角色: ${charactersPromptString.value}
     用户描述: ${aiCharDesc.value}
-    返回JSON: {"name":"角色名","desc":"详细描述(外貌性格背景能力关系,200字以上)","personalityTags":["标签1","标签2"],"speakingStyle":"说话风格描述(80-150字)","exampleDialogues":["典型台词1","典型台词2","典型台词3"],"characterPrompt":"写作该角色时的专属提示词(100-200字)","relationships":[{"targetName":"已有角色名","type":"关系类型","attitude":"态度描述"}],"avatarPrompt":"英文生图关键词，可为空"}
+    返回JSON: {"name":"角色名","desc":"详细描述(外貌性格背景能力关系,200字以上)","personalityTags":["标签1","标签2"],"speakingStyle":"说话风格描述(80-150字)","exampleDialogues":["典型台词1","典型台词2","典型台词3"],"characterPrompt":"写作该角色时的专属提示词(100-200字)","relationships":[{"targetName":"已有角色名","type":"关系类型","attitude":"态度描述(20字以内)"}],"avatarPrompt":"英文生图关键词，可为空"}
     要求：只输出纯JSON，不要代码块标记。`;
       isGeneratingChar.value = true;
       try {
@@ -8908,7 +8932,7 @@ function cleanAIResponse(text) {
           })),
           characterPrompt: char.characterPrompt || '', avatarPrompt: char.avatarPrompt || ''
         }) + '\n\n' +
-        '返回JSON: {"name":"角色名","desc":"可补强的描述","personalityTags":["标签"],"speakingStyle":"说话风格","exampleDialogues":["台词"],"characterPrompt":"专属提示词","relationships":[{"targetName":"已有角色名","type":"关系类型","attitude":"态度描述"}],"avatarPrompt":"英文生图关键词"}\n' +
+        '返回JSON: {"name":"角色名","desc":"可补强的描述","personalityTags":["标签"],"speakingStyle":"说话风格","exampleDialogues":["台词"],"characterPrompt":"专属提示词","relationships":[{"targetName":"已有角色名","type":"关系类型","attitude":"态度描述(20字以内)"}],"avatarPrompt":"英文生图关键词"}\n' +
         '要求：保留已有核心设定，不要制造矛盾；关系只能指向已有角色；只输出纯JSON，不要代码块。';
       try {
         await startCharacterAiDraft({
@@ -20503,9 +20527,8 @@ function cleanAIResponse(text) {
       const initialText = cleanAIResponse(options.initialText || '');
       let instruction = mode === 'continue'
         ? '【白鸟资料回读后续写】上方资料已经读取完毕。现在从中断点之后直接续写同一章，不要重复已输出内容，不要解释调用过程，不要复写旧段落原句。'
-        : '【白鸟资料回读后正文生成】上方资料已经读取完毕。现在直接输出可保存章节：第一行章节标题，随后小说正文，正文结束后输出“---剧情摘要---”和约100字摘要；不要复写旧段落原句。';
+        : '【白鸟资料回读后正文生成】上方资料已经读取完毕。现在直接输出可保存章节：第一行章节标题，随后小说正文，正文结束后另起一行输出“---剧情摘要---”，随后只输出 60-100 字的本章剧情摘要；摘要之后立即停止，禁止再输出读者评论或其他内容；不要复写旧段落原句。';
       if (settings.value.commentInline && settings.value.enableReviewer && mode !== 'continue') {
-        instruction += '若本轮开启书评随正文生成，摘要后继续输出“---读者评论---”和 JSON 数组评论。';
       }
       instruction += allowMore
         ? '\n如果仍缺少关键资料，允许再输出白鸟资料调用块，但必须遵守剩余上限。'
@@ -26078,7 +26101,12 @@ function getModHubPermissionLabels(mod) {
         // 那个数字随大纲注入正文后会盖过写作端的目标字数（细纲侧已实测到 400 字压死 2500 字目标）。
         '请输出完整大纲，并按以下结构组织，不要解释，不要代码块。',
         '卷纲是必选层级。必须读取【现有卷纲】并让大纲内容与其一致；如用户修改意见明确涉及卷名、章节范围或框架摘要，可提出对应更新，但不得删除未提及的卷，不得跨卷泄漏后续人物、事件或设定。',
-        '如需表达卷纲更新，请在大纲正文前附加“【卷纲更新】”小节，逐卷列出卷名、章节范围和框架摘要；未列出的字段保持原值。',
+        // 中文注释：卷纲更新小节是宿主自动回填卷纲的唯一入口。此前只写“如需表达”属于可选项，
+        // 模型经常整段省略导致卷纲永远不动；现在改成必选固定格式，逐卷一行，宿主才能稳定解析。
+        '【卷纲更新】是必选小节：无论是否修改卷纲，都要在大纲正文最前面输出“【卷纲更新】”，之后逐卷一行，每行严格按此格式输出（没有改动也照抄当前值）：',
+        '第N卷｜卷名：XXX｜章节 X-Y｜框架摘要：XXX',
+        '该小节的卷数、卷顺序和章节边界必须与【现有卷纲】完全一致（用户修改意见明确要求调整时除外）；框架摘要控制在 120 字以内。',
+        '“## 阶段大纲”等正文小节的剧情推进必须落在对应卷的章节范围内，不得把后续卷的人物、事件或设定提前写进当前卷。',
         '大纲文本本身约' + target + '字；这是大纲的长度预算，与正文字数无关。',
         '禁止在大纲任何位置规定正文字数、章节篇幅或段落数（例如"每章X字""字数控制在X字左右"）——正文长度由写作端统一控制，大纲写在这里的字数一律不生效。',
         '',
@@ -26178,6 +26206,7 @@ function getModHubPermissionLabels(mod) {
       if (darklinePlanContext) prompt += '\n' + darklinePlanContext;
       const volumeContext = novelVolumes.value.map((vol, index) => '第' + (index + 1) + '卷｜' + (vol.title || '未命名卷') + '｜章节 ' + vol.startChapter + '-' + vol.endChapter + '｜框架摘要：' + (vol.summary || '（空）')).join('\n');
       prompt += '\n【现有卷纲（必读且可按修改意见更新）】\n' + (volumeContext || '第一卷｜章节 1-10｜框架摘要：（空）') + '\n';
+      prompt += '\n【卷纲输出要求】输出必须包含“【卷纲更新】”小节：位于全部大纲文本的最前面，逐卷一行，每行格式固定为“第N卷｜卷名：XXX｜章节 X-Y｜框架摘要：XXX”。没有修改意见涉及卷纲时也必须输出该小节并照抄当前卷名、章节范围，框架摘要可按大纲内容补齐；该小节之外的大纲正文中不要再重复卷纲列表。\n';
       if (novel.value.outline) {
         prompt += '\n当前大纲:\n' + novel.value.outline + '\n';
         // 中文注释：已有大纲进入安全改写策略，要求 AI 只按用户意见局部调整，并输出完整大纲供 diff 审阅。
@@ -26194,7 +26223,9 @@ function getModHubPermissionLabels(mod) {
           type: 'outline',
           label: novel.value.outline ? '大纲修改' : '大纲生成',
           targetChars: settings.value.aiWordCount_outline || 2000,
-          preferStream: Number(settings.value.aiWordCount_outline || 0) > 2500,
+          // 中文注释：大纲生成此前仅在字数超过 2500 时才走流式，而 preferStream 选项在请求层根本没有消费者，
+          // 实际是否流式只由大纲模块的“自动/流式/非流式”设置决定。这里改为始终请求流式（自动模式下仍会降级）。
+          preferStream: true,
           signal: controller.signal,
           onTextDelta: (_delta, full) => { outlineStreamPreview.value = cleanAIResponse(full || ''); }
         });
@@ -28647,7 +28678,7 @@ function getWritingModelLabel() {
 
     function aiSupplementOutline() {
       if (isGeneratingOutline.value) return;
-      outlineInput.value = '仅补充当前大纲中完全空白或明显缺失的结构，必须保留已有文字、设定和卷纲，不得覆盖作者内容。';
+      outlineInput.value = '仅补充当前大纲中完全空白或明显缺失的结构，必须保留已有文字、设定和卷纲，不得覆盖作者内容；所有卷的卷纲更新小节照常输出，空白结构必须补齐为实际内容。';
       generateOutline();
     }
 
@@ -29232,7 +29263,8 @@ function getWritingModelLabel() {
         const idx = t.lastIndexOf(marker);
         if (idx >= 0 && (allowAtStart || idx > 0) && (!best || idx > best.index)) best = { index: idx, length: marker.length };
       }
-      const headingRe = /(?:^|\n)\s*(?:#{1,6}\s*)?(?:本章摘要|剧情摘要|剧情总结|章节摘要|Summary)\s*[：:]?\s*(?:\n|$)/gi;
+      // v0.0.9：模型常无视固定分隔线，改用标题、加粗或【】标签输出摘要；识别范围扩到 **摘要**、【摘要】、纯“摘要”行，避免摘要被留在正文里。
+      const headingRe = /(?:^|\n)\s*(?:#{1,6}\s*)?(?:\*{2}|【)?(?:本章摘要|剧情摘要|剧情总结|章节摘要|摘要|Summary)(?:\*{2}|】)?\s*[：:]?\s*(?:\n|$)/gi;
       let match;
       while ((match = headingRe.exec(t)) !== null) {
         const lead = match[0].startsWith('\n') ? 1 : 0;
@@ -29424,7 +29456,9 @@ function getWritingModelLabel() {
         content = contentStoryTime.content;
       }
 
-      return { title, content: cleanAIResponse(content), summary: cleanAIResponse(summary), storyTime, rawComments: cleanAIResponse(rawComments), thinking: extracted.thinking };
+      // 中文注释：摘要只作记忆/上下文索引，60-100 字是提示词口径；这里硬截到 120 字，防止模型把书评或分析误灌进摘要后撑爆章节卡。
+      const boundedSummary = String(cleanAIResponse(summary) || '').trim().slice(0, 120);
+      return { title, content: cleanAIResponse(content), summary: boundedSummary, storyTime, rawComments: cleanAIResponse(rawComments), thinking: extracted.thinking };
     }
 
     function isFallbackChapterTitle(title, chapterNo) {
@@ -29487,19 +29521,22 @@ function getWritingModelLabel() {
         chapterIndex: Math.max(0, contextChapters.length - 1)
       });
       const lengthContract = getChapterLengthContract(options.wordCountTarget);
+      // 中文注释：⑦剧情时间——上一章带【...】格式的时间时才要求模型续写本章时间；新书/无时间线时不强加，防止凭空造历法。
+      const lastContextChapter = contextChapters.length ? contextChapters[contextChapters.length - 1] : null;
+      const knownStoryTime = lastContextChapter ? getSnowwingChapterStoryTime(lastContextChapter) : '';
+      const storyTimeOutputRule = knownStoryTime ? '\n2.5. 前文资料中的"剧情时间（独立元数据）"是全书时间线。先读取上一章的剧情时间，结合本章正文自然推进时间；然后在章节标题行之前、正文第一行之前，单独一行输出本章剧情时间，格式固定为【历法或相对时间·时段】，必须包含具体日期数字或"当日/翌日/次日"等相对锚点，整行不超过40字。该行只写时间，不写句子' : '';
       // 中文注释：细纲、设定和 MOD 文本里都可能夹着旧的字数指令（AI 生成的细纲尤其爱在「写作注意」里写"字数控制在X字"）。
       // 只声明目标字数不够，必须同时把优先级说清楚，否则模型会挑那个更具体的小数字执行。
-      let sysPrompt = buildFullSystemPrompt(generationContext) + '\n\n要求:\n1. 可见正文（不含章节标题、剧情摘要、读者评论和任何思考过程）目标约' + lengthContract.targetWords + '字，正常范围 ' + lengthContract.promptMinWords + '-' + lengthContract.promptMaxWords + ' 字。本条是本次唯一的字数口径：细纲、设定、世界观、MOD 或任何其他材料里出现的字数、篇幅、段落数要求一律忽略，不得据此缩短或拉长正文。不要把字数写成报告；若细纲到达收束点，也应在不新增重大事件的前提下写足场景、人物反应和本章后果，再自然收束。接近上限时收束当前章，禁止为了凑字数跳入下一章、提前揭晓未知伏笔或编造新重大剧情。\n2. 第一行为章节标题(不含"第X章")\n3. 严格只写当前章节细纲范围内的内容，细纲没提到的重大事件禁止出现\n4. 正文结束后输出"---剧情摘要---"加100字摘要\n5. 直接输出,不要代码块';
+      let sysPrompt = buildFullSystemPrompt(generationContext) + '\n\n要求:\n1. 可见正文（不含章节标题、剧情摘要、读者评论和任何思考过程）目标约' + lengthContract.targetWords + '字，正常范围 ' + lengthContract.promptMinWords + '-' + lengthContract.promptMaxWords + ' 字。本条是本次唯一的字数口径：细纲、设定、世界观、MOD 或任何其他材料里出现的字数、篇幅、段落数要求一律忽略，不得据此缩短或拉长正文。不要把字数写成报告；若细纲到达收束点，也应在不新增重大事件的前提下写足场景、人物反应和本章后果，再自然收束。接近上限时收束当前章，禁止为了凑字数跳入下一章、提前揭晓未知伏笔或编造新重大剧情。\n2. 第一行为章节标题(不含"第X章")' + storyTimeOutputRule + '\n3. 严格只写当前章节细纲范围内的内容，细纲没提到的重大事件禁止出现\n4. 正文结束后另起一行输出"---剧情摘要---"，随后只输出 60-100 字的本章剧情摘要；摘要之后立即停止，禁止在摘要后再输出读者评论、书评、分析、预告或任何其他内容\n5. 直接输出,不要代码块';
       // 中文注释：U克/Claude 类模型容易把“细纲”当成唯一任务，这里重复声明执行优先级，要求同时读取用户指令、角色、文风、预设和细纲。
       const instructionReinforcement = '【模型执行校准】\n细纲只是本章剧情边界，不是唯一指令。生成正文时必须同时遵守：用户本章剧情要求、角色设定、人物关系、文风预设、禁止规则、MOD规则、世界观设定和当前细纲。不得只复述或机械执行细纲；若细纲与用户本章要求冲突，优先保持用户本章要求与已发生剧情连续性，并在不越界的前提下自然写作。最终输出前自检完整性和准确性，删除无意义重复废话；角色对话要流畅有条理，不能断气式碎句堆叠，不能 OOC。';
       sysPrompt += '\n\n' + instructionReinforcement;
       const hardConstraintPrompt = formatNarrativeHardConstraintPrompt(hardConstraints);
       if (hardConstraintPrompt) sysPrompt += '\n\n' + hardConstraintPrompt;
 
-      // 内联书评
+      // 中文注释：v0.0.9 起正文生成不再要求模型在正文尾部连带输出读者评论——评论与摘要共用一条流时，模型经常把评论内容混进摘要、或把摘要误标成评论。评论改为保存后按需单独调用 generateChapterComments。
       if (settings.value.commentInline && settings.value.enableReviewer) {
-        const ccnt = settings.value.commentCount || 8;
-        sysPrompt += '\n\n【书评生成指令】\n在"---剧情摘要---"和摘要内容之后，另起一行输出"---读者评论---"，然后输出JSON数组，含' + ccnt + '条模拟读者评论。\n每条含：username(昵称),content(评论),location(省份),likes(0-1000),time(如"1分钟前")\n约40%含replies子数组（楼中楼）。\n评论风格多样：催更、吐槽、分析等。直接输出JSON，不要代码块。';
+        sysPrompt += '\n\n【书评说明】本章不需要在本次输出中生成读者评论；评论由系统另行处理。摘要结束后立即停止输出。';
       }
 
       const msgs = [];
@@ -29564,9 +29601,9 @@ function getWritingModelLabel() {
       if (settings.value.contextUseFinalCheck !== false) {
         const draftMsgs = msgs.slice();
         const draftSnowwingCotContext = collectSnowwingCotContextFromMessages(draftMsgs);
-        let finalCheck = '【最终执行校验】开始写正文前，请确认你已经同时读取：用户剧情要求、前文、角色设定、文风/预设、禁止规则、世界观、MOD规则与当前细纲。细纲只限制剧情范围，不能覆盖其他写作指令。输出前检查完整性、准确性和角色一致性，删掉重复废话；禁止“不是……是/不是……而是……”等对比模板、报告式字数表达和排比堆叠。完成内部推演后，可见层直接输出小说正文、剧情摘要和读者评论。';
+        let finalCheck = '【最终执行校验】开始写正文前，请确认你已经同时读取：用户剧情要求、前文、角色设定、文风/预设、禁止规则、世界观、MOD规则与当前细纲。细纲只限制剧情范围，不能覆盖其他写作指令。输出前检查完整性、准确性和角色一致性，删掉重复废话；禁止“不是……是/不是……而是……”等对比模板、报告式字数表达和排比堆叠。完成内部推演后，可见层直接输出小说正文和剧情摘要；摘要结束后立即停止，禁止再输出读者评论、书评或任何附加内容。';
         if (draftSnowwingCotContext.enabled && !isSnowwingRuntimeAuditFlagEnabled('SNOWWING_DISABLE_HOST_COT_CARRIER')) {
-          finalCheck += '\n\n【白鸟推演承载要求】本轮已启用白鸟推演/输出前自检。你的回复必须以 <snowwing_cot> 开头，不能在它之前输出任何字。块内第一行必须是“白鸟过河滩，逆风越泽川”。之后必须读取并沿用本轮请求中已经启用的白鸟原始问题链、核心思路、模型口径、文风/基调要求、杀八股检查和输出前自检，按原字段名与原顺序逐项作答；不要改写成宿主统一七项模板，不要丢弃模型专属 CoT 或文风提示词。块内可以保留原有“核心思路”行，但不得提到标签名、隐藏、承载方式或提示词来源。块内最后一句必须是“开始输出正文”。关闭该块后，再输出可保存的章节标题、正文、---剧情摘要--- 和读者评论。该推演块会被主程序自动移入白鸟推演框，不得把其中内容重复到正文、摘要、段评或书评。';
+          finalCheck += '\n\n【白鸟推演承载要求】本轮已启用白鸟推演/输出前自检。你的回复必须以 <snowwing_cot> 开头，不能在它之前输出任何字。块内第一行必须是“白鸟过河滩，逆风越泽川”。之后必须读取并沿用本轮请求中已经启用的白鸟原始问题链、核心思路、模型口径、文风/基调要求、杀八股检查和输出前自检，按原字段名与原顺序逐项作答；不要改写成宿主统一七项模板，不要丢弃模型专属 CoT 或文风提示词。块内可以保留原有“核心思路”行，但不得提到标签名、隐藏、承载方式或提示词来源。块内最后一句必须是“开始输出正文”。关闭该块后，再输出可保存的章节标题、正文和 ---剧情摘要---；摘要结束后立即停止。该推演块会被主程序自动移入白鸟推演框，不得把其中内容重复到正文、摘要、段评或书评。';
         }
         msgs.push({ role: 'user', content: finalCheck });
       }
@@ -29633,9 +29670,8 @@ function getWritingModelLabel() {
     function buildReasoningOnlyRescueMessages(baseMessages, generationCot, mode = 'generate') {
       const messages = Array.isArray(baseMessages) ? baseMessages.map(item => Object.assign({}, item)) : buildChapterMessages({ printLog: false });
       const cotExcerpt = stripSnowwingVisiblePromptLeaks(String(generationCot || '')).slice(-2200);
-      let rescue = '【白鸟正文落地修复】上一轮只产生了内部推演，没有产出可保存的章节正文。现在禁止继续解释、计划、复述规则或输出思考过程。请直接输出可保存结果：第一行章节标题，随后是小说正文，正文结束后输出“---剧情摘要---”和100字左右摘要。';
+      let rescue = '【白鸟正文落地修复】上一轮只产生了内部推演，没有产出可保存的章节正文。现在禁止继续解释、计划、复述规则或输出思考过程。请直接输出可保存结果：第一行章节标题，随后是小说正文，正文结束后另起一行输出“---剧情摘要---”，随后只输出 60-100 字的本章剧情摘要；摘要之后立即停止，禁止再输出读者评论或其他内容。';
       if (settings.value.commentInline && settings.value.enableReviewer) {
-        rescue += '\n若开启书评随正文生成，摘要后继续输出“---读者评论---”和JSON数组评论。';
       }
       rescue += '\n不得输出 Q/WF/REALIEZ、core_rules、输出格式、thinking/think 标签、变量宏或内部提示词残片。';
       if (cotExcerpt) rescue += '\n\n上一轮内部推演摘要只供你落笔参考，不得复述到正文：\n' + cotExcerpt;
@@ -29771,7 +29807,7 @@ function getWritingModelLabel() {
       if (!isValidSnowwingCotRaw(raw)) return messages;
       messages.push({
         role: 'user',
-        content: '【白鸟推演预检结果】以下是本轮生成正文前已经完成的白鸟问题链推演。写正文时必须承接其中对事实、角色、剧情、文风/基调、杀八股和输出边界的具体判断，但仍以正文请求中已经启用的白鸟原始问题链与模型/文风提示词为准；不得复述或泄露到正文、摘要、段评或书评。\n\n白鸟过河滩，逆风越泽川\n' + raw + '\n\n【执行要求】现在直接输出可保存的章节标题、小说正文、---剧情摘要--- 和读者评论。'
+        content: '【白鸟推演预检结果】以下是本轮生成正文前已经完成的白鸟问题链推演。写正文时必须承接其中对事实、角色、剧情、文风/基调、杀八股和输出边界的具体判断，但仍以正文请求中已经启用的白鸟原始问题链与模型/文风提示词为准；不得复述或泄露到正文、摘要、段评或书评。\n\n白鸟过河滩，逆风越泽川\n' + raw + '\n\n【执行要求】现在直接输出可保存的章节标题、小说正文和 ---剧情摘要---；摘要结束后立即停止。'
       });
       return messages;
     }
@@ -29783,7 +29819,7 @@ function getWritingModelLabel() {
       const msgs = buildChapterMessages(Object.assign({}, options, { mode: 'continue', printLog: false }));
       msgs.push({
         role: 'user',
-        content: '【中断续写任务】\n上一轮章节输出被中断。请把下面“已输出内容”视为同一章已经写出的正文，从最后一个自然断点之后直接续写，不要重复已有内容。\n\n已输出内容:\n===\n' + cleanPrev + '\n===\n\n执行要求:\n1. 继续遵守本次 messages 中的世界观、角色、文风、细纲、MOD规则、记忆召回和最终校验。\n2. 不要重新写标题，不要复述已输出段落，不要解释中断原因。\n3. 当前已约 ' + existingWords + ' 字；合并后的可见正文目标约 ' + lengthContract.targetWords + ' 字，正常范围 ' + lengthContract.promptMinWords + '-' + lengthContract.promptMaxWords + ' 字。不得为凑字数跳入下一章、提前揭晓未知伏笔或编造新重大剧情。\n4. 正文结束后输出"---剧情摘要---"加100字摘要。'
+        content: '【中断续写任务】\n上一轮章节输出被中断。请把下面“已输出内容”视为同一章已经写出的正文，从最后一个自然断点之后直接续写，不要重复已有内容。\n\n已输出内容:\n===\n' + cleanPrev + '\n===\n\n执行要求:\n1. 继续遵守本次 messages 中的世界观、角色、文风、细纲、MOD规则、记忆召回和最终校验。\n2. 不要重新写标题，不要复述已输出段落，不要解释中断原因。\n3. 当前已约 ' + existingWords + ' 字；合并后的可见正文目标约 ' + lengthContract.targetWords + ' 字，正常范围 ' + lengthContract.promptMinWords + '-' + lengthContract.promptMaxWords + ' 字。不得为凑字数跳入下一章、提前揭晓未知伏笔或编造新重大剧情。\n4. 正文结束后另起一行输出"---剧情摘要---"，随后只输出 60-100 字的本章剧情摘要；摘要之后立即停止，禁止再输出读者评论或其他内容。'
       });
       return msgs;
     }
@@ -35127,7 +35163,7 @@ function getWritingModelLabel() {
       selectStoryBibleEntry, setStoryBibleWorkbenchSection, addStoryBibleEntry, touchSelectedStoryBibleEntry, setStoryBibleEntryStringList,
       isStoryBibleIdPicked, toggleStoryBibleIdPick,
       requestDeleteStoryBibleEntry, activeStoryBibleOutlinePack, storyBibleContextPreview,
-      storyBibleEventScopeOptions:STORY_BIBLE_EVENT_SCOPES, storyBibleEventSearch, storyBibleEventScopeFilter, storyBibleEventVisibilityFilter,
+      storyBibleEventScopeOptions:STORY_BIBLE_EVENT_SCOPES, storyBibleEventSearch, storyBibleEventScopeFilter, storyBibleEventVisibilityFilter, storyEventTimelineExpanded,
       storyBibleEventSortDirection, selectedStoryBibleEventId, storyBibleEventReturnTargetId,
       storyBibleEvents, filteredStoryBibleEvents, selectedStoryBibleEvent, storyBibleEventStats,
       getStoryBibleEventScopeLabel, getStoryBibleEventOrderLabel, getStoryBibleEventAssociationCount,
@@ -35141,7 +35177,7 @@ function getWritingModelLabel() {
       filteredDetailedOutlinePinCandidates, getDetailedOutlineLabel, getDetailedOutlinePinnedItems, getDetailedOutlinePinStats, isDetailedOutlinePinned,
       openDetailedOutlinePinPicker, closeDetailedOutlinePinPicker, toggleDetailedOutlinePin, openDetailedOutlinePinnedItem,
       getStoryBibleEntryLinkedOutlines, getSelectedCharacterLinkedOutlines, requestOpenDetailedOutline, returnToDetailedOutlineFromWorkbench,
-      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus, activeVolumeEditorId, activeVolumeEditor, openVolumeEditor, closeVolumeEditor, updateVolumeField, novelVolumesCollapsed, isNovelVolumeCollapsed, toggleNovelVolumeCollapsed, toggleAllNovelVolumes, ensureDefaultNovelVolume, outlineStreamPreview,
+      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus, activeVolumeEditorId, activeVolumeEditor, openVolumeEditor, closeVolumeEditor, updateVolumeField, novelVolumesCollapsed, novelVolumesBoardMinimized, isNovelVolumeCollapsed, toggleNovelVolumeCollapsed, toggleAllNovelVolumes, toggleNovelVolumesBoardMinimized, ensureDefaultNovelVolume, outlineStreamPreview,
 
       // ── Part 2: 角色系统 ──
       personalityTagPresets, dialogueTypes, getDialogueTypePrompt, getDialogueTypeObj, countCharactersUsingDialogueType, confirmRemoveCharacterAvatar,
