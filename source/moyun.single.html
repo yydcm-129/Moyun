@@ -113,6 +113,7 @@ button{cursor:pointer}
 .moyun-progress-fab.is-running{animation:moyun-progress-pulse 1.8s ease-in-out infinite}
 .moyun-progress-count{position:absolute;right:-3px;top:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--err);color:#fff;font:700 10px/18px sans-serif;text-align:center}
 .moyun-progress-panel{position:fixed;right:18px;bottom:76px;z-index:39;width:min(340px,calc(100vw - 28px));max-height:55vh;overflow:auto;background:var(--bg-card);border:1px solid var(--bd2);border-radius:16px;box-shadow:var(--sh3);padding:12px}
+.moyun-volume-board{box-shadow:var(--sh1);}.moyun-volume-board .input-field{min-height:32px}.moyun-volume-board button,.moyun-volume-editor button{min-height:32px}.moyun-volume-editor{min-height:340px;box-shadow:var(--sh1)}.moyun-outline-stream-preview{margin:0 0 10px;padding:12px;border:1px solid color-mix(in srgb,var(--info) 40%,var(--bd));border-radius:12px;background:var(--info-soft);color:var(--tx2);max-height:42vh;overflow:auto;line-height:1.7}
 @keyframes moyun-progress-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @media(max-width:767px){.moyun-progress-fab{right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}.moyun-progress-panel{right:14px;bottom:calc(72px + env(safe-area-inset-bottom,0px));max-height:48vh}}
 @media(prefers-reduced-motion:reduce){.moyun-progress-fab.is-running{animation:none}}
@@ -3257,7 +3258,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                   <div class="moyun-pick-meta"><span class="label mb-0">资料条目</span><span class="text-[10px]" style="color:var(--tx4)">多选 · 已选 {{ (storyBible.context.pinnedEntryIds||[]).length }}</span></div>
                   <div class="moyun-pick-list" data-moyun-pick="context-pinned-entries" role="group" aria-label="全书默认钉选资料条目">
                     <label v-for="entry in storyBibleEntries.filter(item=>item.status==='active'&&item.contextPolicy!=='never')" :key="entry.id">
-                      <input type="checkbox" :checked="isStoryBibleIdPicked(storyBible.context.pinnedEntryIds, entry.id)" @change="toggleStoryBibleIdPick(storyBible.context, 'pinnedEntryIds', entry.id, touchStoryBibleContext)">
+                      <input type="checkbox" :checked="isStoryBibleContextItemChecked('entry', entry.id, storyBible.context)" @change="toggleStoryBibleContextItem('entry', entry.id, storyBible.context)">
                       <span>{{ entry.name || '未命名条目' }} · {{ getStoryBibleEntryTypeLabel(entry) }}</span>
                     </label>
                     <div v-if="storyBibleEntries.filter(item=>item.status==='active'&&item.contextPolicy!=='never').length===0" class="moyun-pick-empty">没有可钉选的资料条目。</div>
@@ -3267,7 +3268,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                   <div class="moyun-pick-meta"><span class="label mb-0">角色</span><span class="text-[10px]" style="color:var(--tx4)">多选 · 已选 {{ (storyBible.context.pinnedCharacterIds||[]).length }}</span></div>
                   <div class="moyun-pick-list" data-moyun-pick="context-pinned-characters" role="group" aria-label="全书默认钉选角色">
                     <label v-for="character in structuredCharacters.filter(item=>item&&item.contextPolicy!=='never')" :key="character.id">
-                      <input type="checkbox" :checked="isStoryBibleIdPicked(storyBible.context.pinnedCharacterIds, character.id)" @change="toggleStoryBibleIdPick(storyBible.context, 'pinnedCharacterIds', character.id, touchStoryBibleContext)">
+                      <input type="checkbox" :checked="isStoryBibleContextItemChecked('character', character.id, storyBible.context)" @change="toggleStoryBibleContextItem('character', character.id, storyBible.context)">
                       <span>{{ character.name || '未命名角色' }}</span>
                     </label>
                     <div v-if="structuredCharacters.filter(item=>item&&item.contextPolicy!=='never').length===0" class="moyun-pick-empty">没有可钉选的角色。</div>
@@ -3562,8 +3563,11 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
             </template>
           </div>
           <!-- 普通编辑模式 -->
-          <div v-if="!outlineRevisions.length" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between mb-2"><span class="text-xs font-black" style="color:var(--tx)">卷纲（分层写作边界）</span><button type="button" class="text-[10px] px-2 py-1 rounded" style="background:var(--accent-soft);color:var(--accent)" @click="addNovelVolume">＋新增卷</button></div><div v-if="!novelVolumes.length" class="text-[10px]" style="color:var(--tx4)">尚未建立卷纲；建立后 AI 会严格隔离后续分卷内容。</div><div v-for="(vol,vi) in novelVolumes" :key="vol.id" class="p-2 mb-2 rounded-lg" style="background:var(--bg-card);border:1px solid var(--bd)"><div class="flex items-center gap-2"><strong class="text-[11px]">{{ vol.title }}</strong><input v-model="vol.title" @change="saveData()" class="input-field text-[10px] flex-1" aria-label="卷标题"><button type="button" @click="removeNovelVolume(vi)" class="text-[10px]" style="color:var(--err)">删除</button></div><div class="flex items-center gap-2 mt-1 text-[10px]"><span>章节</span><input type="number" v-model.number="vol.startChapter" min="1" class="input-field" style="width:58px"><span>至</span><input type="number" v-model.number="vol.endChapter" min="1" class="input-field" style="width:58px"><input v-model="vol.summary" @change="saveData()" class="input-field flex-1" placeholder="本卷框架摘要"></div></div></div>
-          <textarea v-model="novel.outline" @change="saveData()" data-story-target="outline"
+          <div v-if="isGeneratingOutline && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成大纲…</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
+          <div v-if="!outlineRevisions.length && !activeVolumeEditor" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between mb-2"><span class="text-xs font-black" style="color:var(--tx)">卷纲（分层写作边界）</span><button type="button" class="text-[10px] px-2 py-1 rounded" style="background:var(--accent-soft);color:var(--accent)" @click="addNovelVolume">＋新增卷</button></div><div v-if="!novelVolumes.length" class="text-[10px]" style="color:var(--tx4)">尚未建立卷纲；建立后 AI 会严格隔离后续分卷内容。</div><div v-for="(vol,vi) in novelVolumes" :key="vol.id" class="p-2 mb-2 rounded-lg" style="background:var(--bg-card);border:1px solid var(--bd)"><div class="flex items-center gap-2"><strong class="text-[11px]">{{ vol.title }}</strong><input v-model="vol.title" @change="saveData()" class="input-field text-[10px] flex-1 min-w-0" aria-label="卷标题"><button type="button" @click="removeNovelVolume(vi)" class="text-[10px]" style="color:var(--err)">删除</button></div><div class="flex items-center gap-2 min-w-0 mt-1 text-[10px]"><span>章节</span><input type="number" v-model.number="vol.startChapter" min="1" class="input-field" style="width:58px"><span>至</span><input type="number" v-model.number="vol.endChapter" min="1" class="input-field" style="width:58px"><button type="button" class="input-field flex-1 min-w-0 text-left truncate" @click="openVolumeEditor(vol)" :aria-label="'放大编辑'+vol.title+'框架摘要'" title="点击放大编辑卷纲摘要">{{ vol.summary || '点击填写/放大卷纲摘要' }}</button></div></div></div>
+          <div v-if="activeVolumeEditor" class="moyun-volume-editor flex-1 flex flex-col gap-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between gap-2"><div><div class="text-sm font-black" style="color:var(--tx)">编辑{{ activeVolumeEditor.title }}</div><div class="text-[10px]" style="color:var(--tx3)">收起后返回大纲文本；修改会自动保存。</div></div><button type="button" class="btn-ghost text-xs px-3 py-2" @click="closeVolumeEditor">收起卷纲</button></div><div class="grid grid-cols-1 md:grid-cols-3 gap-2"><label class="text-xs" style="color:var(--tx2)">卷名<input :value="activeVolumeEditor.title" @input="updateVolumeField(activeVolumeEditor,'title',$event.target.value)" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">起始章<input type="number" :value="activeVolumeEditor.startChapter" @change="updateVolumeField(activeVolumeEditor,'startChapter',$event.target.value)" min="1" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">结束章<input type="number" :value="activeVolumeEditor.endChapter" @change="updateVolumeField(activeVolumeEditor,'endChapter',$event.target.value)" min="1" class="input-field mt-1"></label></div><textarea :value="activeVolumeEditor.summary" @input="updateVolumeField(activeVolumeEditor,'summary',$event.target.value)" class="textarea-field flex-1 text-sm" placeholder="填写本卷框架摘要…" aria-label="卷纲框架摘要"></textarea></div>
+          <div v-if="novelVolumes.length && !activeVolumeEditor" class="flex flex-wrap gap-2 mb-2"><button v-for="vol in novelVolumes" :key="'edit-'+vol.id" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="openVolumeEditor(vol)">放大编辑{{ vol.title }}</button></div>
+          <textarea v-if="!activeVolumeEditor" v-model="novel.outline" @change="saveData()" data-story-target="outline"
                     placeholder="在此编写大纲，或在下方用 AI 生成..."
                     class="flex-1 w-full min-h-[340px] outline-none resize-none text-base leading-loose"
                     style="background:transparent;color:var(--tx2);border:none"></textarea>
@@ -3917,7 +3921,12 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
       </div>
       <!-- 逐章细纲 -->
       <div class="space-y-2">
-        <div v-for="(co,ci) in chapterOutlines" :key="co.id" v-show="shouldShowChapterOutlineCard(ci)"
+        <template v-for="(co,ci) in chapterOutlines" :key="co.id">
+        <div v-if="shouldShowChapterOutlineCard(ci) && (ci===0 || String(getVolumeForChapter(ci+1)?.id || '') !== String(getVolumeForChapter(ci)?.id || ''))" class="moyun-do-volume-divider px-3 py-2 rounded-xl" style="background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 28%,var(--bd));color:var(--accent)">
+          <div class="text-xs font-black">{{ getVolumeForChapter(ci+1)?.title || '未分卷章节' }}</div>
+          <div class="text-[10px] mt-0.5" style="color:var(--tx3)">{{ getVolumeForChapter(ci+1)?.summary || '本章尚未关联卷纲；请在大纲工作台维护卷纲边界。' }}</div>
+        </div>
+        <div v-show="shouldShowChapterOutlineCard(ci)"
              class="card moyun-do-card overflow-hidden" data-story-target="detail-outline" :data-chapter-no="ci+1" :data-target-id="co.id"
              :style="getChapterOutlineRunStatus(ci)==='failed'
                ? 'border-left:3px solid var(--err)'
@@ -3941,6 +3950,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                 </div>
                 <div class="text-[9px] mt-0.5" style="color:var(--tx4)">
                   {{ (co.content||'').length }} 字
+                  <span v-if="getVolumeForChapter(ci+1)"> · {{ getVolumeForChapter(ci+1).title }}</span>
                   <span v-if="getChapterOutlineQuality(ci).missing.length"> · 待补 {{ getChapterOutlineQuality(ci).missing.slice(0,3).join('、') }}</span>
                 </div>
               </div>
@@ -4003,6 +4013,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
 
           </div>
         </div>
+        </template>
       </div>
       <div v-if="chapterOutlines.length>0 && detailedOutlineViewMode==='issues' && getVisibleChapterOutlineCount()===0" class="text-center py-10" style="color:var(--tx3)">
         <p class="text-sm font-bold">当前没有待补或失败章节</p>
@@ -8768,6 +8779,11 @@ createApp({
       return rows.map((item, index) => ({ id:String(item?.id || uid()), title:String(item?.title || ('第' + (index + 1) + '卷')), startChapter:Math.max(1, Number(item?.startChapter) || (index * 10 + 1)), endChapter:Math.max(1, Number(item?.endChapter) || ((index + 1) * 10)), summary:String(item?.summary || ''), characterIds:Array.isArray(item?.characterIds) ? item.characterIds : [], entryIds:Array.isArray(item?.entryIds) ? item.entryIds : [], eventIds:Array.isArray(item?.eventIds) ? item.eventIds : [] }));
     }
     const novelVolumes = computed({ get:() => Array.isArray(novel.value.volumes) ? novel.value.volumes : [], set:value => { novel.value.volumes = normalizeNovelVolumes(value); saveData(); } });
+    const activeVolumeEditorId = ref('');
+    const activeVolumeEditor = computed(() => novelVolumes.value.find(volume => String(volume.id) === String(activeVolumeEditorId.value)) || null);
+    function openVolumeEditor(volume) { if (volume?.id) activeVolumeEditorId.value = String(volume.id); }
+    function closeVolumeEditor() { activeVolumeEditorId.value = ''; saveData(); }
+    function updateVolumeField(volume, key, value) { if (!volume || !['title','summary','startChapter','endChapter'].includes(key)) return; volume[key] = ['startChapter','endChapter'].includes(key) ? Math.max(1, Number(value) || 1) : String(value || ''); saveData(); }
     function addNovelVolume() { novel.value.volumes = normalizeNovelVolumes(novel.value.volumes); const n = novel.value.volumes.length + 1; novel.value.volumes.push({ id:uid(), title:'第' + n + '卷', startChapter:n === 1 ? 1 : (novel.value.volumes[n - 2]?.endChapter || 0) + 1, endChapter:(novel.value.volumes[n - 2]?.endChapter || 0) + 10, summary:'', characterIds:[], entryIds:[], eventIds:[] }); saveData(); }
     function removeNovelVolume(index) { novel.value.volumes.splice(index, 1); saveData(); }
     function getVolumeForChapter(chapterNo) { const no = Math.max(1, Number(chapterNo) || 1); return normalizeNovelVolumes(novel.value.volumes).find(v => no >= v.startChapter && no <= v.endChapter) || null; }
@@ -8958,6 +8974,8 @@ createApp({
         context: {
           pinnedEntryIds: [],
           pinnedCharacterIds: [],
+          excludedEntryIds: [],
+          excludedCharacterIds: [],
           selectedOutlineId: '',
           itemModes: [],
           outlinePacks: []
@@ -8985,6 +9003,8 @@ createApp({
       next.context = Object.assign({}, rawContext, {
         pinnedEntryIds: normalizeStoryBibleIdList(rawContext.pinnedEntryIds),
         pinnedCharacterIds: normalizeStoryBibleIdList(rawContext.pinnedCharacterIds),
+        excludedEntryIds: normalizeStoryBibleIdList(rawContext.excludedEntryIds),
+        excludedCharacterIds: normalizeStoryBibleIdList(rawContext.excludedCharacterIds),
         selectedOutlineId: String(rawContext.selectedOutlineId || ''),
         itemModes: normalizeStoryBibleItemModes(rawContext.itemModes),
         outlinePacks: normalizeStoryBibleOutlinePacks(rawContext.outlinePacks)
@@ -9018,6 +9038,8 @@ createApp({
       const outlinePack = (Array.isArray(context.outlinePacks) ? context.outlinePacks : []).find(item => item?.outlineId === selectedOutlineId) || null;
       const globalEntryPins = normalizeStoryBibleIdList(context.pinnedEntryIds);
       const globalCharacterPins = normalizeStoryBibleIdList(context.pinnedCharacterIds);
+      const excludedEntryIds = new Set(normalizeStoryBibleIdList(context.excludedEntryIds));
+      const excludedCharacterIds = new Set(normalizeStoryBibleIdList(context.excludedCharacterIds));
       const outlineEntryPins = normalizeStoryBibleIdList(outlinePack?.pinnedEntryIds);
       const outlineCharacterPins = normalizeStoryBibleIdList(outlinePack?.pinnedCharacterIds);
       const pinnedEntryIds = new Set([...globalEntryPins, ...outlineEntryPins]);
@@ -9050,7 +9072,7 @@ createApp({
       entries.forEach(entry => {
         const id = String(entry.id || '');
         const policy = ['always', 'auto', 'pinned', 'never'].includes(entry.contextPolicy) ? entry.contextPolicy : 'auto';
-        if (!id || entry.status !== 'active' || policy === 'never') return;
+        if (!id || entry.status !== 'active' || policy === 'never' || excludedEntryIds.has(id)) return;
         if (policy === 'always') addCandidate(entryCandidates, id, '全局规则', 10, true);
         if (policy === 'pinned') addCandidate(entryCandidates, id, '条目策略钉选', 20, true);
         if (globalEntryPins.includes(id)) addCandidate(entryCandidates, id, '全书手动钉选', 21, true);
@@ -9076,7 +9098,7 @@ createApp({
       characters.forEach(character => {
         const id = String(character.id || '');
         const policy = ['always', 'auto', 'pinned', 'never'].includes(character.contextPolicy) ? character.contextPolicy : 'auto';
-        if (!id || policy === 'never') return;
+        if (!id || policy === 'never' || excludedCharacterIds.has(id)) return;
         if (policy === 'always') addCandidate(characterCandidates, id, '全局角色', 10, true);
         if (policy === 'pinned') addCandidate(characterCandidates, id, '角色策略钉选', 20, true);
         if (globalCharacterPins.includes(id)) addCandidate(characterCandidates, id, '全书手动钉选', 21, true);
@@ -9172,11 +9194,12 @@ createApp({
         const typeLabel = STORY_BIBLE_ENTRY_TYPES.find(item => item.id === entry.type)?.label || '自定义';
         const name = String(entry.name || '').trim() || '未命名条目';
         const summaryBody = String(entry.summary || '').trim() || storyBibleSafeExcerpt(entry.details, 240) || '仅记录名称，尚未填写摘要。';
-        const detailBody = [String(entry.summary || '').trim() ? '摘要：' + String(entry.summary || '').trim() : '', String(entry.details || '').trim() ? '详情：' + String(entry.details || '').trim() : ''].filter(Boolean).join('\n');
+        const aliasBody = Array.isArray(entry.aliases) && entry.aliases.length ? '类似词：' + entry.aliases.join('、') : '';
+        const detailBody = [aliasBody, String(entry.summary || '').trim() ? '摘要：' + String(entry.summary || '').trim() : '', String(entry.details || '').trim() ? '详情：' + String(entry.details || '').trim() : ''].filter(Boolean).join('\n');
         worldItems.push({
           id: candidate.id, kind: 'entry', name, typeLabel, sources: candidate.sources, priority: candidate.priority,
           protected: candidate.protected, requestedMode: readMode('entry', candidate.id),
-          summaryText: typeLabel + '：' + name + '\n' + summaryBody,
+          summaryText: typeLabel + '：' + name + (aliasBody ? '\n' + aliasBody : '') + '\n' + summaryBody,
           detailsText: typeLabel + '：' + name + (detailBody ? '\n' + detailBody : '\n' + summaryBody)
         });
       });
@@ -9673,6 +9696,27 @@ createApp({
       return STORY_BIBLE_ENTRY_TYPES.find(item => item.id === id)?.label || '自定义';
     }
 
+    function isStoryBibleContextAutoCandidate(kind, id) {
+      const section = kind === 'character' ? storyBibleContextPreview.value?.character : storyBibleContextPreview.value?.world;
+      return (section?.items || []).some(item => item?.kind === (kind === 'character' ? 'character' : 'entry') && String(item.id) === String(id) && ['included','downgraded','overflow'].includes(item.status));
+    }
+    function isStoryBibleContextItemChecked(kind, id, owner) {
+      const field = kind === 'character' ? 'pinnedCharacterIds' : 'pinnedEntryIds';
+      return isStoryBibleIdPicked(owner?.[field], id) || (owner === storyBible.value?.context && isStoryBibleContextAutoCandidate(kind, id) && !isStoryBibleIdPicked(owner?.[kind === 'character' ? 'excludedCharacterIds' : 'excludedEntryIds'], id));
+    }
+    function toggleStoryBibleContextItem(kind, id, owner) {
+      if (!owner) return;
+      const field = kind === 'character' ? 'pinnedCharacterIds' : 'pinnedEntryIds';
+      const excludedField = kind === 'character' ? 'excludedCharacterIds' : 'excludedEntryIds';
+      if (!Array.isArray(owner[field])) owner[field] = [];
+      if (!Array.isArray(owner[excludedField])) owner[excludedField] = [];
+      const key = String(id || '');
+      if (isStoryBibleIdPicked(owner[field], key)) owner[field] = owner[field].filter(item => item !== key);
+      else if (owner === storyBible.value?.context && isStoryBibleContextAutoCandidate(kind, key)) owner[excludedField] = isStoryBibleIdPicked(owner[excludedField], key) ? owner[excludedField].filter(item => item !== key) : owner[excludedField].concat(key);
+      else owner[field].push(key);
+      touchStoryBibleContext();
+    }
+
     function selectStoryBibleEntry(entryId) {
       const entry = storyBibleEntries.value.find(item => item?.id === entryId);
       if (!entry) return false;
@@ -9962,11 +10006,12 @@ createApp({
       try {
         const bible = ensureStoryBible();
         const relatedChars = structuredCharacters.value.filter(c => normalizeStoryBibleIdList(entry.characterIds).includes(String(c.id))).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
-        const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。仅输出JSON：{"summary":"","details":"","tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
+        const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。别名字段现在表示“类似词”，请根据设定补充可用于关键词匹配的同义称呼。仅输出JSON：{"summary":"","details":"","aliases":[],"tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, aliases:entry.aliases, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
         const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25 });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(entry.summary || '').trim() && String(parsed.summary || '').trim()) entry.summary = String(parsed.summary).trim();
         if (!String(entry.details || '').trim() && String(parsed.details || '').trim()) entry.details = String(parsed.details).trim();
+        if ((!Array.isArray(entry.aliases) || !entry.aliases.length) && Array.isArray(parsed.aliases)) entry.aliases = normalizeStoryBibleTextList(parsed.aliases);
         if ((!Array.isArray(entry.tags) || !entry.tags.length) && Array.isArray(parsed.tags)) entry.tags = normalizeStoryBibleTextList(parsed.tags);
         entry.updatedAt = Date.now(); touchStoryBible(); showToast('条目已流式补充完成','success');
       } catch (e) { if (e?.name !== 'AbortError') showToast('条目补充失败: ' + sanitizeApiErrorDetail(e.message || e),'error'); }
@@ -32029,6 +32074,7 @@ function getModHubPermissionLabels(mod) {
     const showOutlineInMain = ref(false);
     const splitScreen = ref(false);
     const outlineInput = ref('');
+    const outlineStreamPreview = ref('');
     const isGeneratingOutline = ref(false);
     // 总纲与细纲必须各自管理取消信号，绝不能复用正文续写的 abortController。
     const outlineAbortController = ref(null);
@@ -32329,7 +32375,10 @@ function getModHubPermissionLabels(mod) {
       const mode = getOutlineRequestMode();
       if (mode === 'stream') return ['stream'];
       if (mode === 'nonstream') return ['nonstream'];
-      return options.preferStream ? ['stream', 'nonstream'] : ['nonstream', 'stream'];
+      // 全局“流式输出”开关关闭时，自动模式遵从用户选择；开启时才按流式优先并在失败后降级。
+      if (settings.value.streamEnabled === false) return ['nonstream'];
+      // 自动模式始终优先流式；接口不支持流式或流解析失败时再降级到非流式。
+      return ['stream', 'nonstream'];
     }
 
     function isRecoverableOutlineAiError(error) {
@@ -32408,7 +32457,7 @@ function getModHubPermissionLabels(mod) {
         if (fr) finishReason = fr;
         const delta = extractAiStreamTextDelta(data, streamTextState);
         const reasoning = extractNativeReasoningFromPayload(data);
-        if (delta) full += delta;
+        if (delta) { full += delta; if (typeof options.onTextDelta === 'function') options.onTextDelta(delta, full); }
         if (reasoning) nativeReasoning += reasoning;
       };
       try {
@@ -32449,7 +32498,7 @@ function getModHubPermissionLabels(mod) {
       if (!resp.ok) throw await createApiResponseError(resp, 'API');
       const result = getAdapterIdForRequest(effectiveRequest) === 'openai-chat' || getAdapterIdForRequest(effectiveRequest) === 'openai-compatible'
         ? (mode === 'stream' ? await readOutlineStreamResponse(resp, options) : await readOutlineJsonResponse(resp, options))
-        : await readAdapterResponse(resp, effectiveRequest, { stream:mode === 'stream' });
+        : await readAdapterResponse(resp, effectiveRequest, { stream:mode === 'stream', onTextDelta:options.onTextDelta });
       throwIfOutlineRequestAborted(options.signal);
       validateOutlineAiText(result.text, Object.assign({}, options, {
         finishReason: result.finishReason,
@@ -33876,6 +33925,7 @@ function getModHubPermissionLabels(mod) {
         // 中文注释：这里的字数只约束大纲文本本身。不写清楚，模型会把它按章平摊后当成正文字数指导写进节奏建议，
         // 那个数字随大纲注入正文后会盖过写作端的目标字数（细纲侧已实测到 400 字压死 2500 字目标）。
         '请输出完整大纲，并按以下结构组织，不要解释，不要代码块。',
+        '卷纲由作者在界面中手动创建和维护；你不得自主创建、删除、重排或修改卷纲，也不得把卷纲当作大纲文本输出。',
         '大纲文本本身约' + target + '字；这是大纲的长度预算，与正文字数无关。',
         '禁止在大纲任何位置规定正文字数、章节篇幅或段落数（例如"每章X字""字数控制在X字左右"）——正文长度由写作端统一控制，大纲写在这里的字数一律不生效。',
         '',
@@ -33951,6 +34001,7 @@ function getModHubPermissionLabels(mod) {
       outlineAbortController.value = controller;
       closeOutlineAfterStop = false;
       isGeneratingOutline.value = true;
+      outlineStreamPreview.value = '';
       const outlineContextPackage = buildStoryBibleOutlineContextPackage();
       let prompt = ('你是专业网文策划。' + (novel.value.outline?'请安全修改完善':'请生成') + '小说大纲。') + '\n\n';
       if (outlineContextPackage?.priorityInstruction) prompt += '【设定优先级】' + outlineContextPackage.priorityInstruction + '\n';
@@ -33982,7 +34033,8 @@ function getModHubPermissionLabels(mod) {
           label: novel.value.outline ? '大纲修改' : '大纲生成',
           targetChars: settings.value.aiWordCount_outline || 2000,
           preferStream: Number(settings.value.aiWordCount_outline || 0) > 2500,
-          signal: controller.signal
+          signal: controller.signal,
+          onTextDelta: (_delta, full) => { outlineStreamPreview.value = cleanAIResponse(full || ''); }
         });
         assertOutlineRunActive('outline', runId, controller, sourceBookId);
         const raw = result.text;
@@ -34003,6 +34055,7 @@ function getModHubPermissionLabels(mod) {
           activeOutlineRunId = 0;
           outlineAbortController.value = null;
           isGeneratingOutline.value = false;
+          outlineStreamPreview.value = '';
           closeOutlineAfterStop = false;
           if (shouldClose) showOutlineInMain.value = false;
         }
@@ -34451,6 +34504,7 @@ function getModHubPermissionLabels(mod) {
       const first = batch[0], last = batch[batch.length - 1];
       const detailedOutlineBatchContext = buildStoryBibleDetailedOutlineBatchContext(batch);
       let prompt = '你是资深小说策划。请根据以下信息生成细纲。\n\n';
+      prompt += '卷纲是作者手动维护的硬性边界；不得自主创建或修改卷纲，不得跨卷借用后续内容。\n';
       if (storyBible.value) prompt += '【设定执行规则】生成前必须优先读取并遵守角色设定、资料条目、大纲和细纲关联；关键词命中条目优先，资料未提供的信息保持未知，不得臆造。\n';
       prompt += '标题: ' + (novel.value.title||'') + '\n';
       const volumeConstraint = buildVolumeConstraintPrompt(first);
@@ -37939,24 +37993,17 @@ function getWritingModelLabel() {
         if (currentWords > contract.targetWords) return { text:'', skipped:true };
         const needed = Math.max(120, contract.targetWords - currentWords + 80);
         const supplementMessages = msgs.concat([{ role:'user', content:'【二轮字数补充】首轮正文只有约 ' + currentWords + ' 字，未达到用户要求的 ' + contract.targetWords + ' 字。请从现有正文最后一个自然断点继续补写约 ' + needed + ' 字，只输出可直接接续的正文段落，不要标题、摘要、评论、解释或重复已有内容；必须继续遵守本请求中的大纲、细纲、角色和资料设定，不得引入未授权重大事件。' }]);
-        const adapterInit = buildAdapterRequest(generationRequest, supplementMessages, { stream:true, temperature:0.8, maxTokens:getChapterGenerationMaxTokens(generationContext.wordCountTarget, { attempt:1 }), signal:requestController.signal });
-        const response = await runModRequestWithRetry(() => fetch(adapterInit.url, { method:'POST', headers:adapterInit.headers, body:JSON.stringify(adapterInit.body), signal:adapterInit.signal }), { signal:requestController.signal, maxAttempts:2 });
-        if (!response.ok) throw await createApiResponseError(response, '二轮补充 API');
-        const adapterId = getAdapterIdForRequest(generationRequest);
         let appended = '';
-        if (adapterId !== 'openai-chat' && adapterId !== 'openai-compatible') {
-          const parsed = await readAdapterResponse(response, generationRequest, { stream:true, onTextDelta:(_delta, full) => { appended = cleanAIResponse(full); streamContent.value = cleanAIResponse(baseText + '\n' + appended); _lastChunk = Date.now(); } });
-          appended = cleanAIResponse(parsed.text || appended);
-        } else {
-          const reader = response.body.getReader(); const decoder = new TextDecoder(); let buffer = '', full = ''; const state = {};
-          while (true) {
-            const chunk = await reader.read(); if (chunk.done) break;
-            buffer += decoder.decode(chunk.value, { stream:true }); const lines = buffer.split(/\r?\n/); buffer = lines.pop() || '';
-            lines.forEach(line => { const payload = parseAiStreamEventPayload(line); if (!payload) return; const delta = extractAiStreamTextDelta(payload, state); if (delta) { full += delta; appended = cleanAIResponse(full); streamContent.value = cleanAIResponse(baseText + '\n' + appended); _lastChunk = Date.now(); } });
-          }
-          if (buffer.trim()) { const payload = parseAiStreamEventPayload(buffer); if (payload) { const delta = extractAiStreamTextDelta(payload, state); if (delta) full += delta; } }
-          appended = cleanAIResponse(full);
-        }
+        const result = await fetchAdapterCompletion(generationRequest, supplementMessages, {
+          stream:true,
+          temperature:0.8,
+          maxTokens:getChapterGenerationMaxTokens(generationContext.wordCountTarget, { attempt:1 }),
+          signal:requestController.signal,
+          onTextDelta: (_delta, full) => { appended = cleanAIResponse(full || ''); streamContent.value = cleanAIResponse(baseText + '\n' + appended); _lastChunk = Date.now(); genCharCount.value = getCleanWordCount(streamContent.value); }
+        });
+        appended = cleanAIResponse(result?.text || appended);
+        streamContent.value = cleanAIResponse(baseText + (appended ? '\n' + appended : ''));
+        genCharCount.value = getCleanWordCount(streamContent.value);
         return { text: appended, skipped:false };
       }
 
@@ -42559,15 +42606,21 @@ function getWritingModelLabel() {
         const hits = [];
         const around = text.match(new RegExp('.{0,36}' + escapeRegExp(name) + '.{0,80}', 'g')) || [];
         around.forEach(snippet => { if (/受伤|负伤|战斗|疼痛|昏迷/.test(snippet)) hits.push('健康：' + (/受伤|负伤/.test(snippet) ? '轻伤' : '异常')); if (/紧张|愤怒|悲伤|平静|恐惧/.test(snippet)) hits.push('情绪：' + (snippet.match(/紧张|愤怒|悲伤|平静|恐惧/) || [''])[0]); if (/来到|前往|位于|在.+?村庄|在.+?森林/.test(snippet)) hits.push('位置：' + (snippet.match(/(?:来到|前往|位于)\s*([^，。；\s]{1,12})/) || [,''])[1]); });
-        const state = Array.from(new Set(hits.filter(Boolean))).join('，'); if (!state) return;
+        const state = Array.from(new Set(hits.filter(Boolean))).join('，');
+        if (!state && !String(char.profile?.currentState || '').trim()) {
+          if (!char.profile) char.profile = {};
+          char.profile.currentState = '本章未检测到明确状态变化（第' + chapterNo + '章）';
+          return;
+        }
+        if (!state) return;
         const previous = String(char.profile?.currentState || '').trim(); if (previous === state) return;
         if (!Array.isArray(char.stateLog)) char.stateLog = [];
-        char.stateLog.unshift({ chapter:chapterNo, state, reason:'正文自动提取', updatedAt:Date.now() }); char.stateLog = char.stateLog.slice(0, 20);
+        char.stateLog.unshift({ chapter:chapterNo, chapterId:String(chapter?.id || ''), state, reason:'正文自动提取', updatedAt:Date.now() }); char.stateLog = char.stateLog.slice(0, 20);
         if (!char.profile) char.profile = {}; char.profile.currentState = state;
       });
       const events = (text.match(/[^。！？!?]{8,80}(?:相遇|冲突|战斗|受伤|发现|决定|离开|抵达|背叛|转折)[^。！？!?]{0,80}[。！？!?]/g) || []).slice(0, 8);
       const bible = ensureStoryBible(); if (!Array.isArray(bible.world.events)) bible.world.events = [];
-      events.forEach(summary => { const exists = bible.world.events.some(e => e?.chapterNo === chapterNo && String(e.summary || '').trim() === summary.trim()); if (!exists) bible.world.events.push(normalizeStoryBibleEvent({ id:'evt_' + uid(), scope:'story', chapterNo, title:'第' + chapterNo + '章事件', summary:summary.trim(), characterIds:structuredCharacters.value.filter(c => c?.name && summary.includes(c.name)).map(c => c.id), readerVisible:true, createdAt:Date.now() }, new Set())); });
+      events.forEach(summary => { const normalizedSummary = summary.trim(); const exists = bible.world.events.some(e => e?.chapterNo === chapterNo && String(e.summary || e.title || '').trim() === normalizedSummary); if (!exists) bible.world.events.push(normalizeStoryBibleEvent({ id:'evt_' + uid(), scope:'story', chapterNo, timeText:'第' + chapterNo + '章', title:normalizedSummary.slice(0, 120), summary:normalizedSummary, result:normalizedSummary, characterIds:structuredCharacters.value.filter(c => c?.name && normalizedSummary.includes(c.name)).map(c => c.id), readerVisible:true, createdAt:Date.now() }, new Set())); });
       bible.updatedAt = Date.now();
     }
 
@@ -42837,7 +42890,7 @@ function getWritingModelLabel() {
       document.removeEventListener('click', handleAnimatedDetailsSummaryClick, true);
       window.removeEventListener('beforeunload', handleBeforeUnloadSave);
       destroyMoyunModalCoordinator();
-      window.removeEventListener('pointermove', moveProgressFabDrag); window.removeEventListener('pointerup', endProgressFabDrag);
+      window.removeEventListener('pointermove', moveProgressFabDrag); window.removeEventListener('pointerup', endProgressFabDrag); window.removeEventListener('resize', handleProgressFabResize);
       if (_genTimer) { clearInterval(_genTimer); _genTimer = null; }
     });
 
@@ -42845,12 +42898,14 @@ function getWritingModelLabel() {
     const progressPanelOpen = ref(false);
     const progressFabPosition = ref(JSON.parse(localStorage.getItem('moyun_progress_fab_position') || '{"right":18,"bottom":18}'));
     const progressFabDragging = ref(false); let progressFabMoved = false; let progressFabPointer = null;
-    const progressFabStyle = computed(() => ({ right:Math.max(8, Number(progressFabPosition.value.right) || 18) + 'px', bottom:Math.max(8, Number(progressFabPosition.value.bottom) || 18) + 'px', zIndex:40 }));
+    function clampProgressFabPosition(position = progressFabPosition.value) { const maxRight = Math.max(8, window.innerWidth - 56); const maxBottom = Math.max(8, window.innerHeight - 56); return { right:Math.min(maxRight, Math.max(8, Number(position.right) || 18)), bottom:Math.min(maxBottom, Math.max(8, Number(position.bottom) || 18)) }; }
+    const progressFabStyle = computed(() => { const p = clampProgressFabPosition(); return { right:p.right + 'px', bottom:p.bottom + 'px', zIndex:40 }; });
     function startProgressFabDrag(event) { progressFabDragging.value = true; progressFabMoved = false; progressFabPointer = event.pointerId; event.currentTarget.setPointerCapture?.(event.pointerId); }
-    function moveProgressFabDrag(event) { if (!progressFabDragging.value || (progressFabPointer !== null && event.pointerId !== progressFabPointer)) return; progressFabMoved = true; progressFabPosition.value = { right:Math.max(8, window.innerWidth - event.clientX - 24), bottom:Math.max(8, window.innerHeight - event.clientY - 24) }; }
-    function endProgressFabDrag() { if (!progressFabDragging.value) return; progressFabDragging.value = false; localStorage.setItem('moyun_progress_fab_position', JSON.stringify(progressFabPosition.value)); progressFabPointer = null; }
+    function moveProgressFabDrag(event) { if (!progressFabDragging.value || (progressFabPointer !== null && event.pointerId !== progressFabPointer)) return; progressFabMoved = true; progressFabPosition.value = clampProgressFabPosition({ right:window.innerWidth - event.clientX - 24, bottom:window.innerHeight - event.clientY - 24 }); }
+    function endProgressFabDrag() { if (!progressFabDragging.value) return; progressFabDragging.value = false; progressFabPosition.value = clampProgressFabPosition(); localStorage.setItem('moyun_progress_fab_position', JSON.stringify(progressFabPosition.value)); progressFabPointer = null; }
     function toggleProgressPanelAfterDrag() { if (!progressFabMoved) progressPanelOpen.value = !progressPanelOpen.value; progressFabMoved = false; }
-    window.addEventListener('pointermove', moveProgressFabDrag, { passive:true }); window.addEventListener('pointerup', endProgressFabDrag, { passive:true });
+    const handleProgressFabResize = () => { progressFabPosition.value = clampProgressFabPosition(); };
+    window.addEventListener('pointermove', moveProgressFabDrag, { passive:true }); window.addEventListener('pointerup', endProgressFabDrag, { passive:true }); window.addEventListener('resize', handleProgressFabResize, { passive:true });
     const progressTasks = computed(() => {
       const rows = [];
       const add = (id, label, kind, running, detail = '运行中') => { if (running) rows.push({ id, label, kind, detail }); };
@@ -42912,6 +42967,7 @@ function getWritingModelLabel() {
       openStoryBibleWorkbench, closeStoryBibleWorkbench, touchStoryBible,
       storyBibleEntryTypeOptions, storyBibleEntrySearch, storyBibleEntryFilter, selectedStoryBibleEntryId,
       storyBibleEntries, filteredStoryBibleEntries, selectedStoryBibleEntry, getStoryBibleEntryTypeLabel,
+      isStoryBibleContextAutoCandidate, isStoryBibleContextItemChecked, toggleStoryBibleContextItem,
       selectStoryBibleEntry, setStoryBibleWorkbenchSection, addStoryBibleEntry, touchSelectedStoryBibleEntry, setStoryBibleEntryStringList,
       isStoryBibleIdPicked, toggleStoryBibleIdPick,
       requestDeleteStoryBibleEntry, activeStoryBibleOutlinePack, storyBibleContextPreview,
@@ -42929,7 +42985,7 @@ function getWritingModelLabel() {
       filteredDetailedOutlinePinCandidates, getDetailedOutlineLabel, getDetailedOutlinePinnedItems, getDetailedOutlinePinStats, isDetailedOutlinePinned,
       openDetailedOutlinePinPicker, closeDetailedOutlinePinPicker, toggleDetailedOutlinePin, openDetailedOutlinePinnedItem,
       getStoryBibleEntryLinkedOutlines, getSelectedCharacterLinkedOutlines, requestOpenDetailedOutline, returnToDetailedOutlineFromWorkbench,
-      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus,
+      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus, activeVolumeEditorId, activeVolumeEditor, openVolumeEditor, closeVolumeEditor, updateVolumeField, outlineStreamPreview,
 
       // ── Part 2: 角色系统 ──
       personalityTagPresets, dialogueTypes, getDialogueTypePrompt, getDialogueTypeObj, countCharactersUsingDialogueType, confirmRemoveCharacterAvatar,
