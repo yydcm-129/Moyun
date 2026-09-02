@@ -109,14 +109,7 @@ button{cursor:pointer}
 .toast-enter-active,.toast-leave-active{transition:all .4s cubic-bezier(.25,.8,.25,1)}
 .toast-enter-from,.toast-leave-to{opacity:0;transform:translateY(-20px) scale(.95)}
 .moyun-toast{white-space:normal;overflow-wrap:anywhere;word-break:break-word;text-align:center;line-height:1.45}
-.moyun-progress-fab{position:fixed;right:18px;bottom:18px;z-index:40;width:48px;height:48px;border-radius:999px;background:var(--accent);color:var(--accent-fg);box-shadow:var(--sh3);display:flex;align-items:center;justify-content:center;font-weight:900;cursor:grab;border:2px solid var(--bg-card);touch-action:none;user-select:none}.moyun-progress-fab.is-dragging{cursor:grabbing}
-.moyun-progress-fab.is-running{animation:moyun-progress-pulse 1.8s ease-in-out infinite}
-.moyun-progress-count{position:absolute;right:-3px;top:-5px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--err);color:#fff;font:700 10px/18px sans-serif;text-align:center}
-.moyun-progress-panel{position:fixed;right:18px;bottom:76px;z-index:39;width:min(340px,calc(100vw - 28px));max-height:55vh;overflow:auto;background:var(--bg-card);border:1px solid var(--bd2);border-radius:16px;box-shadow:var(--sh3);padding:12px}
-.moyun-volume-board{box-shadow:var(--sh1);}.moyun-volume-board .input-field{min-height:32px}.moyun-volume-board button,.moyun-volume-editor button{min-height:32px}.moyun-volume-editor{min-height:340px;box-shadow:var(--sh1)}.moyun-outline-stream-preview{margin:0 0 10px;padding:12px;border:1px solid color-mix(in srgb,var(--info) 40%,var(--bd));border-radius:12px;background:var(--info-soft);color:var(--tx2);max-height:42vh;overflow:auto;line-height:1.7}
-@keyframes moyun-progress-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-@media(max-width:767px){.moyun-progress-fab{right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}.moyun-progress-panel{right:14px;bottom:calc(72px + env(safe-area-inset-bottom,0px));max-height:48vh}}
-@media(prefers-reduced-motion:reduce){.moyun-progress-fab.is-running{animation:none}}
+.moyun-volume-board{box-shadow:var(--sh1);}.moyun-volume-board .input-field{min-height:32px}.moyun-volume-board button,.moyun-volume-editor button{min-height:32px}.moyun-volume-editor{min-height:340px;box-shadow:var(--sh1)}.moyun-volume-list{max-height:min(46vh,520px);overflow-y:auto;overscroll-behavior:contain;padding-right:3px}.moyun-volume-card{transition:background-color .18s,border-color .18s}.moyun-volume-card.is-collapsed .moyun-volume-summary{display:none}.moyun-outline-stream-preview{margin:0 0 10px;padding:12px;border:1px solid color-mix(in srgb,var(--info) 40%,var(--bd));border-radius:12px;background:var(--info-soft);color:var(--tx2);max-height:42vh;overflow:auto;line-height:1.7}
 @media (max-width:767px) {
   .moyun-toast-sidebar-open {
     left:auto !important;
@@ -1925,14 +1918,6 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
   </div>
 </transition>
 
-<!-- 全局进度悬浮球：聚合当前页面可观测的 AI、图片、外部请求和 MOD 任务状态。 -->
-<button type="button" class="moyun-progress-fab" :class="{'is-running': progressTasks.length, 'is-dragging': progressFabDragging}" :style="progressFabStyle" @pointerdown="startProgressFabDrag" @click="toggleProgressPanelAfterDrag" :aria-expanded="progressPanelOpen" aria-label="打开运行进度">◌<span v-if="progressTasks.length" class="moyun-progress-count">{{ progressTasks.length }}</span></button>
-<div v-if="progressPanelOpen" class="moyun-progress-panel" role="status" aria-live="polite">
-  <div class="flex items-center justify-between mb-2"><strong class="text-xs" style="color:var(--tx)">运行中的任务</strong><button type="button" class="text-xs" @click="progressPanelOpen=false" style="color:var(--tx4)">关闭</button></div>
-  <div v-if="!progressTasks.length" class="text-[11px] py-3 text-center" style="color:var(--tx4)">当前没有可观测任务</div>
-  <div v-for="task in progressTasks" :key="task.id" class="rounded-lg px-2.5 py-2 mb-1.5" style="background:var(--bg-inset)"><div class="flex items-center justify-between gap-2"><span class="text-[11px] font-bold" style="color:var(--tx)">{{ task.label }}</span><span class="text-[10px]" style="color:var(--info)">{{ task.detail }}</span></div><div class="text-[9px] mt-1" style="color:var(--tx4)">{{ task.kind }}</div></div>
-</div>
-
 <!-- ════════════════════════════════════════════
      移动端顶部导航栏
      ════════════════════════════════════════════ -->
@@ -3002,6 +2987,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
         <button v-if="storyBibleEventReturnTargetId" type="button" @click="returnToStoryBibleEvent" class="moyun-event-return">← 返回事件</button>
         <span class="moyun-wb-pill">{{ storyBibleFoundationStats.projectFilled }}/{{ storyBibleFoundationStats.projectTotal }} 项项目承诺</span>
         <button type="button" @click="aiSupplementStoryBible" :disabled="isAiSupplementingStoryBible" class="moyun-wb-back-writing" :style="isAiSupplementingStoryBible?'opacity:.55':''" title="让 AI 阅读当前大纲、细纲、角色和资料后补充空白字段">{{ isAiSupplementingStoryBible ? '补充中…' : 'AI补充' }}</button>
+        <span v-if="isAiSupplementingStoryBible && workbenchAiStreamPreview" class="moyun-wb-pill" role="status" aria-live="polite">流式：{{ workbenchAiStreamPreview.slice(-36) }}</span>
         <button type="button" @click="closeStoryBibleWorkbench" class="moyun-wb-back-writing" title="关闭并回到正文" aria-label="关闭并回到正文">回正文</button>
         <button type="button" @click="closeStoryBibleWorkbench" class="moyun-wb-icon-btn" title="关闭设定工作台" aria-label="关闭设定工作台">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -3068,9 +3054,9 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-3">
             <div>
               <div class="text-base font-black" style="color:var(--tx)">事件时间线</div>
-              <div class="text-xs mt-1" style="color:var(--tx3)">按作者定义的时间与顺序整理世界历史和故事主线；事件不会自动进入创作请求。</div>
+              <div class="text-xs mt-1" style="color:var(--tx3)">按作者定义的时间与顺序整理世界历史和故事主线；每章正文完成后会自动记录，并作为下一章的辅助记忆。</div>
             </div>
-            <button type="button" @click="addStoryBibleEvent('story')" class="btn-primary text-xs px-4 py-2.5 whitespace-nowrap" data-story-event-create>＋ 新建事件</button>
+            <div class="flex items-center gap-2"><button type="button" @click="aiSupplementStoryBibleEvent()" :disabled="!selectedStoryBibleEvent || isAiSupplementingStoryBible" class="btn-primary text-xs px-3 py-2.5 whitespace-nowrap" :style="(!selectedStoryBibleEvent || isAiSupplementingStoryBible)?'opacity:.55':''">{{ isAiSupplementingStoryBible ? '补充中…' : 'AI补充' }}</button><button type="button" @click="addStoryBibleEvent('story')" class="btn-primary text-xs px-4 py-2.5 whitespace-nowrap" data-story-event-create>＋ 新建事件</button></div>
           </div>
 
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2" data-story-event-stats>
@@ -3106,7 +3092,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
             <section v-if="selectedStoryBibleEvent" class="card p-4 moyun-event-editor" data-story-event-editor>
               <div class="moyun-event-editor-head">
                 <div class="min-w-0"><div class="text-sm font-black" style="color:var(--tx)">事件档案</div><div class="text-[10px] mt-1" style="color:var(--tx4)">稳定 ID：{{ selectedStoryBibleEvent.id }} · 更新 {{ formatStoryBibleEventTime(selectedStoryBibleEvent.updatedAt) }}</div></div>
-                <button type="button" @click="requestDeleteStoryBibleEvent(selectedStoryBibleEvent.id)" class="btn-ghost text-xs px-3 py-2" style="color:var(--err);border-color:color-mix(in srgb,var(--err) 35%,var(--bd))" data-story-event-delete>删除事件</button>
+                <div class="flex items-center gap-2"><button type="button" @click="aiSupplementStoryBibleEvent(selectedStoryBibleEvent)" :disabled="isAiSupplementingStoryBible" class="btn-primary text-xs px-3 py-2" :style="isAiSupplementingStoryBible?'opacity:.55':''">{{ isAiSupplementingStoryBible ? '补充中…' : 'AI填充' }}</button><button type="button" @click="requestDeleteStoryBibleEvent(selectedStoryBibleEvent.id)" class="btn-ghost text-xs px-3 py-2" style="color:var(--err);border-color:color-mix(in srgb,var(--err) 35%,var(--bd))" data-story-event-delete>删除事件</button></div>
               </div>
 
               <div class="moyun-event-fields three">
@@ -3359,7 +3345,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
       <div class="moyun-wb-header-actions">
         <button v-if="detailedOutlineReturnTarget.outlineId" type="button" @click="returnToDetailedOutlineFromWorkbench" class="moyun-c3-return-btn">← 返回 {{ getDetailedOutlineLabel(detailedOutlineReturnTarget.outlineId) }}</button>
         <button v-if="storyBibleEventReturnTargetId" type="button" @click="returnToStoryBibleEvent" class="moyun-event-return">← 返回事件</button>
-        <span class="moyun-wb-pill">{{ characterWorkbenchStats.total }} 人 · {{ characterWorkbenchStats.relations }} 条关系</span>
+        <span class="moyun-wb-pill">{{ characterWorkbenchStats.total }} 人 · {{ characterWorkbenchStats.relations }} 条关系</span><span v-if="isAiSupplementingStoryBible && workbenchAiStreamPreview" class="moyun-wb-pill" role="status" aria-live="polite">流式：{{ workbenchAiStreamPreview.slice(-36) }}</span>
         <button type="button" @click="openRelationshipGraph" class="btn-ghost text-xs px-3 py-2">关系图</button>
         <button type="button" @click="closeCharacterWorkbench" class="moyun-wb-back-writing" title="关闭并回到正文" aria-label="关闭并回到正文">回正文</button>
         <button type="button" @click="closeCharacterWorkbench" class="moyun-wb-icon-btn" title="关闭角色工作台" aria-label="关闭角色工作台">
@@ -3396,6 +3382,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
           <div class="moyun-character-editor-head">
             <div class="min-w-0"><div class="text-base font-black text-truncate" style="color:var(--tx)">{{ selectedWorkbenchCharacter.name || '未命名角色' }}</div><div class="text-xs mt-1" style="color:var(--tx3)">更改自动保存；改名和排序不会改变关系或出场关联。</div></div>
             <div class="flex items-center gap-2 shrink-0">
+              <button type="button" @click="aiSupplementSelectedCharacter(selectedWorkbenchCharacter)" :disabled="isAiSupplementingStoryBible" class="btn-primary text-xs px-3 py-2" :style="isAiSupplementingStoryBible?'opacity:.55':''">{{ isAiSupplementingStoryBible ? '补充中…' : 'AI补充' }}</button>
               <button type="button" @click="currentTab='characters';closeCharacterWorkbench()" class="btn-ghost text-xs px-3 py-2">查看原卡</button>
               <!-- 中文注释：工作台里能深度编辑档案/关系/状态，却唯独删不掉角色，必须退出去侧栏底部找。
                    这里复用侧栏那套带引用影响说明的删除确认流。 -->
@@ -3564,7 +3551,16 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
           </div>
           <!-- 普通编辑模式 -->
           <div v-if="isGeneratingOutline && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成大纲…</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
-          <div v-if="!outlineRevisions.length && !activeVolumeEditor" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between mb-2"><span class="text-xs font-black" style="color:var(--tx)">卷纲（分层写作边界）</span><button type="button" class="text-[10px] px-2 py-1 rounded" style="background:var(--accent-soft);color:var(--accent)" @click="addNovelVolume">＋新增卷</button></div><div v-if="!novelVolumes.length" class="text-[10px]" style="color:var(--tx4)">尚未建立卷纲；建立后 AI 会严格隔离后续分卷内容。</div><div v-for="(vol,vi) in novelVolumes" :key="vol.id" class="p-2 mb-2 rounded-lg" style="background:var(--bg-card);border:1px solid var(--bd)"><div class="flex items-center gap-2"><strong class="text-[11px]">{{ vol.title }}</strong><input v-model="vol.title" @change="saveData()" class="input-field text-[10px] flex-1 min-w-0" aria-label="卷标题"><button type="button" @click="removeNovelVolume(vi)" class="text-[10px]" style="color:var(--err)">删除</button></div><div class="flex items-center gap-2 min-w-0 mt-1 text-[10px]"><span>章节</span><input type="number" v-model.number="vol.startChapter" min="1" class="input-field" style="width:58px"><span>至</span><input type="number" v-model.number="vol.endChapter" min="1" class="input-field" style="width:58px"><button type="button" class="input-field flex-1 min-w-0 text-left truncate" @click="openVolumeEditor(vol)" :aria-label="'放大编辑'+vol.title+'框架摘要'" title="点击放大编辑卷纲摘要">{{ vol.summary || '点击填写/放大卷纲摘要' }}</button></div></div></div>
+          <div v-if="!outlineRevisions.length && !activeVolumeEditor" class="moyun-volume-board mb-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)">
+            <div class="flex items-center justify-between gap-2 mb-2"><div><span class="text-xs font-black" style="color:var(--tx)">卷纲（必选·分层写作边界）</span><div class="text-[10px] mt-0.5" style="color:var(--tx3)">AI 会读取并使用已有卷纲；作者仍可随时编辑与调整。</div></div><div class="flex items-center gap-1.5"><button v-if="novelVolumes.length" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="toggleAllNovelVolumes" :aria-pressed="novelVolumesCollapsed">{{ novelVolumesCollapsed ? '展开全部' : '收起全部' }}</button><button type="button" class="btn-primary text-[10px] px-2 py-1" @click="addNovelVolume">＋新增卷</button></div></div>
+            <div v-if="!novelVolumes.length" class="text-[10px]" style="color:var(--tx4)">尚未建立卷纲；生成大纲时会自动建立“第一卷”作为默认边界。</div>
+            <div v-else class="moyun-volume-list">
+              <div v-for="(vol,vi) in novelVolumes" :key="vol.id" class="moyun-volume-card p-2 mb-2 rounded-lg" :class="{'is-collapsed':isNovelVolumeCollapsed(vol)}" style="background:var(--bg-card);border:1px solid var(--bd)">
+                <div class="flex items-center gap-2"><button type="button" class="btn-ghost text-[10px] px-2 py-1 shrink-0" @click="toggleNovelVolumeCollapsed(vol)" :aria-expanded="String(!isNovelVolumeCollapsed(vol))" :aria-label="(isNovelVolumeCollapsed(vol)?'展开':'收起')+vol.title">{{ isNovelVolumeCollapsed(vol) ? '展开' : '收起' }}</button><strong class="text-[11px] truncate">{{ vol.title }}</strong><input v-model="vol.title" @change="saveData()" class="input-field text-[10px] flex-1 min-w-0" aria-label="卷标题"><button type="button" class="btn-ghost text-[10px] px-2 py-1 shrink-0" @click="removeNovelVolume(vi)" style="color:var(--err)">删除</button></div>
+                <div v-show="!isNovelVolumeCollapsed(vol)" class="moyun-volume-summary flex items-center gap-2 min-w-0 mt-1 text-[10px]"><span>章节</span><input type="number" v-model.number="vol.startChapter" min="1" class="input-field" style="width:58px"><span>至</span><input type="number" v-model.number="vol.endChapter" min="1" class="input-field" style="width:58px"><button type="button" class="input-field flex-1 min-w-0 text-left truncate" @click="openVolumeEditor(vol)" :aria-label="'放大编辑'+vol.title+'框架摘要'" title="点击放大编辑卷纲摘要">{{ vol.summary || '点击填写/放大卷纲摘要' }}</button></div>
+              </div>
+            </div>
+          </div>
           <div v-if="activeVolumeEditor" class="moyun-volume-editor flex-1 flex flex-col gap-3 p-3 rounded-xl" style="background:var(--bg-inset);border:1px solid var(--bd)"><div class="flex items-center justify-between gap-2"><div><div class="text-sm font-black" style="color:var(--tx)">编辑{{ activeVolumeEditor.title }}</div><div class="text-[10px]" style="color:var(--tx3)">收起后返回大纲文本；修改会自动保存。</div></div><button type="button" class="btn-ghost text-xs px-3 py-2" @click="closeVolumeEditor">收起卷纲</button></div><div class="grid grid-cols-1 md:grid-cols-3 gap-2"><label class="text-xs" style="color:var(--tx2)">卷名<input :value="activeVolumeEditor.title" @input="updateVolumeField(activeVolumeEditor,'title',$event.target.value)" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">起始章<input type="number" :value="activeVolumeEditor.startChapter" @change="updateVolumeField(activeVolumeEditor,'startChapter',$event.target.value)" min="1" class="input-field mt-1"></label><label class="text-xs" style="color:var(--tx2)">结束章<input type="number" :value="activeVolumeEditor.endChapter" @change="updateVolumeField(activeVolumeEditor,'endChapter',$event.target.value)" min="1" class="input-field mt-1"></label></div><textarea :value="activeVolumeEditor.summary" @input="updateVolumeField(activeVolumeEditor,'summary',$event.target.value)" class="textarea-field flex-1 text-sm" placeholder="填写本卷框架摘要…" aria-label="卷纲框架摘要"></textarea></div>
           <div v-if="novelVolumes.length && !activeVolumeEditor" class="flex flex-wrap gap-2 mb-2"><button v-for="vol in novelVolumes" :key="'edit-'+vol.id" type="button" class="btn-ghost text-[10px] px-2 py-1" @click="openVolumeEditor(vol)">放大编辑{{ vol.title }}</button></div>
           <textarea v-if="!activeVolumeEditor" v-model="novel.outline" @change="saveData()" data-story-target="outline"
@@ -3626,6 +3622,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                   class="btn-primary moyun-wb-ai-compact" :style="getOutlineAiDisabledReason()?'opacity:.5':''">
             {{ novel.outline ? 'AI修改大纲' : 'AI生成大纲' }}
           </button>
+          <button v-if="!isGeneratingOutline" type="button" @click="aiSupplementOutline()" :disabled="!!getOutlineAiDisabledReason()" class="btn-ghost moyun-wb-ai-compact" title="只补充大纲中的空白结构，不覆盖已有内容">AI补充</button>
         </div>
         </div>
       </div>
@@ -4046,11 +4043,12 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                 data-moyun-detailed-ai
                 :aria-describedby="getDetailedOutlineAiDisabledReason('generate') ? 'moyun-detailed-disabled-reason' : undefined"
                 :title="getDetailedOutlineAiDisabledReason('generate') || (settings.detailedOutlineOnlyEmpty === false ? '当前允许覆盖已有细纲，生成前会再确认一次' : '只补空白：已有内容的章节会被跳过')"
-                class="moyun-wb-ai-compact" style="background:var(--warn);color:white"
+                class="btn-primary moyun-wb-ai-compact"
                 :style="getDetailedOutlineAiDisabledReason('generate')?'opacity:.5':''">
             AI生成细纲
           </button>
-          <button v-if="!isGeneratingDO" type="button" @click="reverseGenerateDetailedOutlinesFromChapters" class="moyun-wb-ai-compact" style="background:var(--info-soft);color:var(--info)" title="完整读取正文、大纲、角色和资料后反向生成细纲">从正文反向生成</button>
+          <button v-if="!isGeneratingDO" type="button" @click="reverseGenerateDetailedOutlinesFromChapters" class="btn-ghost moyun-wb-ai-compact" title="完整读取正文、大纲、角色和资料后反向生成细纲">从正文反向生成</button>
+          <button v-if="!isGeneratingDO" type="button" @click="aiSupplementDetailedOutlines" class="btn-ghost moyun-wb-ai-compact" title="仅补充空白细纲字段，已有内容不覆盖">AI补充空白</button>
       </div>
       <div v-if="getDetailedOutlineAiDisabledReason('generate')" id="moyun-detailed-disabled-reason" class="moyun-action-status" role="status">
         <span>{{ getDetailedOutlineAiDisabledReason('generate') }}</span>
@@ -4357,7 +4355,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                       <div class="text-xs leading-relaxed" style="color:var(--tx)">{{ comment.content }}</div>
                       <div class="flex items-center justify-between mt-1 text-[9px]" style="color:var(--tx4)">
                         <span>{{ comment.time || '刚刚' }} · IP: {{ comment.location || '未知' }}</span>
-                        <span @click.stop="likeComment(idx, cIdx)" class="cursor-pointer" :style="comment.isLiked ? 'color:var(--err)' : ''">♥ {{ comment.likes || 0 }}</span>
+                        <button type="button" @click.stop="likeComment(idx, cIdx)" class="btn-ghost text-[10px] px-2 py-1" :style="comment.isLiked ? 'color:var(--err)' : ''" :aria-label="'点赞评论，当前'+(comment.likes || 0)+'个赞'">♥ {{ comment.likes || 0 }}</button>
                       </div>
                       <div v-if="comment.replies && comment.replies.length > 0" class="mt-2 p-2 rounded-lg space-y-2" style="background:var(--bg-inset)">
                         <div v-for="(reply, rIdx) in comment.replies" :key="rIdx" class="flex gap-2">
@@ -4368,7 +4366,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
                             <div class="text-[11px]" style="color:var(--tx2)">{{ reply.content }}</div>
                             <div class="flex items-center justify-between mt-0.5 text-[8px]" style="color:var(--tx4)">
                               <span>{{ reply.time || '刚刚' }}</span>
-                              <span @click.stop="likeReply(idx, cIdx, rIdx)" class="cursor-pointer" :style="reply.isLiked ? 'color:var(--err)' : ''">♥ {{ reply.likes || 0 }}</span>
+                              <button type="button" @click.stop="likeReply(idx, cIdx, rIdx)" class="btn-ghost text-[10px] px-2 py-1" :style="reply.isLiked ? 'color:var(--err)' : ''" :aria-label="'点赞回复，当前'+(reply.likes || 0)+'个赞'">♥ {{ reply.likes || 0 }}</button>
                             </div>
                           </div>
                         </div>
@@ -8780,12 +8778,38 @@ createApp({
     }
     const novelVolumes = computed({ get:() => Array.isArray(novel.value.volumes) ? novel.value.volumes : [], set:value => { novel.value.volumes = normalizeNovelVolumes(value); saveData(); } });
     const activeVolumeEditorId = ref('');
+    const novelVolumesCollapsed = ref(false);
+    const novelVolumeCollapsedIds = ref(new Set());
     const activeVolumeEditor = computed(() => novelVolumes.value.find(volume => String(volume.id) === String(activeVolumeEditorId.value)) || null);
     function openVolumeEditor(volume) { if (volume?.id) activeVolumeEditorId.value = String(volume.id); }
     function closeVolumeEditor() { activeVolumeEditorId.value = ''; saveData(); }
     function updateVolumeField(volume, key, value) { if (!volume || !['title','summary','startChapter','endChapter'].includes(key)) return; volume[key] = ['startChapter','endChapter'].includes(key) ? Math.max(1, Number(value) || 1) : String(value || ''); saveData(); }
     function addNovelVolume() { novel.value.volumes = normalizeNovelVolumes(novel.value.volumes); const n = novel.value.volumes.length + 1; novel.value.volumes.push({ id:uid(), title:'第' + n + '卷', startChapter:n === 1 ? 1 : (novel.value.volumes[n - 2]?.endChapter || 0) + 1, endChapter:(novel.value.volumes[n - 2]?.endChapter || 0) + 10, summary:'', characterIds:[], entryIds:[], eventIds:[] }); saveData(); }
     function removeNovelVolume(index) { novel.value.volumes.splice(index, 1); saveData(); }
+    function isNovelVolumeCollapsed(volume) { return novelVolumesCollapsed.value || novelVolumeCollapsedIds.value.has(String(volume?.id || '')); }
+    function toggleNovelVolumeCollapsed(volume) { const id = String(volume?.id || ''); if (!id) return; const next = new Set(novelVolumeCollapsedIds.value); if (next.has(id)) next.delete(id); else next.add(id); novelVolumeCollapsedIds.value = next; }
+    function toggleAllNovelVolumes() { novelVolumesCollapsed.value = !novelVolumesCollapsed.value; if (!novelVolumesCollapsed.value) novelVolumeCollapsedIds.value = new Set(); }
+    function ensureDefaultNovelVolume() { if (novelVolumes.value.length) return; addNovelVolume(); }
+    function applyAiVolumeUpdates(text) {
+      const source = String(text || '');
+      const match = source.match(/【卷纲更新】([\s\S]*?)(?=\n#{1,6}\s|$)/);
+      if (!match) return 0;
+      let changed = 0;
+      const rows = match[1].split(/\n+/).map(line => line.trim()).filter(Boolean);
+      rows.forEach(line => {
+        const no = Number((line.match(/第\s*(\d+)\s*卷/) || [])[1] || 0);
+        if (!no || !novelVolumes.value[no - 1]) return;
+        const volume = novelVolumes.value[no - 1];
+        const title = (line.match(/(?:卷名|名称)\s*[：:]\s*([^｜|;；]+)/) || [])[1];
+        const range = (line.match(/(?:章节|范围)\s*[：:]?\s*(\d+)\s*[-—至]\s*(\d+)/) || []);
+        const summary = (line.match(/(?:框架摘要|摘要)\s*[：:]\s*(.+)$/) || [])[1];
+        if (title && title.trim() && title.trim() !== volume.title) { volume.title = title.trim(); changed++; }
+        if (range.length >= 3) { const start = Math.max(1, Number(range[1]) || volume.startChapter); const end = Math.max(start, Number(range[2]) || volume.endChapter); if (start !== volume.startChapter || end !== volume.endChapter) { volume.startChapter = start; volume.endChapter = end; changed++; } }
+        if (summary && summary.trim() && summary.trim() !== volume.summary) { volume.summary = summary.trim(); changed++; }
+      });
+      if (changed) saveData();
+      return changed;
+    }
     function getVolumeForChapter(chapterNo) { const no = Math.max(1, Number(chapterNo) || 1); return normalizeNovelVolumes(novel.value.volumes).find(v => no >= v.startChapter && no <= v.endChapter) || null; }
     function buildVolumeConstraintPrompt(chapterNo) { const current = getVolumeForChapter(chapterNo); if (!current) return ''; const later = normalizeNovelVolumes(novel.value.volumes).filter(v => v.startChapter > current.startChapter); return '【卷纲硬性边界】当前正在写' + current.title + '（第' + current.startChapter + '-' + current.endChapter + '章）。只能使用本卷及已发生内容；严禁提前出现' + (later.length ? later.map(v => v.title).join('、') : '后续分卷') + '的任何人物、事件、世界观设定或伏笔揭示，不得混淆分卷内容。\n本卷框架：' + (current.summary || '（未填写）'); }
     const chapters = ref([]);
@@ -8815,6 +8839,7 @@ createApp({
     ];
     const storyBible = ref(null);
     const isAiSupplementingStoryBible = ref(false);
+    const workbenchAiStreamPreview = ref('');
 
     function createStoryBibleEntry(type = 'location') {
       const allowedType = STORY_BIBLE_ENTRY_TYPES.some(item => item.id === type) ? type : 'custom';
@@ -9958,6 +9983,7 @@ createApp({
       if (!request.ok) { showToast(request.reason || '请先配置写作 API', 'error'); return; }
       const bible = ensureStoryBible();
       isAiSupplementingStoryBible.value = true;
+      workbenchAiStreamPreview.value = '';
       try {
         const outlineText = (chapterOutlines.value || []).map((item, i) => '第' + (i + 1) + '章 ' + (item.title || '') + '\n' + (item.content || '')).join('\n\n');
         const characterText = (structuredCharacters.value || []).map(item => buildSingleCharacterPromptBlock(item)).join('\n');
@@ -9965,7 +9991,7 @@ createApp({
         const prompt = '你是小说设定编辑。请完整阅读并理解以下细纲、大纲、角色设定和已有资料条目，只补充作者尚未填写或明显缺失的设定。不得改写、否定或覆盖已有内容，不得臆造与正文冲突的事实；无法确认的字段留空。\n\n' +
           '输出严格 JSON：{"project":{"premise":"","coreConflict":"","themeQuestion":"","toneNotes":"","narrativeRules":""},"worldView":"","entries":[{"type":"location|faction|rule|culture|item|term|custom","customTypeName":"","name":"","summary":"","details":"","tags":[]}]}' +
           '\n\n【大纲】\n' + (novel.value.outline || '（空）') + '\n\n【细纲】\n' + (outlineText || '（空）') + '\n\n【角色设定】\n' + (characterText || '（空）') + '\n\n【已有资料条目】\n' + (entryText || '（空）');
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25 });
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
         let parsed = {};
         const rawAi = cleanAIResponse(getAdapterCompletionText(result)).replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim();
         const jsonStart = rawAi.indexOf('{'), jsonEnd = rawAi.lastIndexOf('}');
@@ -10003,11 +10029,12 @@ createApp({
       if (!entry || isAiSupplementingStoryBible.value) return;
       const request = getModuleRequestConfig('writing'); if (!request.ok) { showToast(request.reason || '请先配置写作 API','error'); return; }
       isAiSupplementingStoryBible.value = true;
+      workbenchAiStreamPreview.value = '';
       try {
         const bible = ensureStoryBible();
         const relatedChars = structuredCharacters.value.filter(c => normalizeStoryBibleIdList(entry.characterIds).includes(String(c.id))).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
         const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。别名字段现在表示“类似词”，请根据设定补充可用于关键词匹配的同义称呼。仅输出JSON：{"summary":"","details":"","aliases":[],"tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, aliases:entry.aliases, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25 });
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(entry.summary || '').trim() && String(parsed.summary || '').trim()) entry.summary = String(parsed.summary).trim();
         if (!String(entry.details || '').trim() && String(parsed.details || '').trim()) entry.details = String(parsed.details).trim();
@@ -10015,6 +10042,47 @@ createApp({
         if ((!Array.isArray(entry.tags) || !entry.tags.length) && Array.isArray(parsed.tags)) entry.tags = normalizeStoryBibleTextList(parsed.tags);
         entry.updatedAt = Date.now(); touchStoryBible(); showToast('条目已流式补充完成','success');
       } catch (e) { if (e?.name !== 'AbortError') showToast('条目补充失败: ' + sanitizeApiErrorDetail(e.message || e),'error'); }
+      finally { isAiSupplementingStoryBible.value = false; }
+    }
+
+    async function aiSupplementStoryBibleEvent(event = selectedStoryBibleEvent.value) {
+      if (!event || isAiSupplementingStoryBible.value) return;
+      const request = getModuleRequestConfig('writing');
+      if (!request.ok) { showToast(request.reason || '请先配置写作 API', 'error'); return; }
+      isAiSupplementingStoryBible.value = true;
+      workbenchAiStreamPreview.value = '';
+      try {
+        const bible = ensureStoryBible();
+        const characters = (structuredCharacters.value || []).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
+        const entries = (bible.world?.entries || []).map(e => (e.name || '') + '：' + (e.summary || e.details || '')).join('\n');
+        const prompt = '你是小说时间线编辑。请完整阅读当前大纲、细纲、角色设定、资料条目和正文，根据已有事件条目补齐空白字段。只填空，不覆盖作者已有内容，不臆造与正文冲突的事实。别名/类似词可作为关键词匹配。仅输出 JSON：{"title":"","timeText":"","summary":"","cause":"","result":"","legacyImpact":"","characterNames":[]}。\n【当前事件】\n' + JSON.stringify({ title:event.title, timeText:event.timeText, summary:event.summary, cause:event.cause, result:event.result, legacyImpact:event.legacyImpact }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【角色设定】\n' + (characters || '（空）') + '\n【资料条目】\n' + (entries || '（空）') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-16000);
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
+        const raw = cleanAIResponse(getAdapterCompletionText(result));
+        const a = raw.indexOf('{'), b = raw.lastIndexOf('}');
+        const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a, b + 1)) : {};
+        ['title','timeText','summary','cause','result','legacyImpact'].forEach(key => { if (!String(event[key] || '').trim() && String(parsed[key] || '').trim()) event[key] = String(parsed[key]).trim(); });
+        if ((!Array.isArray(event.characterIds) || !event.characterIds.length) && Array.isArray(parsed.characterNames)) event.characterIds = structuredCharacters.value.filter(c => parsed.characterNames.some(name => String(name || '').trim() && String(c.name || '').includes(String(name).trim()))).map(c => c.id);
+        event.updatedAt = Date.now(); touchStoryBible(); showToast('事件已流式补充完成', 'success');
+      } catch (e) { if (e?.name !== 'AbortError') showToast('事件补充失败：' + sanitizeApiErrorDetail(e.message || e), 'error'); }
+      finally { isAiSupplementingStoryBible.value = false; }
+    }
+
+    async function aiSupplementSelectedCharacter(character = selectedWorkbenchCharacter.value) {
+      if (!character || isAiSupplementingStoryBible.value) return;
+      const request = getModuleRequestConfig('writing');
+      if (!request.ok) { showToast(request.reason || '请先配置写作 API', 'error'); return; }
+      isAiSupplementingStoryBible.value = true;
+      workbenchAiStreamPreview.value = '';
+      try {
+        const prompt = '你是小说角色编辑。请完整阅读当前大纲、细纲、正文、资料条目和该角色已有档案，只补充空白字段，不覆盖已有内容，不臆造与事实冲突的信息。仅输出 JSON：{"desc":"","currentState":"","publicGoal":"","realNeed":"","fear":"","innerConflict":"","speakingStyle":"","characterPrompt":""}。\n【当前角色】\n' + JSON.stringify({ name:character.name, desc:character.desc, profile:character.profile, speakingStyle:character.speakingStyle, characterPrompt:character.characterPrompt }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【细纲】\n' + (chapterOutlines.value || []).map((o,i) => '第' + (i+1) + '章：' + (o.content || '')).join('\n\n') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-18000);
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
+        const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
+        if (!String(character.desc || '').trim() && String(parsed.desc || '').trim()) character.desc = String(parsed.desc).trim();
+        if (!character.profile) character.profile = {};
+        ['currentState','publicGoal','realNeed','fear','innerConflict'].forEach(key => { if (!String(character.profile[key] || '').trim() && String(parsed[key] || '').trim()) character.profile[key] = String(parsed[key]).trim(); });
+        ['speakingStyle','characterPrompt'].forEach(key => { if (!String(character[key] || '').trim() && String(parsed[key] || '').trim()) character[key] = String(parsed[key]).trim(); });
+        touchSelectedCharacterWorkbench(); showToast('角色档案已流式补充完成', 'success');
+      } catch (e) { if (e?.name !== 'AbortError') showToast('角色补充失败：' + sanitizeApiErrorDetail(e.message || e), 'error'); }
       finally { isAiSupplementingStoryBible.value = false; }
     }
 
@@ -33897,14 +33965,14 @@ function getModHubPermissionLabels(mod) {
       const fullEntries = (storyBibleEntries.value || []).map(item => '【' + getStoryBibleEntryTypeLabel(item) + '】' + (item.name || '') + '\n摘要：' + (item.summary || '') + '\n详情：' + (item.details || '')).join('\n\n');
       const fullExistingOutlines = (chapterOutlines.value || []).map((item, i) => '第' + (i + 1) + '章 ' + (item.title || '') + '\n' + (item.content || '')).join('\n\n');
       const fullBody = sourceChapters.map((item, i) => '第' + (i + 1) + '章 ' + (item.title || '') + '\n' + item.content).join('\n\n');
-      const prompt = '你是小说细纲整理编辑。请完整阅读下列正文、大纲、角色设定、世界资料条目和已有细纲，再按正文真实发生的内容反向生成细纲。角色、资料条目和大纲是硬事实，必须优先遵守；正文未明确的信息不得臆造。每章输出固定字段，不能合并或跳过章节。只输出细纲，不要解释。\n\n【大纲】\n' + (novel.value.outline || '（空）') + '\n\n【角色设定】\n' + (fullCharacters || '（空）') + '\n\n【世界资料条目】\n' + (fullEntries || '（空）') + '\n\n【已有细纲（仅供校对）】\n' + (fullExistingOutlines || '（空）') + '\n\n【完整正文】\n' + fullBody + '\n\n' + buildDetailedOutlineFormatInstruction(Math.max(1000, sourceChapters.length * 600));
+      const prompt = '你是小说细纲整理编辑。请完整阅读下列正文、大纲、角色设定、世界资料条目和已有细纲，再按正文真实发生的内容反向生成细纲。角色、资料条目和大纲是硬事实，必须优先遵守；正文未明确的信息不得臆造。每章输出固定字段，不能合并或跳过章节。只输出细纲，不要解释。\n\n【大纲（当前最新版本）】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n\n【角色设定】\n' + (fullCharacters || '（空）') + '\n\n【世界资料条目】\n' + (fullEntries || '（空）') + '\n\n【已有细纲（仅供校对）】\n' + (fullExistingOutlines || '（空）') + '\n\n【完整正文】\n' + fullBody + '\n\n' + buildDetailedOutlineFormatInstruction(Math.max(1000, sourceChapters.length * 600));
       const runId = ++detailedOutlineRunSequence;
       const controller = new AbortController();
       detailedOutlineAbortController.value = controller;
       isGeneratingDO.value = true;
       resetDetailedOutlineRun({ active:true, batchIndex:1, batchTotal:1, currentRange:'全文反向生成' });
       try {
-        const result = await requestOutlineAi(prompt, { url:request.url, apiKey:request.apiKey, model:request.model, taskType:'detailedOutline', type:'reverseDetailedOutline', label:'正文反向生成细纲', minChars:80, preferStream:true, signal:controller.signal });
+        const result = await requestOutlineAi(prompt, { url:request.url, apiKey:request.apiKey, model:request.model, taskType:'detailedOutline', type:'reverseDetailedOutline', label:'正文反向生成细纲', minChars:80, preferStream:true, onTextDelta: (_delta, full) => { outlineStreamPreview.value = cleanAIResponse(full || ''); }, signal:controller.signal });
         if (detailedOutlineAbortController.value !== controller || runId !== detailedOutlineRunSequence) throw new DOMException('细纲任务已停止','AbortError');
         const parsed = parseGeneratedDetailedOutlines(result.text, 1);
         const merged = mergeGeneratedDetailedOutlines(parsed, { onlyEmpty:true });
@@ -33925,7 +33993,8 @@ function getModHubPermissionLabels(mod) {
         // 中文注释：这里的字数只约束大纲文本本身。不写清楚，模型会把它按章平摊后当成正文字数指导写进节奏建议，
         // 那个数字随大纲注入正文后会盖过写作端的目标字数（细纲侧已实测到 400 字压死 2500 字目标）。
         '请输出完整大纲，并按以下结构组织，不要解释，不要代码块。',
-        '卷纲由作者在界面中手动创建和维护；你不得自主创建、删除、重排或修改卷纲，也不得把卷纲当作大纲文本输出。',
+        '卷纲是必选层级。必须读取【现有卷纲】并让大纲内容与其一致；如用户修改意见明确涉及卷名、章节范围或框架摘要，可提出对应更新，但不得删除未提及的卷，不得跨卷泄漏后续人物、事件或设定。',
+        '如需表达卷纲更新，请在大纲正文前附加“【卷纲更新】”小节，逐卷列出卷名、章节范围和框架摘要；未列出的字段保持原值。',
         '大纲文本本身约' + target + '字；这是大纲的长度预算，与正文字数无关。',
         '禁止在大纲任何位置规定正文字数、章节篇幅或段落数（例如"每章X字""字数控制在X字左右"）——正文长度由写作端统一控制，大纲写在这里的字数一律不生效。',
         '',
@@ -33987,6 +34056,11 @@ function getModHubPermissionLabels(mod) {
       ].join('\n');
     }
 
+    // 细纲请求始终从当前响应式大纲读取，避免审阅/编辑后仍沿用旧缓存。
+    function getLatestOutlineTextForAi() {
+      return String(novel.value?.outline || '').trim();
+    }
+
     async function generateOutline() {
       const request = getModuleRequestConfig('outline');
       if (!request.ok) { showToast(request.reason || '请配置大纲模块 API', 'error'); return; }
@@ -33994,6 +34068,8 @@ function getModHubPermissionLabels(mod) {
       if (isGeneratingOutline.value || outlineAbortController.value) { showToast('大纲正在生成，请等待或先停止当前请求', 'info'); return; }
       const url = request.url;
       const outlineModel = request.model;
+      // 卷纲是大纲的默认层级：由宿主先建立可编辑的第一卷，避免模型凭空发明不可控的卷边界。
+      ensureDefaultNovelVolume();
       const sourceBookId = String(currentBookId.value || '');
       const runId = ++outlineRunSequence;
       const controller = new AbortController();
@@ -34016,6 +34092,8 @@ function getModHubPermissionLabels(mod) {
       prompt += getOutlineGenerationModContext();
       const darklinePlanContext = buildForeshadowPromptContext([], { includeAll:true });
       if (darklinePlanContext) prompt += '\n' + darklinePlanContext;
+      const volumeContext = novelVolumes.value.map((vol, index) => '第' + (index + 1) + '卷｜' + (vol.title || '未命名卷') + '｜章节 ' + vol.startChapter + '-' + vol.endChapter + '｜框架摘要：' + (vol.summary || '（空）')).join('\n');
+      prompt += '\n【现有卷纲（必读且可按修改意见更新）】\n' + (volumeContext || '第一卷｜章节 1-10｜框架摘要：（空）') + '\n';
       if (novel.value.outline) {
         prompt += '\n当前大纲:\n' + novel.value.outline + '\n';
         // 中文注释：已有大纲进入安全改写策略，要求 AI 只按用户意见局部调整，并输出完整大纲供 diff 审阅。
@@ -34038,12 +34116,13 @@ function getModHubPermissionLabels(mod) {
         });
         assertOutlineRunActive('outline', runId, controller, sourceBookId);
         const raw = result.text;
+        const changedVolumes = applyAiVolumeUpdates(raw);
         if (novel.value.outline) {
           outlineRevisions.value = createDiffRevisions(novel.value.outline, raw);
-          showToast('大纲修改已生成，请审阅' + (result.fallbackUsed ? '（已自动切换请求方式）' : ''), 'success');
+          showToast('大纲修改已生成，请审阅' + (changedVolumes ? '；已同步 ' + changedVolumes + ' 卷卷纲' : '') + (result.fallbackUsed ? '（已自动切换请求方式）' : ''), 'success');
         } else {
           novel.value.outline = raw;
-          saveData(); showToast('大纲生成完成' + (result.fallbackUsed ? '（已自动切换请求方式）' : ''), 'success');
+          saveData(); showToast('大纲生成完成' + (changedVolumes ? '；已同步 ' + changedVolumes + ' 卷卷纲' : '') + (result.fallbackUsed ? '（已自动切换请求方式）' : ''), 'success');
         }
         outlineInput.value = '';
       } catch (e) {
@@ -34408,7 +34487,7 @@ function getModHubPermissionLabels(mod) {
         const detailedOutlineCharacterText = resolveContextPackageCharacterText(detailedOutlineContextPackage);
         if (detailedOutlineCharacterText) prompt += '本章角色资料:\n' + detailedOutlineCharacterText + '\n';
       }
-      if (novel.value.outline) prompt += '全书大纲:\n' + novel.value.outline + '\n';
+      if (getLatestOutlineTextForAi()) prompt += '全书大纲（当前最新版本）:\n' + getLatestOutlineTextForAi() + '\n';
       prompt += getOutlineGenerationModContext();
       const prev = chapterOutlines.value[ci - 1];
       const next = chapterOutlines.value[ci + 1];
@@ -34436,7 +34515,8 @@ function getModHubPermissionLabels(mod) {
           type: 'chapterOutline',
           label: mode === 'expand' ? '本章细纲补写' : '本章细纲修改',
           minChars: 40,
-          preferStream: false,
+          preferStream: true,
+          onTextDelta: (_delta, full) => { outlineStreamPreview.value = cleanAIResponse(full || ''); },
           signal: controller.signal
         });
         const targetState = assertSingleDetailedOutlineRunActive(runId, controller, sourceBookId, outlineId);
@@ -34504,7 +34584,7 @@ function getModHubPermissionLabels(mod) {
       const first = batch[0], last = batch[batch.length - 1];
       const detailedOutlineBatchContext = buildStoryBibleDetailedOutlineBatchContext(batch);
       let prompt = '你是资深小说策划。请根据以下信息生成细纲。\n\n';
-      prompt += '卷纲是作者手动维护的硬性边界；不得自主创建或修改卷纲，不得跨卷借用后续内容。\n';
+      prompt += '卷纲是必选硬性边界；必须读取当前卷纲并允许按作者最新修改使用，不得跨卷借用后续内容。\n';
       if (storyBible.value) prompt += '【设定执行规则】生成前必须优先读取并遵守角色设定、资料条目、大纲和细纲关联；关键词命中条目优先，资料未提供的信息保持未知，不得臆造。\n';
       prompt += '标题: ' + (novel.value.title||'') + '\n';
       const volumeConstraint = buildVolumeConstraintPrompt(first);
@@ -34518,7 +34598,7 @@ function getModHubPermissionLabels(mod) {
         const formattedBatchContext = formatStoryBibleDetailedOutlineBatchContext(detailedOutlineBatchContext);
         if (formattedBatchContext) prompt += formattedBatchContext + '\n';
       }
-      prompt += '大纲:\n' + novel.value.outline + '\n';
+      prompt += '大纲（当前最新版本，生成前强制刷新读取）:\n' + getLatestOutlineTextForAi() + '\n';
       const existingBody = (chapters.value || []).map((c, i) => '第' + (i + 1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n');
       if (existingBody.trim()) prompt += '【正文优先依据｜已发生剧情】\n' + clipContextText(existingBody, 12000, { keepHead:false }) + '\n';
       const timeline = (storyBible.value?.world?.events || []).map(e => '第' + (e.chapterNo || '?') + '章：' + (e.summary || e.title || '')).join('\n');
@@ -34631,7 +34711,8 @@ function getModHubPermissionLabels(mod) {
               expectedStart: batch[0],
               expectedEnd: batch[batch.length - 1],
               expectedChapters: batch,
-              preferStream: batch.length > 3,
+              preferStream: true,
+              onTextDelta: (_delta, full) => { outlineStreamPreview.value = cleanAIResponse(full || ''); },
               targetChars: Math.max(600, Math.round(totalWordTarget * (batch.length / Math.max(1, target.length)))),
               signal: controller.signal
             });
@@ -36479,6 +36560,20 @@ function getWritingModelLabel() {
       const n = Number(value);
       return Number.isFinite(n) ? Math.min(20, Math.max(1, Math.round(n))) : 2;
     }
+
+    function aiSupplementOutline() {
+      if (isGeneratingOutline.value) return;
+      outlineInput.value = '仅补充当前大纲中完全空白或明显缺失的结构，必须保留已有文字、设定和卷纲，不得覆盖作者内容。';
+      generateOutline();
+    }
+
+    function aiSupplementDetailedOutlines() {
+      if (isGeneratingDO.value) return;
+      const previous = settings.value.detailedOutlineOnlyEmpty;
+      settings.value.detailedOutlineOnlyEmpty = true;
+      generateDetailedOutline();
+      settings.value.detailedOutlineOnlyEmpty = previous;
+    }
     const imageProfiles = ref([
       {id:'p1',name:'韩漫小清新',artist:'masterpiece, best quality, [[[artist:dishwasher1910]]], {{yd_(orange_maru)}}, [artist:ciloranko], [artist:sho_(sho_lwlw)], [ningen mame], soft lighting, year 2024',model:'nai-diffusion-4-5-full',steps:40,scale:6,cfg:0,sampler:'k_dpmpp_2m_sde',noise:'karras',neg:'{{{{bad anatomy}}}},{bad feet},bad hands,{{{bad proportions}}},{blurry},cloned face,cropped,{{{deformed}}},{{{disfigured}}},error,{{{extra arms}}},{extra digit},{{{extra legs}}},extra limbs,{fewer digits},{{{fused fingers}}},gross proportions,jpeg artifacts,{{{{long neck}}}},low quality,{malformed limbs},{{missing arms}},{missing fingers},{{missing legs}},mutated hands,{{{mutation}}},normal quality,poorly drawn face,poorly drawn hands,signature,text,{{too many fingers}},{{{ugly}}},username,watermark,worst quality',seed:'',nocache:0},
       {id:'p2',name:'2.5D唯美风',artist:'0.9::misaka_12003-gou ::, dino_(dinoartforame), wanke, liduke, year 2025, realistic, 4k, textless version, 1.35::A highly finished photo-style artwork::, 1.63::photorealistic::, 1.63::photo(medium)::, 20::best quality, absurdres, very aesthetic, detailed, masterpiece::,, very aesthetic, masterpiece, no text,',model:'nai-diffusion-4-5-full',steps:40,scale:6,cfg:0,sampler:'k_dpmpp_2m_sde',noise:'karras',neg:'{{{{bad anatomy}}}},{bad feet},bad hands,{{{bad proportions}}},{blurry},cloned face,cropped,{{{deformed}}},{{{disfigured}}},error,{{{extra arms}}},{extra digit},{{{extra legs}}},extra limbs,{fewer digits},{{{fused fingers}}},gross proportions,jpeg artifacts,{{{{long neck}}}},low quality,{malformed limbs},{{missing arms}},{missing fingers},{{missing legs}},mutated hands,{{{mutation}}},normal quality,{{poorly drawn face}},{{poorly drawn hands}},signature,text,{{too many fingers}},{{{ugly}}},watermark,worst quality,{{{more than 2 legs}}}',seed:'',nocache:0},
@@ -38302,7 +38397,9 @@ function getWritingModelLabel() {
         // 严格按用户目标字数检查：首轮不超过目标时自动二轮流式补充，计时器和 streamContent 在整个过程保持运行。
         const firstRoundWords = getCleanWordCount(fullText);
         const lengthContract = getChapterLengthContract(generationContext.wordCountTarget);
+        let supplementAttempted = false;
         if (firstRoundWords <= lengthContract.targetWords) {
+          supplementAttempted = true;
           try {
             streamContent.value = fullText;
             const supplement = await requestShortfallSupplement(fullText);
@@ -38321,17 +38418,14 @@ function getWritingModelLabel() {
         p.thinking = formatSnowwingCotRecordText(p.thinking || '', snowwingCotContext);
         p.content = normalizeChapterImageTags(p.content);
         const finalVisibleWords = getCleanWordCount(p.content);
-        if (finalVisibleWords <= lengthContract.targetWords) {
-          const shortGate = { reason:'below-user-target', message:'二轮补充后正文仍为 ' + finalVisibleWords + ' 字，未超过用户要求的 ' + lengthContract.targetWords + ' 字；已保留为中断草稿，未写入章节。', visible:p.content };
-          preserveInterruptedGenerationIssue(p.content, shortGate, generationContext.hardConstraints);
-          finishGenerationRun(runId);
-          runModEventHandlers('generationStopped', { source:'doGenerateOne', reason:shortGate.reason, error:shortGate.message, preservedLength:p.content.length, runId });
-          showToast(shortGate.message, 'warning');
-          return;
+        if (supplementAttempted && finalVisibleWords <= lengthContract.targetWords) {
+          // 二轮补写是最后一次自动尝试：即使仍未达标也直接落盘，缺口只记录在日志，不再阻塞用户。
+          console.warn('[Generate] 二轮补写后仍低于目标，允许直接输出:', { finalVisibleWords, target:lengthContract.targetWords });
+          showToast('二轮补写已完成（' + finalVisibleWords + '/' + lengthContract.targetWords + ' 字），将直接输出当前内容', 'warning');
         }
         const chapterGate = buildAiResponseGate(p.content, {
           label: '章节正文',
-          minWords: getChapterLengthContract(generationContext.wordCountTarget).persistenceMinWords,
+          minWords: supplementAttempted ? 20 : getChapterLengthContract(generationContext.wordCountTarget).persistenceMinWords,
           maxWords: getChapterLengthContract(generationContext.wordCountTarget).persistenceMaxWords,
           hardConstraints: generationContext.hardConstraints,
           finishReason: resultFinishReason
@@ -38622,8 +38716,8 @@ function getWritingModelLabel() {
       const toolTimeline = streamToolTimeline.value.length ? streamToolTimeline.value.slice() : lastGenerationToolTimeline.value.slice();
       chapters.value.push({
         id: uid(), branchId: activeBranchId.value,
-        title: p.title + ' (未完)', content: p.content, storyTime: p.storyTime || '',
-        summary: p.summary || '本章因中断未写完',
+        title: p.title, content: p.content, storyTime: p.storyTime || '',
+        summary: p.summary || '本章由作者手动保存的中断草稿',
         cotThinking: p.thinking || '',
         nativeThinking,
         toolTimeline,
@@ -42603,6 +42697,10 @@ function getWritingModelLabel() {
       const names = structuredCharacters.value.map(c => c?.name).filter(Boolean);
       names.forEach(name => {
         const char = structuredCharacters.value.find(c => c?.name === name); if (!char) return;
+        if (!String(char.desc || '').trim()) {
+          const firstMention = (text.match(new RegExp('.{0,24}' + escapeRegExp(name) + '.{0,140}[。！？!?]')) || [])[0];
+          if (firstMention) char.desc = firstMention.trim().slice(0, 320);
+        }
         const hits = [];
         const around = text.match(new RegExp('.{0,36}' + escapeRegExp(name) + '.{0,80}', 'g')) || [];
         around.forEach(snippet => { if (/受伤|负伤|战斗|疼痛|昏迷/.test(snippet)) hits.push('健康：' + (/受伤|负伤/.test(snippet) ? '轻伤' : '异常')); if (/紧张|愤怒|悲伤|平静|恐惧/.test(snippet)) hits.push('情绪：' + (snippet.match(/紧张|愤怒|悲伤|平静|恐惧/) || [''])[0]); if (/来到|前往|位于|在.+?村庄|在.+?森林/.test(snippet)) hits.push('位置：' + (snippet.match(/(?:来到|前往|位于)\s*([^，。；\s]{1,12})/) || [,''])[1]); });
@@ -42619,8 +42717,21 @@ function getWritingModelLabel() {
         if (!char.profile) char.profile = {}; char.profile.currentState = state;
       });
       const events = (text.match(/[^。！？!?]{8,80}(?:相遇|冲突|战斗|受伤|发现|决定|离开|抵达|背叛|转折)[^。！？!?]{0,80}[。！？!?]/g) || []).slice(0, 8);
+      if (!events.length) {
+        const fallback = text.split(/[。！？!?]/).map(item => item.trim()).find(item => item.length >= 16);
+        if (fallback) events.push(fallback + '。');
+      }
       const bible = ensureStoryBible(); if (!Array.isArray(bible.world.events)) bible.world.events = [];
-      events.forEach(summary => { const normalizedSummary = summary.trim(); const exists = bible.world.events.some(e => e?.chapterNo === chapterNo && String(e.summary || e.title || '').trim() === normalizedSummary); if (!exists) bible.world.events.push(normalizeStoryBibleEvent({ id:'evt_' + uid(), scope:'story', chapterNo, timeText:'第' + chapterNo + '章', title:normalizedSummary.slice(0, 120), summary:normalizedSummary, result:normalizedSummary, characterIds:structuredCharacters.value.filter(c => c?.name && normalizedSummary.includes(c.name)).map(c => c.id), readerVisible:true, createdAt:Date.now() }, new Set())); });
+      // 正文结束后只对命中的空资料字段做保守填充，已有作者内容永不覆盖。
+      (bible.world.entries || []).forEach(entry => {
+        const entryName = String(entry?.name || '').trim();
+        if (!entryName || !text.includes(entryName)) return;
+        const around = (text.match(new RegExp('.{0,36}' + escapeRegExp(entryName) + '.{0,180}[。！？!?]')) || [])[0];
+        if (around && !String(entry.summary || '').trim()) entry.summary = around.trim().slice(0, 240);
+        if (around && !String(entry.details || '').trim()) entry.details = around.trim().slice(0, 600);
+        entry.updatedAt = Date.now();
+      });
+      events.forEach(summary => { const normalizedSummary = summary.trim(); const exists = bible.world.events.some(e => e?.chapterNo === chapterNo && String(e.summary || e.title || '').trim() === normalizedSummary); if (!exists) bible.world.events.push(normalizeStoryBibleEvent({ id:'evt_' + uid(), scope:'story', chapterNo, chapterIds:chapter?.id ? [chapter.id] : [], timeText:'第' + chapterNo + '章', title:normalizedSummary.slice(0, 120), summary:normalizedSummary, result:normalizedSummary, characterIds:structuredCharacters.value.filter(c => c?.name && normalizedSummary.includes(c.name)).map(c => c.id), readerVisible:true, createdAt:Date.now() }, new Set())); });
       bible.updatedAt = Date.now();
     }
 
@@ -42890,47 +43001,8 @@ function getWritingModelLabel() {
       document.removeEventListener('click', handleAnimatedDetailsSummaryClick, true);
       window.removeEventListener('beforeunload', handleBeforeUnloadSave);
       destroyMoyunModalCoordinator();
-      window.removeEventListener('pointermove', moveProgressFabDrag); window.removeEventListener('pointerup', endProgressFabDrag); window.removeEventListener('resize', handleProgressFabResize);
       if (_genTimer) { clearInterval(_genTimer); _genTimer = null; }
     });
-
-    // 进度悬浮球的数据源：读取页面已有运行态，不额外发起请求；每个任务以布尔状态去重。
-    const progressPanelOpen = ref(false);
-    const progressFabPosition = ref(JSON.parse(localStorage.getItem('moyun_progress_fab_position') || '{"right":18,"bottom":18}'));
-    const progressFabDragging = ref(false); let progressFabMoved = false; let progressFabPointer = null;
-    function clampProgressFabPosition(position = progressFabPosition.value) { const maxRight = Math.max(8, window.innerWidth - 56); const maxBottom = Math.max(8, window.innerHeight - 56); return { right:Math.min(maxRight, Math.max(8, Number(position.right) || 18)), bottom:Math.min(maxBottom, Math.max(8, Number(position.bottom) || 18)) }; }
-    const progressFabStyle = computed(() => { const p = clampProgressFabPosition(); return { right:p.right + 'px', bottom:p.bottom + 'px', zIndex:40 }; });
-    function startProgressFabDrag(event) { progressFabDragging.value = true; progressFabMoved = false; progressFabPointer = event.pointerId; event.currentTarget.setPointerCapture?.(event.pointerId); }
-    function moveProgressFabDrag(event) { if (!progressFabDragging.value || (progressFabPointer !== null && event.pointerId !== progressFabPointer)) return; progressFabMoved = true; progressFabPosition.value = clampProgressFabPosition({ right:window.innerWidth - event.clientX - 24, bottom:window.innerHeight - event.clientY - 24 }); }
-    function endProgressFabDrag() { if (!progressFabDragging.value) return; progressFabDragging.value = false; progressFabPosition.value = clampProgressFabPosition(); localStorage.setItem('moyun_progress_fab_position', JSON.stringify(progressFabPosition.value)); progressFabPointer = null; }
-    function toggleProgressPanelAfterDrag() { if (!progressFabMoved) progressPanelOpen.value = !progressPanelOpen.value; progressFabMoved = false; }
-    const handleProgressFabResize = () => { progressFabPosition.value = clampProgressFabPosition(); };
-    window.addEventListener('pointermove', moveProgressFabDrag, { passive:true }); window.addEventListener('pointerup', endProgressFabDrag, { passive:true }); window.addEventListener('resize', handleProgressFabResize, { passive:true });
-    const progressTasks = computed(() => {
-      const rows = [];
-      const add = (id, label, kind, running, detail = '运行中') => { if (running) rows.push({ id, label, kind, detail }); };
-      const hasRunningMap = value => {
-        if (!value || typeof value !== 'object') return Boolean(value);
-        // 这些运行态映射只在任务开始时写入键、结束时删除键；值可能是 true 或带时间戳的对象。
-        return Object.keys(value).length > 0;
-      };
-      add('writing', '正文生成 / 二轮补充', 'AI 请求', isGenerating.value, genCharCount.value + ' 字 · ' + genElapsed.value);
-      add('outline', '全书大纲生成', 'AI 请求', typeof isGeneratingOutline !== 'undefined' && isGeneratingOutline.value);
-      add('detailed-outline', '细纲生成', 'AI 请求', typeof isGeneratingDO !== 'undefined' && isGeneratingDO.value);
-      add('suggestion', 'AI 剧情建议', 'AI 请求', typeof isGeneratingSuggestion !== 'undefined' && isGeneratingSuggestion.value);
-      add('cover', '封面生图', '图片请求', isGeneratingCover.value || isGeneratingCoverTags.value);
-      add('avatar', '角色立绘', '图片请求', isGeneratingAvatar.value || isGeneratingAvatarTags.value);
-      add('character', '角色 AI 草案', 'AI 请求', typeof isGeneratingChar !== 'undefined' && isGeneratingChar.value || typeof isGeneratingBatch !== 'undefined' && isGeneratingBatch.value || typeof isGeneratingCharacterDraft !== 'undefined' && isGeneratingCharacterDraft.value);
-      add('summary', '章节总结', 'AI 请求', typeof isGeneratingSummary !== 'undefined' && isGeneratingSummary.value);
-      add('pipeline', '提示词批量生成', 'AI 请求', typeof isGeneratingPipelineBatch !== 'undefined' && isGeneratingPipelineBatch.value || typeof isGeneratingLayer !== 'undefined' && isGeneratingLayer.value || typeof isGeneratingStyles !== 'undefined' && isGeneratingStyles.value || typeof isGeneratingPresets !== 'undefined' && isGeneratingPresets.value);
-      add('models', '模型列表/连接检测', '外部请求', typeof isLoadingModels !== 'undefined' && isLoadingModels.value);
-      add('mod-ai', 'MOD AI 工具', 'MOD 请求', typeof modAiToolRunning !== 'undefined' && hasRunningMap(modAiToolRunning.value));
-      add('mod-workflow', 'MOD 工作流', 'MOD 请求', typeof modWorkflowRunning !== 'undefined' && hasRunningMap(modWorkflowRunning.value));
-      add('mod-event', 'MOD 事件处理', 'MOD 请求', typeof modEventRunning !== 'undefined' && hasRunningMap(modEventRunning.value));
-      add('mod-memory', 'MOD 记忆索引/总结', 'MOD 请求', typeof modMemorySummaryRunning !== 'undefined' && hasRunningMap(modMemorySummaryRunning.value) || typeof modHostedManualRecallRunning !== 'undefined' && hasRunningMap(modHostedManualRecallRunning.value));
-      return rows;
-    });
-
     /* ═══════════════════════════════════════════════════
        最终 return — 所有Part的绑定合集
        ═══════════════════════════════════════════════════ */
@@ -42940,7 +43012,7 @@ function getWritingModelLabel() {
       novel, chapters, structuredCharacters, books, currentBookId, mainScroll, generationStatusCard,
       settings, isDark, toggleTheme, installedThemePacks, activeThemePackId, enableThemePack, deleteInstalledThemePack, themeRuntimeError, themeSafeMode, enterThemeSafeMode, exitThemeSafeMode, disableCurrentThemePack, clearThemeFullAccessTrust, hasThemeSafeVariables, isFullAccessThemePack, isThemePackTrusted, getThemePackStats, normalizeNoOutputTimeout,
       mobileSidebarOpen, isMobile, currentTab, sidebarTabs, sidebarTabsScroller, canScrollSidebarTabsRight, canScrollSidebarTabsLeft, updateSidebarTabScrollState, selectSidebarTab, scrollSidebarTabsForward, scrollSidebarTabsBack, tabSliderStyle, immersiveMode, toggleImmersive, handleKeydown,
-      toast, showToast, dismissToast, progressPanelOpen, progressTasks, progressFabPosition, progressFabDragging, progressFabStyle, startProgressFabDrag, toggleProgressPanelAfterDrag,
+      toast, showToast, dismissToast,
       showInputPrompt, inputPromptCfg, inputPromptValue, openInputPrompt, cancelInputPrompt, execInputPrompt,
       projectIntro, showWebUpdateAnnouncement, webUpdateAnnouncement, dismissWebUpdateAnnouncement,
       showConfirm, confirmCfg, openConfirm, execConfirm, execConfirmChoice, cancelConfirm, getConfirmModalClass, getConfirmModalStyle, getConfirmCancelButtonStyle, getConfirmPrimaryButtonStyle, getConfirmChoiceButtonStyle,
@@ -42963,7 +43035,7 @@ function getWritingModelLabel() {
       openBookEditor, closeBookEditor, requestCloseBookEditor, handleBookCoverFile, removeBookEditorCover, saveBookEditor,
       openSettings, openSettingsTab, clearAll,
       // ── 创作设定工作台 Story Bible ──
-      storyBible, storyBibleFoundationStats, showStoryBibleWorkbench, storyBibleWorkbenchSection, isAiSupplementingStoryBible, aiSupplementStoryBible, aiSupplementStoryBibleEntry,
+      storyBible, storyBibleFoundationStats, showStoryBibleWorkbench, storyBibleWorkbenchSection, isAiSupplementingStoryBible, workbenchAiStreamPreview, aiSupplementStoryBible, aiSupplementStoryBibleEntry, aiSupplementStoryBibleEvent, aiSupplementSelectedCharacter,
       openStoryBibleWorkbench, closeStoryBibleWorkbench, touchStoryBible,
       storyBibleEntryTypeOptions, storyBibleEntrySearch, storyBibleEntryFilter, selectedStoryBibleEntryId,
       storyBibleEntries, filteredStoryBibleEntries, selectedStoryBibleEntry, getStoryBibleEntryTypeLabel,
@@ -42985,7 +43057,7 @@ function getWritingModelLabel() {
       filteredDetailedOutlinePinCandidates, getDetailedOutlineLabel, getDetailedOutlinePinnedItems, getDetailedOutlinePinStats, isDetailedOutlinePinned,
       openDetailedOutlinePinPicker, closeDetailedOutlinePinPicker, toggleDetailedOutlinePin, openDetailedOutlinePinnedItem,
       getStoryBibleEntryLinkedOutlines, getSelectedCharacterLinkedOutlines, requestOpenDetailedOutline, returnToDetailedOutlineFromWorkbench,
-      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus, activeVolumeEditorId, activeVolumeEditor, openVolumeEditor, closeVolumeEditor, updateVolumeField, outlineStreamPreview,
+      novelVolumes, addNovelVolume, removeNovelVolume, getVolumeForChapter, buildVolumeConstraintPrompt, buildNaiImageRequestUrl, keepComposerFocus, activeVolumeEditorId, activeVolumeEditor, openVolumeEditor, closeVolumeEditor, updateVolumeField, novelVolumesCollapsed, isNovelVolumeCollapsed, toggleNovelVolumeCollapsed, toggleAllNovelVolumes, ensureDefaultNovelVolume, outlineStreamPreview,
 
       // ── Part 2: 角色系统 ──
       personalityTagPresets, dialogueTypes, getDialogueTypePrompt, getDialogueTypeObj, countCharactersUsingDialogueType, confirmRemoveCharacterAvatar,
@@ -43047,7 +43119,7 @@ function getWritingModelLabel() {
       outlineRevisions, selectedRevId, outlineLastRequest, outlineStructureCoverage,
       acceptRev, rejectRev, acceptAllRevisions, rejectAllRevisions, requestAcceptAllRevisions, deferOutlineRevisions, canUndoOutlineRevisionApply, undoOutlineRevisionApply, getOutlineRequestModeLabel, formatOutlineRequestSummary,
       getOutlineStructureSummary, getOutlineCoverageBarStyle, getOutlineStructureItemStyle,
-      generateOutline, createDiffRevisions, requestCloseOutlineWorkbench, requestCloseDetailedOutlineWorkbench, stopOutlineRun, stopDetailedOutlineRun, getOutlineAiDisabledReason, getOutlineAiDisabledActionLabel, resolveOutlineAiDisabledAction,
+      generateOutline, aiSupplementOutline, aiSupplementDetailedOutlines, getLatestOutlineTextForAi, createDiffRevisions, requestCloseOutlineWorkbench, requestCloseDetailedOutlineWorkbench, stopOutlineRun, stopDetailedOutlineRun, getOutlineAiDisabledReason, getOutlineAiDisabledActionLabel, resolveOutlineAiDisabledAction,
       // ── Part 3: 细纲 ──
       showDetailedOutlineInMain, chapterOutlines,
       isGeneratingDO, doInput, doStart, doEnd, outlineAiEditingIdx, outlineAiMode, detailedOutlineRun, detailedOutlineViewMode, detailedOutlineWorkbenchStats, detailedOutlineDensityHint, requestDetailedOutlineGeneration,
