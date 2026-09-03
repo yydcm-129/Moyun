@@ -24,7 +24,8 @@ Moyun 是本地优先的纯前端长篇小说写作工作台。书籍、章节�
 - `toggleNovelVolumeCollapsed` 管理卷纲全局/单项折叠；v0.0.7 修复了全局收起后单项展开。
 - v0.0.9 新增 `novelVolumesBoardMinimized`：卷纲板“整体收起”状态（收起后仅一条摘要行 + 展开卷纲按钮），与逐卷折叠状态相互独立；大纲生成提示词要求模型输出【卷纲更新】小节，由 `applyAiVolumeUpdates` 回填。
 - v0.0.10 【卷纲更新】升级为“卷头行 + 逐章一行（第M章：一句话大纲）”：章行归属最近的既有卷头，卷摘要 = 框架摘要 + 章行拼接（上限 2000 字，120 字上限已移除）；旧格式兼容。
-- v0.0.10 工作台 AI 补充走 `createWorkbenchStreamFiller`（基于 `extractStreamFieldValue`）逐字段流式回填，只填空白字段，完成后仍整段解析校验；事件 AI 补充按 3 章一批循环读全文、按章号插入时间线；细纲预算默认 = 所选正文字数 × 6%/章。
+- v0.0.10 工作台 AI 补充走 `createWorkbenchStreamFiller`（基于 `extractStreamFieldValue`）逐字段流式回填，只填空白字段，完成后仍整段解析校验；事件 AI 补充按 3 章一批循环读全文、按章号插入时间线；细纲预算默认 = 所选正文字数 ÷ 4.5（用户实测 1:4~1:5 的中值，已替换旧 6% 启发式）。
+- v0.0.10 补充轮（版本号不变）：事件顶栏按钮为“全文时间线补充”（锚点 `data-story-event-ai-full`），点击不再直接补充，而是弹范围弹窗（`storyEventRangeCfg.from/.to` + `openStoryEventRangePrompt/execStoryEventRangePrompt/cancelStoryEventRangePrompt`，弹窗锚点 `data-moyun-modal="story-event-range"`）；全局 `aiSupplementSegmentProgress` 驱动 8 处补充按钮下方“已补充到第 X/Y 段”小字，任务开始与结束（含失败）都会清空，勿在多处同时写入；事件提示词要求 `timeText` 准确反映正文时间点，完成后按 `sortOrder` 稳定重排（无章号事件排末尾）。
 - v0.0.10 事件编辑网格为比例列（`minmax(0,1.6fr) minmax(0,.6fr) minmax(0,.7fr)`）+ 全字段 `min-width:0`，不要恢复固定 150px/170px 列。
 - 所有本地数据通过既有保存逻辑持久化；不要在测试中写入真实作品或 API Key。
 

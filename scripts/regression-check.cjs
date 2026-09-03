@@ -8,7 +8,8 @@
 //   3) applyAiVolumeUpdates：新【卷纲更新】逐章格式解析 + 旧格式兼容（v0.0.10 req5）；
 //   4) extractStreamFieldValue：JSON/行式/半截流三种取值（v0.0.10 req2）；
 //   5) 事件字段硬限（title≤20/timeText≤24/summary≤60/其余≤80）与 normalizeStoryBibleEvent 标题 120 上限；
-//   6) 细纲比例预算：6% 推算与 600 下限（v0.0.10 req6，静态断言源码锚点 + 数值抽样）。
+//   6) 细纲比例预算：1:4~1:5（中值 1:4.5）推算与下限（v0.0.10 补充轮 S4，静态断言源码锚点 + 数值抽样）；
+//   7) 补充轮锚点：全文时间线补充按钮、范围选择弹窗、按钮下方段/批进度提示（v0.0.10 补充轮 S1/S2/S3）。
 const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -54,8 +55,20 @@ const anchors = [
   ['req2 细纲流式预览', 'isGeneratingDO && outlineStreamPreview'],
   ['req5 章行格式样例', "第M章：本章一句话大纲（不超过40字）"],
   ['req5 章行解析', "lastUpdate.chapterLines.push('第' + no + '章：' + text)"],
-  ['req6 比例预算', 'const doPerChapterRatio = Math.max(80, Math.round(Number(wordCountTarget.value) * 0.06))'],
-  ['req6 单章比例', 'const singleChapterWords = singleSettingTouched']
+  ['S4 比例预算 1:4.5', 'const doPerChapterRatio = Math.max(200, Math.round(Number(wordCountTarget.value) / 4.5))'],
+  ['S4 单章比例 1:4.5', "const singleChapterWords = singleSettingTouched ? Math.max(500, Math.round(Number(settings.value.aiWordCount_detailedOutline || 3000) / Math.max(1, chapterOutlines.value.length || 1))) : Math.max(500, Math.round(Number(wordCountTarget.value) / 4.5))"],
+  ['S4 设置面板说明', '每1000字细纲生成4000-5000字正文，取中值1:4.5'],
+  ['S1 改名按钮', 'data-story-event-ai-full>{{ isAiSupplementingStoryBible ? \'补充中…\' : \'全文时间线补充\' }}'],
+  ['S1 范围弹窗', 'data-moyun-modal="story-event-range"'],
+  ['S1 弹窗确认执行', '@submit.prevent="execStoryEventRangePrompt"'],
+  ['S1 范围校验', '章节范围超出已有正文（1-'],
+  ['S2 时间线填对提示词', '时间线必须正确：timeText 要准确反映本章事件发生在正文中的时间点'],
+  ['S2 稳定排序', 'stableIndex.get(x)'],
+  ['S3 段进度状态', "const aiSupplementSegmentProgress = ref('')"],
+  ['S3 事件批进度', "storyEventSupplementProgress.value = '已补充到第 ' + batchNo + '/' + batches.length + ' 批"],
+  ['S3 通用提示挂载', 'isAiSupplementingStoryBible && aiSupplementSegmentProgress'],
+  ['S3 细纲批进度', "aiSupplementSegmentProgress.value = '已补充到第 ' + (bi + 1) + '/' + batches.length + ' 批"],
+  ['S3 流水线段进度', "aiSupplementSegmentProgress.value = '已补充到第 ' + completed + '/' + enabledLayers.length + ' 段"]
 ];
 anchors.forEach(([label, needle]) => { if (label === '版本号') return; check(label, src.includes(needle)); });
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
@@ -120,12 +133,16 @@ const clampNeedles = [
   ['条目摘要 60/详情300 提示', 'summary 不超过 60 字']
 ];
 clampNeedles.forEach(([label, needle]) => check(label, src.includes(needle)));
-const ratioCases = [[600, 80], [2500, 150], [10000, 600], [15000, 900]];
+// v0.0.10 补充轮 S4：细纲比例 = 1:4~1:5 的中值 1:4.5——每 1000 字细纲负责 4000-5000 字正文，
+// 即每章细纲预算 ≈ 所选正文字数 / 4.5，下限 200 字（旧 6% 启发式已被替换，不应再出现）。
+const ratioCases = [[600, 200], [2500, 556], [10000, 2222], [15000, 3333]];
 ratioCases.forEach(([target, expect]) => {
-  const per = Math.max(80, Math.round(target * 0.06));
-  check('6% 比例: 正文' + target + ' → 每章细纲≈' + expect + '字', per === expect, 'got ' + per);
+  const per = Math.max(200, Math.round(target / 4.5));
+  check('1:4.5 比例: 正文' + target + ' → 每章细纲≈' + expect + '字', per === expect, 'got ' + per);
 });
-check('比例总预算下限 600', Math.max(600, Math.round(80 * 3)) === 600, String(Math.max(600, Math.round(80 * 3))));
+check('比例总预算下限 600', Math.max(600, Math.round(200 * 3)) === 600, String(Math.max(600, Math.round(200 * 3))));
+check('旧 6% 比例已移除（批量）', !src.includes('wordCountTarget.value) * 0.06'), '仍存在 6% 批量锚点');
+check('旧 6% 比例已移除（单章）', !src.includes("Math.round(Number(wordCountTarget.value) * 0.06)"), '仍存在 6% 单章锚点');
 
 console.log('');
 if (failed) { console.error('REGRESSION FAILED: ' + failed + ' 项失败\n  - ' + failures.join('\n  - ')); process.exit(1); }
