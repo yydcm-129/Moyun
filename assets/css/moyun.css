@@ -692,8 +692,8 @@ details.cot-stream-box[open] .cot-stream-fold::after{transform:rotate(180deg)}
 .moyun-event-editor{display:flex;flex-direction:column;gap:12px;min-width:0}
 .moyun-event-editor-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
 .moyun-event-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.moyun-event-fields.three{grid-template-columns:minmax(0,1fr) 150px 170px}
-.moyun-event-fields .full{grid-column:1 / -1}
+.moyun-event-fields.three{grid-template-columns:minmax(0,1.6fr) minmax(0,.6fr) minmax(0,.7fr)}\n.moyun-event-fields label{min-width:0}\n.moyun-event-fields .label{max-width:100%;white-space:normal;word-break:break-word}\n.moyun-event-editor{min-width:0}\n.moyun-event-layout>aside{min-width:0}
+.moyun-event-fields .full{grid-column:1 / -1}\n.moyun-event-fields input,.moyun-event-fields textarea,.moyun-event-fields select{min-width:0;width:100%}
 .moyun-event-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .moyun-pick-list,.moyun-event-check-list{max-height:220px;overflow:auto;border:1px solid var(--bd);border-radius:9px;background:var(--bg-card)}
 .moyun-pick-list label,.moyun-event-check-list label{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 10px;border-bottom:1px solid var(--bd);font-size:10px;color:var(--tx2);cursor:pointer}

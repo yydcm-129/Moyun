@@ -703,8 +703,8 @@ details.cot-stream-box[open] .cot-stream-fold::after{transform:rotate(180deg)}
 .moyun-event-editor{display:flex;flex-direction:column;gap:12px;min-width:0}
 .moyun-event-editor-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
 .moyun-event-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.moyun-event-fields.three{grid-template-columns:minmax(0,1fr) 150px 170px}
-.moyun-event-fields .full{grid-column:1 / -1}
+.moyun-event-fields.three{grid-template-columns:minmax(0,1.6fr) minmax(0,.6fr) minmax(0,.7fr)}\n.moyun-event-fields label{min-width:0}\n.moyun-event-fields .label{max-width:100%;white-space:normal;word-break:break-word}\n.moyun-event-editor{min-width:0}\n.moyun-event-layout>aside{min-width:0}
+.moyun-event-fields .full{grid-column:1 / -1}\n.moyun-event-fields input,.moyun-event-fields textarea,.moyun-event-fields select{min-width:0;width:100%}
 .moyun-event-link-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .moyun-pick-list,.moyun-event-check-list{max-height:220px;overflow:auto;border:1px solid var(--bd);border-radius:9px;background:var(--bg-card)}
 .moyun-pick-list label,.moyun-event-check-list label{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 10px;border-bottom:1px solid var(--bd);font-size:10px;color:var(--tx2);cursor:pointer}
@@ -3560,6 +3560,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
           </div>
           <!-- 普通编辑模式 -->
           <div v-if="isGeneratingOutline && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成大纲…</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
+          <div v-if="isGeneratingDO && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成细纲…（第 {{ detailedOutlineRun.batchIndex }}/{{ detailedOutlineRun.batchTotal }} 批：{{ detailedOutlineRun.currentRange }}）</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
           <div v-if="!outlineRevisions.length && !activeVolumeEditor && novelVolumesBoardMinimized" class="moyun-volume-board moyun-volume-board-minimized mb-2 p-2 rounded-xl flex items-center gap-2" style="background:var(--bg-inset);border:1px solid var(--bd)" data-moyun-volume-board-minimized>
             <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="btn-ghost text-[10px] px-2 py-1 shrink-0" :aria-expanded="String(!novelVolumesBoardMinimized)" aria-label="展开卷纲板">展开卷纲</button>
             <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="flex-1 min-w-0 text-left" :title="'共 ' + novelVolumes.length + ' 卷；点击展开卷纲板'">
@@ -6884,7 +6885,7 @@ input::placeholder,textarea::placeholder{color:var(--tx3)!important;opacity:1!im
               <span class="text-xs" style="color:var(--tx2)">细纲字数</span>
               <input type="number" v-model.number="settings.aiWordCount_detailedOutline" @change="saveData()" min="500" max="20000" step="500" class="input-field text-center" style="width:80px;height:30px" title="全部细纲文本合计的长度，会按本批章数平摊；不是正文字数">
             </div>
-            <div class="text-[10px] -mt-1 mb-1 leading-relaxed" style="color:var(--tx4)">细纲字数是<b>所有章细纲合计</b>的长度，生成时按本批章数平摊。它和正文字数无关：细纲里若出现「字数控制在X字」，写作时会被忽略。</div>
+            <div class="text-[10px] -mt-1 mb-1 leading-relaxed" style="color:var(--tx4)">细纲字数是<b>所有章细纲合计</b>的长度，生成时按本批章数平摊。默认按写作端所选正文字数的 6%/章 自动推算；手动改动此值后将固定使用该值（改回 3000 恢复自动比例）。细纲里若出现「字数控制在X字」，写作时会被忽略。</div>
             <div class="flex items-center justify-between py-1">
               <span class="text-xs" style="color:var(--tx2)">建议字数</span>
               <input type="number" v-model.number="settings.aiWordCount_suggestion" @change="saveData()" min="30" max="500" step="10" class="input-field text-center" style="width:80px;height:30px">
@@ -8827,12 +8828,42 @@ createApp({
         const title = (line.match(/(?:卷名|名称)\s*[：:]\s*([^｜|;；]+)/) || [])[1];
         const range = (line.match(/(?:章节|范围)\s*[：:]?\s*(\d+)\s*[-—至]\s*(\d+)/) || []);
         const summary = (line.match(/(?:框架摘要|摘要)\s*[：:]\s*(.+)$/) || [])[1];
-        updates.push({ volume, title, range, summary });
+        updates.push({ volume, title, range, summary, chapterLines: [] });
       });
-      updates.forEach(({ volume, title, range, summary }) => {
+      // v0.0.10 req5：新格式在卷头之后逐章一行“第M章：一句话大纲”。章行归属其上方最近的有效卷头；
+      // 非既有卷的章行照旧忽略（卷数量与边界由作者控制，不交给模型扩容）。解析不使用正则，避免与源码转义冲突。
+      const extractNo = (text, endMark) => {
+        const i = text.indexOf(endMark);
+        if (i <= 0) return 0;
+        let j = i - 1, out = '';
+        while (j >= 0) {
+          const c = text.charCodeAt(j);
+          if (c >= 48 && c <= 57) { out = text[j] + out; j--; }
+          else if (c === 32 && !out) { j--; }
+          else break;
+        }
+        return Number(out) || 0;
+      };
+      let lastUpdate = null;
+      rows.forEach(line => {
+        if (line.indexOf('｜') >= 0 && line.indexOf('卷') >= 0) {
+          const no = extractNo(line, '卷');
+          lastUpdate = updates.find(u => u.volume === novelVolumes.value[no - 1]) || null;
+          return;
+        }
+        if (line.indexOf('｜') < 0 && line.indexOf('第') === 0 && line.indexOf('章') > 0) {
+          const no = extractNo(line, '章');
+          const colon = line.indexOf('：') > 0 ? line.indexOf('：') : line.indexOf(':');
+          const text = colon > 0 ? line.slice(colon + 1).trim() : '';
+          if (no && text && lastUpdate) lastUpdate.chapterLines.push('第' + no + '章：' + text);
+        }
+      });
+      updates.forEach(({ volume, title, range, summary, chapterLines }) => {
         if (title && title.trim() && title.trim() !== volume.title) { volume.title = title.trim(); changed++; }
         if (range.length >= 3) { const start = Math.max(1, Number(range[1]) || volume.startChapter); const end = Math.max(start, Number(range[2]) || volume.endChapter); if (start !== volume.startChapter || end !== volume.endChapter) { volume.startChapter = start; volume.endChapter = end; changed++; } }
-        if (summary && summary.trim() && summary.trim() !== volume.summary) { volume.summary = summary.trim(); changed++; }
+        // v0.0.10 req5：单章大纲拼卷纲——卷摘要 = 框架摘要 + 逐章章行；此前 120 字上限直接砍掉详细卷纲。
+        const composed = [String(summary || '').trim()].concat(chapterLines).filter(Boolean).join(String.fromCharCode(10));
+        if (composed && composed.trim() !== volume.summary) { volume.summary = composed.trim().slice(0, 2000); changed++; }
       });
       if (changed) saveData();
       return changed;
@@ -8867,6 +8898,59 @@ createApp({
     const storyBible = ref(null);
     const isAiSupplementingStoryBible = ref(false);
     const workbenchAiStreamPreview = ref('');
+    // 中文注释：v0.0.10 req2——工作台补充此前只有“整段收完再一次性解析落库”一种表现，
+    // 用户看到的效果和非流式没有区别。此工具在 onTextDelta 里滚动提取“字段名：值”片段并逐字段回填，
+    // 每个字段在模型写到它时就开始出现在输入框里，实现每个框架字段的可见字流。
+    function extractStreamFieldValue(text, names) {
+      const source = String(text || '');
+      // 中文注释：JSON 值提取（模型按 JSON 输出时用）。
+      for (const name of names) {
+        const key = '"' + name + '"';
+        let idx = source.indexOf(key);
+        while (idx !== -1) {
+          const colon = source.indexOf(':', idx + key.length);
+          if (colon !== -1) {
+            const q1 = source.indexOf('"', colon + 1);
+            if (q1 !== -1) {
+              let end = -1;
+              for (let i = q1 + 1; i < source.length; i++) { if (source[i] === '"') { end = i; break; } }
+              const raw = end === -1 ? source.slice(q1 + 1) : source.slice(q1 + 1, end);
+              const val = cleanAIResponse(String(raw).replace(/\\"/g, '"').replace(/\\n/g, String.fromCharCode(10))).trim();
+              if (val) return val;
+            }
+          }
+          idx = source.indexOf(key, idx + 1);
+        }
+      }
+      // 中文注释：行式提取（模型按“字段名：值”逐行输出时用）——用 indexOf 手工解析，避免正则转义问题。
+      for (const name of names) {
+        const rows = source.split(String.fromCharCode(10));
+        for (const row of rows) {
+          const trimmed = row.trim();
+          const colon = trimmed.indexOf('：') !== -1 ? trimmed.indexOf('：') : trimmed.indexOf(':');
+          if (colon <= 0) continue;
+          const labelPart = trimmed.slice(0, colon).trim();
+          if (labelPart !== name && labelPart !== '"' + name + '"') continue;
+          const value = trimmed.slice(colon + 1).trim();
+          if (value) return cleanAIResponse(value).trim();
+        }
+      }
+      return null;
+    }
+    function createWorkbenchStreamFiller(fields, onField) {
+      const seen = new Map();
+      return (_delta, full) => {
+        workbenchAiStreamPreview.value = cleanAIResponse(full || '');
+        const text = String(full || '');
+        fields.forEach(field => {
+          const value = extractStreamFieldValue(text, field.names);
+          if (value === null) return;
+          const prev = seen.get(field.key) || '';
+          if (value.length > prev.length) { seen.set(field.key, value); onField(field.key, value); }
+        });
+      };
+    }
+
 
     function createStoryBibleEntry(type = 'location') {
       const allowedType = STORY_BIBLE_ENTRY_TYPES.some(item => item.id === type) ? type : 'custom';
@@ -10021,7 +10105,19 @@ createApp({
           '硬性要求：本次输出中 project 的五个字段（premise/coreConflict/themeQuestion/toneNotes/narrativeRules）和 worldView 都必须填写实际内容，禁止留空、禁止写“无/暂无/待定”；素材确实不足时，也要基于现有大纲和角色信息写出可用的合理推断，并在句末标注“（据现有信息推断）”。entries 数组必须给出至少 3 条来自大纲/角色的资料（地点、势力、规则、物件、术语等），每条的 name/summary 必填，details 尽量写满。\n\n' +
           '输出严格 JSON：{"project":{"premise":"","coreConflict":"","themeQuestion":"","toneNotes":"","narrativeRules":""},"worldView":"","entries":[{"type":"location|faction|rule|culture|item|term|custom","customTypeName":"","name":"","summary":"","details":"","tags":[]}]}' +
           '\n\n【大纲】\n' + (novel.value.outline || '（空）') + '\n\n【细纲】\n' + (outlineText || '（空）') + '\n\n【角色设定】\n' + (characterText || '（空）') + '\n\n【已有资料条目】\n' + (entryText || '（空）');
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
+        // v0.0.10 req2：设定补充也走流式分段回填——模型写到 project.worldView/某个字段，对应输入框立即出字。
+        const bibleFiller = createWorkbenchStreamFiller([
+          { key:'premise', names:['premise','前提'] },
+          { key:'coreConflict', names:['coreConflict','核心冲突'] },
+          { key:'themeQuestion', names:['themeQuestion','主题问题'] },
+          { key:'toneNotes', names:['toneNotes','基调笔记'] },
+          { key:'narrativeRules', names:['narrativeRules','叙事规则'] },
+          { key:'worldView', names:['worldView','世界观'] }
+        ], (key, value) => {
+          if (key === 'worldView') { if (!String(novel.value.worldView || '').trim()) novel.value.worldView = value; return; }
+          if (bible.project && !String(bible.project[key] || '').trim()) bible.project[key] = value;
+        });
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: bibleFiller });
         let parsed = {};
         const rawAi = cleanAIResponse(getAdapterCompletionText(result)).replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim();
         const jsonStart = rawAi.indexOf('{'), jsonEnd = rawAi.lastIndexOf('}');
@@ -10070,7 +10166,12 @@ createApp({
         const bible = ensureStoryBible();
         const relatedChars = structuredCharacters.value.filter(c => normalizeStoryBibleIdList(entry.characterIds).includes(String(c.id))).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
         const prompt = '请补充以下资料条目中缺失的字段。完整阅读大纲、角色设定、事件时间线；不得覆盖已有内容。别名字段现在表示“类似词”，请根据设定补充可用于关键词匹配的同义称呼。\n硬性要求：summary/details 必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。summary 不超过 60 字，details 不超过 300 字。\n仅输出JSON：{"summary":"","details":"","aliases":[],"tags":[]}\n【条目】\n' + JSON.stringify({ type:entry.type, customTypeName:entry.customTypeName, name:entry.name, summary:entry.summary, details:entry.details, aliases:entry.aliases, tags:entry.tags }) + '\n【大纲】\n' + (novel.value.outline || '（空）') + '\n【相关角色】\n' + (relatedChars || '（空）') + '\n【事件时间线】\n' + (bible.world.events || []).map(e => e.summary).join('\n');
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
+        // v0.0.10 req2：条目补充流式回填——摘要/详情边生成边进输入框，不再等整段解析后才显示。
+        const entryFiller = createWorkbenchStreamFiller([
+          { key:'summary', names:['summary','摘要'] },
+          { key:'details', names:['details','详情'] }
+        ], (key, value) => { if (!String(entry[key] || '').trim()) entry[key] = value; });
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.25, onTextDelta: entryFiller });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(entry.summary || '').trim() && String(parsed.summary || '').trim()) entry.summary = String(parsed.summary).trim();
         if (!String(entry.details || '').trim() && String(parsed.details || '').trim()) entry.details = String(parsed.details).trim();
@@ -10081,31 +10182,98 @@ createApp({
       finally { isAiSupplementingStoryBible.value = false; }
     }
 
+    // v0.0.10 req4：事件补充改为“逐章阅读全文”。此前单请求裁剪 16000 字，长书后章根本进不了上下文，
+    // 而且只填当前事件。现在按章分批循环请求：每批把该批章节全文（不裁剪）交给模型，要求为其中每章
+    // 输出一条事件（JSON 数组），宿主按章节顺序插入事件时间线并自动关联对应章节。
     async function aiSupplementStoryBibleEvent(event = selectedStoryBibleEvent.value) {
-      if (!event || isAiSupplementingStoryBible.value) return;
+      if (isAiSupplementingStoryBible.value) return;
+      // v0.0.10 req4：正文守卫先于 API 配置检查——按钮的核心前提是“有正文可读”，
+      // 先报正文缺失再报配置问题，用户才知道下一步该做什么。
+      const visible = (visibleChapters.value || []).filter(c => c && String(c.content || '').trim());
+      if (!visible.length) { showToast('暂无正文可阅读；请先写作或导入章节', 'info'); return; }
       const request = getModuleRequestConfig('writing');
       if (!request.ok) { showToast(request.reason || '请先配置写作 API', 'error'); return; }
       isAiSupplementingStoryBible.value = true;
       workbenchAiStreamPreview.value = '';
+      const bible = ensureStoryBible();
+      if (!Array.isArray(bible.world.events)) bible.world.events = [];
+      // 每批章数：3 章一批，控制单请求长度；批次内章节全文不裁剪。
+      const BATCH = 3;
+      const batches = [];
+      for (let i = 0; i < visible.length; i += BATCH) batches.push(visible.slice(i, i + BATCH));
+      const EVENT_FIELD_MAX = { title:20, timeText:24, summary:60, cause:80, result:80, legacyImpact:80 };
+      const filler = createWorkbenchStreamFiller([
+        { key:'title', names:['title','事件标题'] },
+        { key:'timeText', names:['timeText','时间文本'] },
+        { key:'cause', names:['cause','起因'] },
+        { key:'result', names:['result','结果'] },
+        { key:'legacyImpact', names:['legacyImpact','对当前剧情的遗留影响'] }
+      ], (key, value) => {
+        // 中文注释：req2——流式分段回填。模型写到哪个字段，输入框里哪个字段就开始出字。
+        if (event && !String(event[key] || '').trim() && value) event[key] = value.slice(0, EVENT_FIELD_MAX[key]);
+        const target = selectedStoryBibleEvent.value;
+        if (target && !String(target[key] || '').trim() && value) target[key] = value.slice(0, EVENT_FIELD_MAX[key]);
+      });
+      let inserted = 0, truncated = 0, batchNo = 0;
       try {
-        const bible = ensureStoryBible();
-        const characters = (structuredCharacters.value || []).map(c => buildSingleCharacterPromptBlock(c)).join('\n');
-        const entries = (bible.world?.entries || []).map(e => (e.name || '') + '：' + (e.summary || e.details || '')).join('\n');
-        const prompt = '你是小说时间线编辑。请完整阅读当前大纲、细纲、角色设定、资料条目和正文，根据已有事件条目补齐空白字段。只填空，不覆盖作者已有内容，不臆造与正文冲突的事实。别名/类似词可作为关键词匹配。\n硬性要求：JSON 的每个字段（title/timeText/summary/cause/result/legacyImpact）都必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。事件记录必须内置缩写要求：title 是短语式概括、不超过 20 字；timeText 不超过 24 字；summary 不超过 60 字；cause/result/legacyImpact 各不超过 80 字，先给一句话结论，再允许一句必要补充。\n仅输出 JSON：{"title":"","timeText":"","summary":"","cause":"","result":"","legacyImpact":"","characterNames":[]}。\n【当前事件】\n' + JSON.stringify({ title:event.title, timeText:event.timeText, summary:event.summary, cause:event.cause, result:event.result, legacyImpact:event.legacyImpact }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【角色设定】\n' + (characters || '（空）') + '\n【资料条目】\n' + (entries || '（空）') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-16000);
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
-        const raw = cleanAIResponse(getAdapterCompletionText(result));
-        const a = raw.indexOf('{'), b = raw.lastIndexOf('}');
-        const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a, b + 1)) : {};
-        // 中文注释：AI 字数约束只在提示词里不够稳，落库前再按事件可读性硬截断，超长文本不再挤爆时间线。
-        const EVENT_FIELD_MAX = { title:20, timeText:24, summary:60, cause:80, result:80, legacyImpact:80 };
-        ['title','timeText','summary','cause','result','legacyImpact'].forEach(key => { const incoming = String(parsed[key] || '').trim(); if (!String(event[key] || '').trim() && incoming) event[key] = incoming.slice(0, EVENT_FIELD_MAX[key]); });
-        if ((!Array.isArray(event.characterIds) || !event.characterIds.length) && Array.isArray(parsed.characterNames)) event.characterIds = structuredCharacters.value.filter(c => parsed.characterNames.some(name => String(name || '').trim() && String(c.name || '').includes(String(name).trim()))).map(c => c.id);
-        event.updatedAt = Date.now(); touchStoryBible(); showToast('事件已流式补充完成', 'success');
-      } catch (e) { if (e?.name !== 'AbortError') showToast('事件补充失败：' + sanitizeApiErrorDetail(e.message || e), 'error'); }
+        for (const batch of batches) {
+          batchNo++;
+          workbenchAiStreamPreview.value = '';
+          const chapterText = batch.map((c, i) => '【第' + (visibleChapters.value.indexOf(c) + 1) + '章' + (c.title ? '：' + c.title : '') + '】' + String.fromCharCode(10) + c.content).join(String.fromCharCode(10) + String.fromCharCode(10));
+          const prompt = '你是小说时间线编辑。请从头到尾完整阅读以下章节正文，为每一章提取 1 条最重要的剧情事件，按章节顺序输出 JSON 数组，每章一个对象，格式：[{"chapterNo":1,"title":"","timeText":"","summary":"","cause":"","result":"","legacyImpact":"","characterNames":[]}]。'
+            + '硬性要求：每个字段必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息合理推断并标注“（据现有信息推断）”。title 是短语式概括、不超过 20 字；timeText 用正文内出现的时间或相对描述、不超过 24 字；summary 不超过 60 字；cause/result/legacyImpact 各不超过 80 字。只输出 JSON 数组，不要解释。'
+            + String.fromCharCode(10) + '【本批章节正文（完整，未裁剪）】' + String.fromCharCode(10) + chapterText;
+          const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: filler });
+          const raw = cleanAIResponse(getAdapterCompletionText(result));
+          const a = raw.indexOf('['), b = raw.lastIndexOf(']');
+          if (a === -1 || b <= a) {
+            const ja = raw.indexOf('{'), jb = raw.lastIndexOf('}');
+            if (ja === -1 || jb <= ja) continue;
+            var arrText = '[' + raw.slice(ja, jb + 1) + ']';
+          } else { var arrText = raw.slice(a, b + 1); }
+          let items = [];
+          try { items = JSON.parse(arrText); } catch (e) { items = []; }
+          if (!Array.isArray(items)) items = [items];
+          items.forEach(item => {
+            if (!item || typeof item !== 'object') return;
+            const chapterNo = Number(item.chapterNo) || (visibleChapters.value.indexOf(batch[0]) + 1);
+            const newEvent = createStoryBibleEvent('story');
+            const put = (key, max) => {
+              const v = String(item[key] || '').trim();
+              if (!v) return '';
+              if (v.length > max) truncated++;
+              return v.slice(0, max);
+            };
+            newEvent.title = put('title', 20) || '第' + chapterNo + '章事件';
+            newEvent.timeText = put('timeText', 24);
+            newEvent.summary = put('summary', 60);
+            newEvent.cause = put('cause', 80);
+            newEvent.result = put('result', 80);
+            newEvent.legacyImpact = put('legacyImpact', 80);
+            newEvent.readerVisible = true;
+            newEvent.sortOrder = chapterNo;
+            // 中文注释：关联到对应正文章节，作者可从事件直接跳回章节。
+            const chapter = (visibleChapters.value || [])[chapterNo - 1];
+            if (chapter && chapter.id) newEvent.chapterIds = [String(chapter.id)];
+            if (Array.isArray(item.characterNames)) newEvent.characterIds = structuredCharacters.value.filter(c => item.characterNames.some(n => String(n || '').trim() && String(c.name || '').includes(String(n).trim()))).map(c => c.id);
+            bible.world.events.push(newEvent);
+            inserted++;
+          });
+        }
+        // 按章节顺序重排（sortOrder = 章号），保持时间线从头到尾的叙事顺序。
+        bible.world.events.sort((x, y) => (Number(x.sortOrder) || 0) - (Number(y.sortOrder) || 0));
+        touchStoryBible();
+        if (!inserted) { showToast('AI 未从正文中提取出新事件', 'info'); return; }
+        // 中文注释：req1——硬截断发生时明确告知用户，而不是悄悄截短。
+        if (truncated) showToast('已按章插入 ' + inserted + ' 条事件（第 ' + batchNo + ' 批）；有 ' + truncated + ' 处字段超过建议字数，已自动截断到标题20/时间24/摘要60/其他80字', 'warning');
+        else showToast('已逐章阅读全文并按顺序插入 ' + inserted + ' 条事件', 'success');
+      } catch (e) {
+        if (e?.name !== 'AbortError') showToast('事件补充失败：' + sanitizeApiErrorDetail(e.message || e), 'error');
+        else if (inserted) { touchStoryBible(); showToast('已停止；本次已插入 ' + inserted + ' 条事件', 'info'); }
+      }
       finally { isAiSupplementingStoryBible.value = false; }
     }
-
-    async function aiSupplementSelectedCharacter(character = selectedWorkbenchCharacter.value) {
+        async function aiSupplementSelectedCharacter(character = selectedWorkbenchCharacter.value) {
       if (!character || isAiSupplementingStoryBible.value) return;
       const request = getModuleRequestConfig('writing');
       if (!request.ok) { showToast(request.reason || '请先配置写作 API', 'error'); return; }
@@ -10113,7 +10281,23 @@ createApp({
       workbenchAiStreamPreview.value = '';
       try {
         const prompt = '你是小说角色编辑。请完整阅读当前大纲、细纲、正文、资料条目和该角色已有档案，只补充空白字段，不覆盖已有内容，不臆造与事实冲突的信息。\n硬性要求：JSON 的每个字段（desc/currentState/publicGoal/realNeed/fear/innerConflict/speakingStyle/characterPrompt）都必须填写实际内容，禁止留空或写“无/暂无”；素材不足时基于现有信息给出合理推断并在句末标注“（据现有信息推断）”。currentState 控制在 60 字以内，其余字段 30-120 字。\n仅输出 JSON：{"desc":"","currentState":"","publicGoal":"","realNeed":"","fear":"","innerConflict":"","speakingStyle":"","characterPrompt":""}。\n【当前角色】\n' + JSON.stringify({ name:character.name, desc:character.desc, profile:character.profile, speakingStyle:character.speakingStyle, characterPrompt:character.characterPrompt }) + '\n【大纲】\n' + (getLatestOutlineTextForAi() || '（空）') + '\n【细纲】\n' + (chapterOutlines.value || []).map((o,i) => '第' + (i+1) + '章：' + (o.content || '')).join('\n\n') + '\n【正文】\n' + (visibleChapters.value || []).map((c,i) => '第' + (i+1) + '章：' + cleanNarrativeChapterContent(c)).join('\n\n').slice(-18000);
-        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: (_delta, full) => { workbenchAiStreamPreview.value = cleanAIResponse(full || ''); } });
+        // v0.0.10 req2：角色档案流式回填——模型逐字段输出时，卡片对应输入框同步出字。
+        const charFiller = createWorkbenchStreamFiller([
+          { key:'desc', names:['desc','简介'] },
+          { key:'currentState', names:['currentState','当前状态'] },
+          { key:'publicGoal', names:['publicGoal','公开目标'] },
+          { key:'realNeed', names:['realNeed','真实需求'] },
+          { key:'fear', names:['fear','恐惧'] },
+          { key:'innerConflict', names:['innerConflict','内在冲突'] },
+          { key:'speakingStyle', names:['speakingStyle','语言风格'] },
+          { key:'characterPrompt', names:['characterPrompt','角色提示词'] }
+        ], (key, value) => {
+          if (key === 'desc') { if (!String(character.desc || '').trim()) character.desc = value; return; }
+          if (key === 'speakingStyle' || key === 'characterPrompt') { if (!String(character[key] || '').trim()) character[key] = value; return; }
+          if (!character.profile) character.profile = {};
+          if (!String(character.profile[key] || '').trim()) character.profile[key] = value;
+        });
+        const result = await fetchAdapterCompletion(request, [{ role:'user', content:prompt }], { stream:true, temperature:0.2, onTextDelta: charFiller });
         const raw = cleanAIResponse(getAdapterCompletionText(result)); const a = raw.indexOf('{'), b = raw.lastIndexOf('}'); const parsed = a >= 0 && b > a ? JSON.parse(raw.slice(a,b+1)) : {};
         if (!String(character.desc || '').trim() && String(parsed.desc || '').trim()) character.desc = String(parsed.desc).trim();
         if (!character.profile) character.profile = {};
@@ -34035,9 +34219,12 @@ function getModHubPermissionLabels(mod) {
         '卷纲是必选层级。必须读取【现有卷纲】并让大纲内容与其一致；如用户修改意见明确涉及卷名、章节范围或框架摘要，可提出对应更新，但不得删除未提及的卷，不得跨卷泄漏后续人物、事件或设定。',
         // 中文注释：卷纲更新小节是宿主自动回填卷纲的唯一入口。此前只写“如需表达”属于可选项，
         // 模型经常整段省略导致卷纲永远不动；现在改成必选固定格式，逐卷一行，宿主才能稳定解析。
-        '【卷纲更新】是必选小节：无论是否修改卷纲，都要在大纲正文最前面输出“【卷纲更新】”，之后逐卷一行，每行严格按此格式输出（没有改动也照抄当前值）：',
+        '【卷纲更新】是必选小节：无论是否修改卷纲，都要在大纲正文最前面输出“【卷纲更新】”，之后逐卷输出：先一行卷头，紧随其后为该卷每一章各输出一行章纲，格式严格如下（没有改动也照抄当前值）：',
         '第N卷｜卷名：XXX｜章节 X-Y｜框架摘要：XXX',
-        '该小节的卷数、卷顺序和章节边界必须与【现有卷纲】完全一致（用户修改意见明确要求调整时除外）；框架摘要控制在 120 字以内。',
+        '第M章：本章一句话大纲（不超过40字）',
+        // v0.0.10 req5：卷纲必须由单章大纲拼成——只给一行卷头时模型永远只写几句话，
+        // 作者拿到的卷纲没有每章推进；现在要求章行覆盖卷内每一章，宿主把整块拼进卷摘要。
+        '该小节的卷数、卷顺序和章节边界必须与【现有卷纲】完全一致（用户修改意见明确要求调整时除外）；每卷的章行必须覆盖该卷章节范围内的每一章，按章号顺序排列，一章一行，不得合并、跳过或臆造范围外的章节；框架摘要用一两句话概括本卷主线。',
         '“## 阶段大纲”等正文小节的剧情推进必须落在对应卷的章节范围内，不得把后续卷的人物、事件或设定提前写进当前卷。',
         '大纲文本本身约' + target + '字；这是大纲的长度预算，与正文字数无关。',
         '禁止在大纲任何位置规定正文字数、章节篇幅或段落数（例如"每章X字""字数控制在X字左右"）——正文长度由写作端统一控制，大纲写在这里的字数一律不生效。',
@@ -34136,9 +34323,9 @@ function getModHubPermissionLabels(mod) {
       prompt += getOutlineGenerationModContext();
       const darklinePlanContext = buildForeshadowPromptContext([], { includeAll:true });
       if (darklinePlanContext) prompt += '\n' + darklinePlanContext;
-      const volumeContext = novelVolumes.value.map((vol, index) => '第' + (index + 1) + '卷｜' + (vol.title || '未命名卷') + '｜章节 ' + vol.startChapter + '-' + vol.endChapter + '｜框架摘要：' + (vol.summary || '（空）')).join('\n');
+      const volumeContext = novelVolumes.value.map((vol, index) => '第' + (index + 1) + '卷｜' + (vol.title || '未命名卷') + '｜章节 ' + vol.startChapter + '-' + vol.endChapter + '｜框架摘要：' + (String(vol.summary || '（空）').split(String.fromCharCode(10)).join('；'))).join('\n');
       prompt += '\n【现有卷纲（必读且可按修改意见更新）】\n' + (volumeContext || '第一卷｜章节 1-10｜框架摘要：（空）') + '\n';
-      prompt += '\n【卷纲输出要求】输出必须包含“【卷纲更新】”小节：位于全部大纲文本的最前面，逐卷一行，每行格式固定为“第N卷｜卷名：XXX｜章节 X-Y｜框架摘要：XXX”。没有修改意见涉及卷纲时也必须输出该小节并照抄当前卷名、章节范围，框架摘要可按大纲内容补齐；该小节之外的大纲正文中不要再重复卷纲列表。\n';
+      prompt += '\n【卷纲输出要求】输出必须包含“【卷纲更新】”小节：位于全部大纲文本的最前面，逐卷输出——每卷先一行“第N卷｜卷名：XXX｜章节 X-Y｜框架摘要：XXX”，紧随其后按顺序为该卷章节范围内的每一章各输出一行“第M章：一句话大纲（不超过40字）”。单章大纲合在一起构成本卷卷纲，多卷卷纲合在一起构成完整总纲；不得用两三句话代替整卷推进。没有修改意见涉及卷纲时也必须输出该小节并照抄当前卷名、章节范围，框架摘要与章行大纲按大纲内容补齐；该小节之外的大纲正文中不要再重复卷纲列表。\n';
       if (novel.value.outline) {
         prompt += '\n当前大纲:\n' + novel.value.outline + '\n';
         // 中文注释：已有大纲进入安全改写策略，要求 AI 只按用户意见局部调整，并输出完整大纲供 diff 审阅。
@@ -34551,7 +34738,10 @@ function getModHubPermissionLabels(mod) {
       } else {
         prompt += '\n【安全修改规则】只修改用户要求明确涉及的部分；未提及的事件、人物关系、伏笔、节奏和结尾方向必须保留，不要大面积重写。\n';
       }
-      prompt += '\n输出格式要求：\n' + buildDetailedOutlineFormatInstruction(Math.max(500, Number(settings.value.aiWordCount_detailedOutline || 3000) ? Math.round(Number(settings.value.aiWordCount_detailedOutline || 3000) / Math.max(1, chapterOutlines.value.length || 1)) : 600));
+      // v0.0.10 req6：单章补写也按正文比例——每章细纲≈所选正文字数的 6%，未动过细纲设置时优先生效。
+      const singleSettingTouched = Number.isFinite(Number(settings.value.aiWordCount_detailedOutline)) && Number(settings.value.aiWordCount_detailedOutline) !== 3000;
+      const singleChapterWords = singleSettingTouched ? Math.max(500, Math.round(Number(settings.value.aiWordCount_detailedOutline || 3000) / Math.max(1, chapterOutlines.value.length || 1))) : Math.max(500, Math.round(Number(wordCountTarget.value) * 0.06));
+      prompt += '\n输出格式要求：\n' + buildDetailedOutlineFormatInstruction(singleChapterWords);
       prompt += '\n本次只允许输出第' + (ci + 1) + '章，不要解释、不要列出其他章节。';
       try {
         const result = await requestOutlineAi(prompt, {
@@ -34706,7 +34896,13 @@ function getModHubPermissionLabels(mod) {
       const batchSize = Math.min(10, Math.max(1, Number(settings.value.detailedOutlineBatchSize) || 5));
       settings.value.detailedOutlineBatchSize = batchSize;
       const onlyEmpty = settings.value.detailedOutlineOnlyEmpty !== false;
-      const totalWordTarget = Math.max(600, Number(runOptions.wordCount) || Number(settings.value.aiWordCount_detailedOutline) || 3000);
+      // v0.0.10 req6：细纲预算默认随写作端所选正文字数（wordCountTarget）按比例走——每章细纲≈正文的 6%。
+      // 用户显式传入 wordCount（一键成书等）时优先；显式改过“细纲字数”设置的按设置值。
+      const doSettingTouched = Number.isFinite(Number(settings.value.aiWordCount_detailedOutline)) && Number(settings.value.aiWordCount_detailedOutline) !== 3000;
+      const doPerChapterRatio = Math.max(80, Math.round(Number(wordCountTarget.value) * 0.06));
+      const requestedRange = Array.isArray(targetChapters) && targetChapters.length ? targetChapters.length : (end - start + 1);
+      const proportionalDoTotal = Math.max(600, Math.round(doPerChapterRatio * requestedRange));
+      const totalWordTarget = Math.max(600, Number(runOptions.wordCount) || (doSettingTouched ? Number(settings.value.aiWordCount_detailedOutline) || 3000 : proportionalDoTotal));
       const requested = Array.isArray(targetChapters) && targetChapters.length
         ? Array.from(new Set(targetChapters.map(n => Number(n)).filter(n => n > 0))).sort((a,b)=>a-b)
         : Array.from({ length: end - start + 1 }, (_, i) => start + i);

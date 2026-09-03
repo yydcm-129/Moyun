@@ -12,6 +12,7 @@ Moyun 是本地优先的纯前端长篇小说写作工作台。书籍、章节�
 - 生成样式：`assets/css/moyun.css`
 - 生成逻辑：`assets/js/moyun.js`
 - 构建命令：`npm run build`
+- 回归检查：`npm run regress`（v0.0.10 新增 `scripts/regression-check.cjs`：构建 + 语法 + 锚点 + 卷纲/流式解析单元断言 + 字数硬限与比例抽样）
 
 不要直接编辑 `index.html` 或 `assets/` 下的生成文件。修改 `source/moyun.single.html` 后再构建。
 
@@ -22,17 +23,20 @@ Moyun 是本地优先的纯前端长篇小说写作工作台。书籍、章节�
 - 生成正文、大纲、细纲、评论和工作台补充时，会通过上下文构建逻辑注入设定、资料、事件和卷纲边界。
 - `toggleNovelVolumeCollapsed` 管理卷纲全局/单项折叠；v0.0.7 修复了全局收起后单项展开。
 - v0.0.9 新增 `novelVolumesBoardMinimized`：卷纲板“整体收起”状态（收起后仅一条摘要行 + 展开卷纲按钮），与逐卷折叠状态相互独立；大纲生成提示词要求模型输出【卷纲更新】小节，由 `applyAiVolumeUpdates` 回填。
+- v0.0.10 【卷纲更新】升级为“卷头行 + 逐章一行（第M章：一句话大纲）”：章行归属最近的既有卷头，卷摘要 = 框架摘要 + 章行拼接（上限 2000 字，120 字上限已移除）；旧格式兼容。
+- v0.0.10 工作台 AI 补充走 `createWorkbenchStreamFiller`（基于 `extractStreamFieldValue`）逐字段流式回填，只填空白字段，完成后仍整段解析校验；事件 AI 补充按 3 章一批循环读全文、按章号插入时间线；细纲预算默认 = 所选正文字数 × 6%/章。
+- v0.0.10 事件编辑网格为比例列（`minmax(0,1.6fr) minmax(0,.6fr) minmax(0,.7fr)`）+ 全字段 `min-width:0`，不要恢复固定 150px/170px 列。
 - 所有本地数据通过既有保存逻辑持久化；不要在测试中写入真实作品或 API Key。
 
 ## 版本和分支规则
 
-当前文档版本：`v0.0.9`。
+当前文档版本：`v0.0.10`。
 
 接手下一轮时：
 
 1. 先读取 `AGENTS.md`、本文件、[UPDATE_LOG.md](./UPDATE_LOG.md) 和 [TEST_REPORT.md](./TEST_REPORT.md)。
 2. 检查 `git status --short --branch`，确认没有覆盖用户未提交的修改。
-3. 从上一稳定版本创建临时分支，例如 `temp/v0.0.9-v010-work`，再开始任何源码修改。
+3. 从上一稳定版本创建临时分支，例如 `temp/v0.0.10-v011-work`，再开始任何源码修改。
 4. 每轮只把最后一位加 1，并在完成测试后更新日志和检测报告。
 5. 需要回滚时使用对应分支/提交；不要使用 `git reset --hard` 或删除用户数据。
 

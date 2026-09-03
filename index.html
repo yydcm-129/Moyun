@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/moyun.css?v=e88d336e5bf1">
+<link rel="stylesheet" href="./assets/css/moyun.css?v=ccaaffe6c95d">
 </head>
 
 <body class="h-screen flex overflow-hidden">
@@ -1690,6 +1690,7 @@
           </div>
           <!-- 普通编辑模式 -->
           <div v-if="isGeneratingOutline && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成大纲…</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
+          <div v-if="isGeneratingDO && outlineStreamPreview" class="moyun-outline-stream-preview" role="status" aria-live="polite"><div class="text-[10px] font-bold mb-1" style="color:var(--info)">正在流式生成细纲…（第 {{ detailedOutlineRun.batchIndex }}/{{ detailedOutlineRun.batchTotal }} 批：{{ detailedOutlineRun.currentRange }}）</div><div class="whitespace-pre-wrap">{{ outlineStreamPreview }}</div></div>
           <div v-if="!outlineRevisions.length && !activeVolumeEditor && novelVolumesBoardMinimized" class="moyun-volume-board moyun-volume-board-minimized mb-2 p-2 rounded-xl flex items-center gap-2" style="background:var(--bg-inset);border:1px solid var(--bd)" data-moyun-volume-board-minimized>
             <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="btn-ghost text-[10px] px-2 py-1 shrink-0" :aria-expanded="String(!novelVolumesBoardMinimized)" aria-label="展开卷纲板">展开卷纲</button>
             <button type="button" @click="toggleNovelVolumesBoardMinimized()" class="flex-1 min-w-0 text-left" :title="'共 ' + novelVolumes.length + ' 卷；点击展开卷纲板'">
@@ -5014,7 +5015,7 @@
               <span class="text-xs" style="color:var(--tx2)">细纲字数</span>
               <input type="number" v-model.number="settings.aiWordCount_detailedOutline" @change="saveData()" min="500" max="20000" step="500" class="input-field text-center" style="width:80px;height:30px" title="全部细纲文本合计的长度，会按本批章数平摊；不是正文字数">
             </div>
-            <div class="text-[10px] -mt-1 mb-1 leading-relaxed" style="color:var(--tx4)">细纲字数是<b>所有章细纲合计</b>的长度，生成时按本批章数平摊。它和正文字数无关：细纲里若出现「字数控制在X字」，写作时会被忽略。</div>
+            <div class="text-[10px] -mt-1 mb-1 leading-relaxed" style="color:var(--tx4)">细纲字数是<b>所有章细纲合计</b>的长度，生成时按本批章数平摊。默认按写作端所选正文字数的 6%/章 自动推算；手动改动此值后将固定使用该值（改回 3000 恢复自动比例）。细纲里若出现「字数控制在X字」，写作时会被忽略。</div>
             <div class="flex items-center justify-between py-1">
               <span class="text-xs" style="color:var(--tx2)">建议字数</span>
               <input type="number" v-model.number="settings.aiWordCount_suggestion" @change="saveData()" min="30" max="500" step="10" class="input-field text-center" style="width:80px;height:30px">
@@ -6061,7 +6062,7 @@
 <!-- PART_1_END -->
 </div><!-- #app 结束 -->
 
-<script src="./assets/js/moyun.js?v=87808a515113"></script>
+<script src="./assets/js/moyun.js?v=31d094f3dea3"></script>
 <!-- PART_1_END -->
 </body>
 </html>
