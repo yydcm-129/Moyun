@@ -110,6 +110,13 @@ git diff --check
 
 ## 当前 v0.0.10 验证（分支 `temp/v0.0.9-v010-work`）
 
+### 上线公告验证（2026-09-03 公告轮，分支 `temp/v0.0.10-announce-publish`，基于 `038b967`）
+
+- `npm run build`、`node --check`、`git diff --check`、`npm run regress`（51 项）：全部通过，与补充轮基线一致。
+- 公告弹窗浏览器验证（Edge 无头 + CDP，11 项断言全部通过，`.ui-check/results/announce-ui.json`，不入库）：全新浏览器档案先弹「欢迎来到 Moyun」新手说明，点「开始使用」后立刻弹出「0810更新·补充」公告（A1a/A1b）；公告含全部四条本轮条目文字，不含旧 0815 公告残留，无横向溢出（A2）；点「我知道了」后公告关闭、localStorage 写入新公告 id、刷新不再弹、控制台无 `error`（A3）；老用户档案（已读新手说明与旧 0815 公告 id）刷新后直接弹最新公告而非新手说明，关闭后已读记录更新为新 id（B1/B2）。
+- 功能面回归浏览器验证复跑：桌面 1482×805 + 移动 390×844 共 26 项断言全部通过（与补充轮交付一致），公告改动未影响补充轮功能。
+- 公告为离线本地验证；测试档案为临时目录，未触碰用户真实浏览器数据。
+
 ### v0.0.10 补充轮验证（同日追加，版本号不变；基线 `4fd39a4`，备份分支 `backup/v0.0.10-supplement-base`）
 
 - `npm run build`：通过；`node --check assets/js/moyun.js`：通过；`git diff --check`：通过。
