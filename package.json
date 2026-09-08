@@ -1,6 +1,6 @@
 {
   "name": "moyun-web",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": true,
   "scripts": {
     "build": "node scripts/build-static-site.cjs",
