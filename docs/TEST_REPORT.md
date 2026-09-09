@@ -108,6 +108,35 @@ git diff --check
 - 本轮浏览器检查使用本机已有 Edge 以 `--headless=new --remote-debugging-port=9222` 启动（无下载、无新依赖），配合项目 `.ui-check/` 下的只读 CDP 客户端脚本执行普通用户级点击/输入；页面数据为临时空书与测试角色/事件/卷，未触碰用户真实作品。
 - 临时静态预览服务（Node 内置 http，端口 `4173`）与调试用 Edge 将在交付后停止；`.ui-check/` 为未跟踪草稿目录，不提交。
 
+## 当前 v0.0.12 验证（分支 `temp/v0.0.12-structure-audit`，基线 `cc9a8f3`）
+
+本轮为测试与防复发轮：`source/moyun.single.html` 零改动，新增 `scripts/structure-audit.cjs` 与 AGENTS.md 排障手册，重新构建产物。
+
+### 线上站错位复现与根因取证（用户报告闭环）
+
+- 线上部署身份：下载 `https://not1a-del.github.io/Moyun/` 的 `index.html`（638248 字节）与 `60f5921`（v0.0.10）构建产物逐字节一致（仅行尾 CRLF/LF 差异）；线上站仍部署 v0.0.10，不含 v0.0.11 的任何修复。
+- 复现环境：线上页在无头 Edge 中 CDN 脚本卡在 `readyState:loading` 无法挂载，改用 `60f5921` 的本地 worktree 孪生站（端口 4174）。
+- 复现结果（空白角色，无 MOD）：4 张档案卡片宽 26~30px、文本域 26px、"先选一位角色"空态 div 与编辑器同屏（v-else 兄弟被浏览器吞进 editor-head）。超长无空格文本用例同样触发——错位与角色内容无关。
+- 根因：`038b967`（v0.0.10 补充轮）给 editor-head 加进度条时拆嵌套少写 1 个 `</div>`；v0.0.9 `1caab89` 平衡、v0.0.10 起 6 开 5 闭、v0.0.11 `a718e05` 恰好补上。
+- 修复验证（v0.0.11/12 构建产物）：空白角色 + 1440 字超长无空格双用例 × PC 1280/移动 390 双端，4 张卡片 400px/364px（占容器 91%/95%，≥80% 门槛）、空态不侵入、无横向溢出，4/4 PASS。
+
+### structure-audit 验证（新增脚本）
+
+- 当前源 `npm run audit`：9 项全 PASS（标签平衡 0 跨层/0 多余/0 残留；154 处 v-else/v-else-if 配对全对；editor-head 6 开 6 闭且与 levels 同级；transition 31/31、transition-group 1/1、template 51/51）。
+- 负样本（对 v0.0.10 基线源运行同一脚本）：准确抓出 3 项 FAIL——`</section>` 跨层闭合吞掉未闭合 div、v-else 空态配对失败、editor-head 6 开 5 闭。脚本能抓的正是 v0.0.11 交付时漏检的病。
+- `npm run regress` 现在串联 regression-check + structure-audit，本轮全链 PASS。
+
+### 既有全套件复跑（重建产物上）
+
+- `v11-features` 22/22、`v11-stream-unit` 5/5、`v11-menus` 22/22、`v10s-verify` 26/26 全部通过——本轮零业务改动未破坏任何功能面。
+- `npm run build` 通过（新指纹 css `3ef4df46e9dc` / js `5ee10cd431bd`，仅因重新构建）；`node --check assets/js/moyun.js`、`git diff --check` 通过。
+
+### 已知问题与限制
+
+- 线上站修复依赖 PR 合并部署；合并前用户仍会看到错位。部署后浏览器缓存旧 `index.html` 可能继续显示错位，强刷（Ctrl+F5）即消。
+- `npm run audit` 是静态结构审计，不能替代浏览器几何实测——两者按 AGENTS.md 新规都必须执行。
+- 本轮测试用的 Edge headless、本地 4173/4174 服务在交付前已停止；`.ui-check/` 草稿目录不提交。
+
 ## 当前 v0.0.11 验证（分支 `temp/v0.0.11-work`，基线 `20c8312` / 备份分支 `backup/v0.0.11-base-60f5921`）
 
 ### 构建、语法与官方回归
