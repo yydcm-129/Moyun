@@ -28,7 +28,7 @@
 - 推送 upstream 后必须同步推 origin，保持两仓一致，方便日后核对。
 - 推送前用 `git ls-remote` 确认 upstream/main 是 HEAD 的祖先（可快进）；不要 force push。
 - **push 卡住先查 GitHub 凭据弹窗**：本机 Git Credential Manager 配有两套账号（yydcm-129、x-access-token），可能弹出「Select an account」窗口在后台等待，push 会无限挂起。用任务管理器或 `Get-Process git-credential-manager` 检查，窗口恢复可见后选择对应账号（upstream 用 x-access-token，origin 用 yydcm-129）再 Continue；不要反复重试 push 或误判为网络问题。
-- 代理状态下 git 不走系统代理，直连 github.com 失败时给 git 显式配置 `-c http.proxy=http://127.0.0.1:7890`；推送挂起时先区分是代理问题还是凭据弹窗问题。
+- 代理状态下 git 不走系统代理，直连 github.com 失败时给 git 显式配置 `-c http.proxy=http://127.0.0.1:7890`；推送挂起时先区分是代理问题还是凭据弹窗问题。调试结束时用 `git config --unset http.https://github.com.proxy` 清理残留，否则用户关闭代理后 push 会报 `Failed to connect via 127.0.0.1`。
 
 ## 结构级坑与精准排障手册（v0.0.12 新增）
 
