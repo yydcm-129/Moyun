@@ -22,6 +22,14 @@
 - 检测报告必须注明结构审计（`npm run audit`）的结果；审计不通过禁止交付，即使功能测试全绿。
 - 上传前必须经过用户同意才能上传，并且上传需要更新网页内的更新公告
 
+## 发布目标仓库（v0.0.16 R4 新增）
+
+- **上传 = 推送到 `upstream`（Not1a-del/Moyun）的 `main`**：线上 https://not1a-del.github.io/Moyun/ 由该仓库的 GitHub Pages 服务，只推 `origin`（yydcm-129/Moyun）线上不会更新——v0.0.16 曾因此在线上停在 v0.0.15/0923 公告。
+- 推送 upstream 后必须同步推 origin，保持两仓一致，方便日后核对。
+- 推送前用 `git ls-remote` 确认 upstream/main 是 HEAD 的祖先（可快进）；不要 force push。
+- **push 卡住先查 GitHub 凭据弹窗**：本机 Git Credential Manager 配有两套账号（yydcm-129、x-access-token），可能弹出「Select an account」窗口在后台等待，push 会无限挂起。用任务管理器或 `Get-Process git-credential-manager` 检查，窗口恢复可见后选择对应账号（upstream 用 x-access-token，origin 用 yydcm-129）再 Continue；不要反复重试 push 或误判为网络问题。
+- 代理状态下 git 不走系统代理，直连 github.com 失败时给 git 显式配置 `-c http.proxy=http://127.0.0.1:7890`；推送挂起时先区分是代理问题还是凭据弹窗问题。
+
 ## 结构级坑与精准排障手册（v0.0.12 新增）
 
 以下规则来自 v0.0.10 角色工作台错位的真实教训：模板少写 1 个 `</div>`，浏览器把后续兄弟节点全部吞进 flex 行，卡片被挤成 26~30px 竖条，而文档总宽不变——溢出检测恒为绿，功能测试恒为绿，bug 照常上线。
