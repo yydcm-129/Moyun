@@ -5,15 +5,53 @@ const root=path.resolve(__dirname,'..'),port=4191,cdp=9251;
 const option=name=>{const index=process.argv.indexOf(name);return index<0?'':process.argv[index+1]||'';};
 const base=option('--url')||'http://127.0.0.1:'+port+'/index.html';
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const hasExited=child=>child&&((child.exitCode!==null&&child.exitCode!==undefined)||(child.signalCode!==null&&child.signalCode!==undefined));
+function waitForChildExit(child,timeout){
+  if(hasExited(child))return Promise.resolve(true);
+  return new Promise(resolve=>{
+    let timer;
+    const finish=exited=>{clearTimeout(timer);child.removeListener('exit',onExit);child.removeListener('close',onExit);child.removeListener('error',onError);resolve(exited);};
+    const onExit=()=>finish(true),onError=()=>finish(true);
+    child.once('exit',onExit);child.once('close',onExit);child.once('error',onError);
+    timer=setTimeout(()=>finish(hasExited(child)),timeout);
+  });
+}
+function killWindowsProcessTree(pid){
+  return new Promise((resolve,reject)=>{
+    const killer=spawn('taskkill',['/PID',String(pid),'/T','/F'],{stdio:'ignore',windowsHide:true});
+    killer.once('error',reject);
+    killer.once('close',code=>code===0?resolve():reject(Error('taskkill exited with code '+code)));
+  });
+}
+async function cleanupBrowserRun({client,edge,server,profile,platform=process.platform,killTree=killWindowsProcessTree,removeProfile=target=>fs.rmSync(target,{recursive:true,force:true,maxRetries:4,retryDelay:250}),logger=console,graceMs=2500,exitMs=3000,retryDelays=[150,300,600,1000,1500],sleep=wait}={}){
+  if(client){let timer;try{await Promise.race([client.send('Browser.close').catch(()=>{}),new Promise(resolve=>{timer=setTimeout(resolve,1000);})]);}catch{}clearTimeout(timer);try{client.ws.close();}catch{}}
+  if(edge&&!hasExited(edge)){
+    if(client)await waitForChildExit(edge,graceMs);
+    if(!hasExited(edge)){
+      if(platform==='win32'){try{await killTree(edge.pid);}catch(error){logger.warn('Could not stop Edge process tree:',error.message);}}
+      if(!hasExited(edge))try{edge.kill('SIGKILL');}catch{}
+      await waitForChildExit(edge,exitMs);
+    }
+  }
+  if(server?.listening)await new Promise(resolve=>{server.close(()=>resolve());server.closeAllConnections?.();});
+  if(!profile)return null;
+  let lastError;
+  for(let attempt=0;attempt<=retryDelays.length;attempt++){
+    try{removeProfile(profile);if(!fs.existsSync(profile))return null;throw Error('directory still exists after removal');}
+    catch(error){lastError=error;if(attempt<retryDelays.length)await sleep(retryDelays[attempt]);}
+  }
+  logger.error('Failed to remove temporary Edge profile '+profile+': '+(lastError?.message||lastError));
+  return lastError||Error('temporary Edge profile was not removed');
+}
 async function main(){
-  const server=http.createServer((req,res)=>{const pathname=new URL(req.url,base).pathname;const file=path.resolve(root,'.'+pathname);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(error,data)=>{res.writeHead(error?404:200,{'content-type':({'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8','.css':'text/css;charset=utf-8','.svg':'image/svg+xml'})[path.extname(file)]||'application/octet-stream'});res.end(error?'':data);});});
-  await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
-  const profile=fs.mkdtempSync(path.join(os.tmpdir(),'moyun-v19-outline-'));
+  let server,profile,edge,c;
+  try{
+  server=http.createServer((req,res)=>{const pathname=new URL(req.url,base).pathname;const file=path.resolve(root,'.'+pathname);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}fs.readFile(file,(error,data)=>{res.writeHead(error?404:200,{'content-type':({'.html':'text/html;charset=utf-8','.js':'text/javascript;charset=utf-8','.css':'text/css;charset=utf-8','.svg':'image/svg+xml'})[path.extname(file)]||'application/octet-stream'});res.end(error?'':data);});});
+  await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',()=>{server.removeListener('error',reject);resolve();});});
+  profile=fs.mkdtempSync(path.join(os.tmpdir(),'moyun-v19-outline-'));
   const edgePath=['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe'].find(file=>fs.existsSync(file));
   if(!edgePath)throw Error('未找到本机 Edge');
-  const edge=spawn(edgePath,['--headless=new','--remote-debugging-port='+cdp,'--user-data-dir='+profile,'--no-first-run','--no-default-browser-check',...(option('--proxy')?['--proxy-server='+option('--proxy')]:[]),'about:blank'],{stdio:'ignore',windowsHide:true});
-  let c;
-  try{
+  edge=spawn(edgePath,['--headless=new','--remote-debugging-port='+cdp,'--user-data-dir='+profile,'--no-first-run','--no-default-browser-check',...(option('--proxy')?['--proxy-server='+option('--proxy')]:[]),'about:blank'],{stdio:'ignore',windowsHide:true});
     for(let i=0;i<100;i++){try{if((await fetch('http://127.0.0.1:'+cdp+'/json/version')).ok)break;}catch{}await wait(100);}
     c=await require('./v16-r2-browser-session.cjs').connect(cdp,base);
     await c.navigate();
@@ -98,7 +136,7 @@ async function main(){
         if(!url.includes('outline-flow.invalid'))return originalFetch(input,init);
         const body=JSON.parse(init.body||'{}'), planner=JSON.stringify(body).includes('卷纲整理编辑');
         window.__outlineFlowRequests.push({url,body,planner});
-        const output=planner?JSON.stringify({volumes:[{number:1,title:'港口',startChapter:1,endChapter:2,summary:'靠港与相遇'},{number:2,title:'旧信',startChapter:3,endChapter:4,summary:'找到旧信'},{number:3,title:'离岸',startChapter:5,endChapter:6,summary:'离开港口'}]}):'修改后的大纲哨兵：主角在港口找到一封旧信，随后追查信件中的日期与收件人，逐步发现港口旧案与自己的家族有关。'.repeat(8);
+        const output=planner?JSON.stringify({volumes:[{number:1,title:'港口',startChapter:1,endChapter:2,summary:'靠港与相遇'},{number:2,title:'旧信',startChapter:3,endChapter:4,summary:'找到旧信'},{number:3,title:'离岸',startChapter:5,endChapter:6,summary:'离开港口'}]}):JSON.stringify({outline:'修改后的大纲哨兵：主角在港口找到一封旧信，随后追查信件中的日期与收件人，逐步发现港口旧案与自己的家族有关。'.repeat(8),volumes:[{number:1,title:'港口旧案',startChapter:1,endChapter:6,summary:'主角调查港口旧案'}]});
         // 用分块 SSE 覆盖非 Gemini 服务商的真实流式输入，并让 UI 有时间呈现正在到达的文字。
         const events=output.match(/.{1,32}/gu)||[output],encode=text=>new TextEncoder().encode(text);
         const upstream=new ReadableStream({start(controller){(async()=>{for(const part of events){controller.enqueue(encode('data: '+JSON.stringify({choices:[{delta:{content:part},finish_reason:null}]})+'\n\n'));await new Promise(resolve=>setTimeout(resolve,100));}controller.enqueue(encode('data: '+JSON.stringify({choices:[{delta:{},finish_reason:'stop'}]})+'\n\n'));controller.enqueue(encode('data: [DONE]\n\n'));controller.close();})().catch(error=>controller.error(error));}});
@@ -152,8 +190,9 @@ async function main(){
     results.push({width:360,theme:'light',stream:detailLive,plan:detailFlow.rows,reject:rejected,acceptedVolumes:createdVolumes.volumes});
     console.log(JSON.stringify({passed:true,results,after},null,2));
   }finally{
-    try{if(c){await c.send('Browser.close');c.ws.close();}}catch{}
-    edge.kill();await new Promise(resolve=>server.close(resolve));try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:8,retryDelay:200});}catch{}
+    const cleanupError=await cleanupBrowserRun({client:c,edge,server,profile});
+    if(cleanupError)process.exitCode=1;
   }
 }
-main().catch(error=>{console.error(error.stack||error);process.exitCode=1;});
+module.exports={cleanupBrowserRun,waitForChildExit};
+if(require.main===module)main().catch(error=>{console.error(error.stack||error);process.exitCode=1;});
