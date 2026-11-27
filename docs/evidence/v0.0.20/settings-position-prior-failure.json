@@ -1,0 +1,11 @@
+{
+  "passed": false,
+  "results": [
+    {
+      "name": "设置开关位置与点击 gemini 1366",
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(d.previous.includes(prior))\n"
+    }
+  ],
+  "note": "New snapshot retention setting inserted before Gemini input; adjacent-setting assertion updated while click, geometry and reversible-state assertions retained."
+}

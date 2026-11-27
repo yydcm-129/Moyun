@@ -40,8 +40,8 @@ test('主线→支线→孙支线各自修改规划，切换后的消息构造�
 test('历史原文、逐章摘要、长期总结和记忆的预算路径均不读取其他线；卷交接只读当前线',async()=>{
  const {c}=harness();setPlanning(c,'主线');await c.forkBranch(2);setPlanning(c,'支线');c.memoryLibrary.value.settings.replaceHistoryWithSummaries=true;
  for(const mode of ['raw','summary','range','memory']){
-  c.settings.value.contextUseRangeSummaries=mode==='range';c.settings.value.contextHistoryCharLimit=mode==='raw'?15000:0;c.memoryLibrary.value.settings.enabled=mode==='memory';
-  const text=c.buildBudgetedChapterHistory(c.visibleChapters.value).text;assert.doesNotMatch(text,/主线(?:正文|摘要|记忆|长期总结)/);assert.match(text,new RegExp('支线'+({raw:'正文',summary:'摘要',range:'长期总结',memory:'记忆'}[mode])));
+  c.settings.value.contextUseRangeSummaries=mode==='range';c.settings.value.contextHistoryCharLimit=15000;c.settings.value.contextFullChapters=mode==='memory'?0:3;c.settings.value.contextUseFullText=mode!=='memory';c.memoryLibrary.value.settings.enabled=mode==='memory';
+  const text=c.buildBudgetedChapterHistory(c.visibleChapters.value,mode==='summary'?{preferSummaries:true}:{}).text;assert.doesNotMatch(text,/主线(?:正文|摘要|记忆|长期总结)/);assert.match(text,new RegExp('支线'+({raw:'正文',summary:'摘要',range:'长期总结',memory:'记忆'}[mode])));
  }
  const ch=c.visibleChapters.value.pop();c.chapters.value=c.chapters.value.filter(row=>row.id!==ch.id);const history=c.buildChapterHistoryContext(c.visibleChapters.value).text;assert.match(history,/支线交接/);assert.doesNotMatch(history,/主线交接/);
 });

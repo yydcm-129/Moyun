@@ -1,0 +1,5645 @@
+{
+  "label": "current",
+  "createdAt": "2026-11-27T16:09:44.202Z",
+  "source": "<workspace>\\source\\moyun.single.html",
+  "pathProtocol": "local HTTP",
+  "synthetic": true,
+  "samples": 5,
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.15.0",
+    "cpus": "Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz",
+    "base": "http://127.0.0.1:53852/index.html",
+    "browser": {
+      "protocolVersion": "1.3",
+      "product": "Edg/158.0.4370.45",
+      "revision": "@b68f961247905cbca598f78f879145c09aacc1cf",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+      "jsVersion": "15.8.13.4"
+    }
+  },
+  "fixture": {
+    "books": 3,
+    "largeChapters": 100,
+    "largeChars": 1000000,
+    "largeSnapshotTextBytes": 25165824,
+    "otherSnapshotTextBytes": 4194304,
+    "vectorRows": 126,
+    "vectorDimensions": 384,
+    "paidMemoryMaintenance": false,
+    "externalApi": false,
+    "actual": {
+      "ok": true,
+      "saveMs": 566.5,
+      "bytes": 61103701,
+      "chapterCount": 100,
+      "snapshotChars": 25165824,
+      "errors": [],
+      "putErrors": [],
+      "putKeys": [
+        "library_v20_chapter:v20-other:v20-other-ch-23",
+        "library_v20_memory:v20-other",
+        "library_v20_book:v20-small",
+        "library_v20_chapter:v20-small:v20-small-ch-0",
+        "library_v20_chapter:v20-small:v20-small-ch-1",
+        "library_v20_memory:v20-small",
+        "library_v20_manifest",
+        "library_v6_revision"
+      ]
+    }
+  },
+  "assertions": [
+    {
+      "name": "fixture saved",
+      "pass": true,
+      "detail": {
+        "ok": true,
+        "saveMs": 566.5,
+        "bytes": 61103701,
+        "chapterCount": 100,
+        "snapshotChars": 25165824,
+        "errors": [],
+        "putErrors": [],
+        "putKeys": [
+          "library_v20_chapter:v20-other:v20-other-ch-23",
+          "library_v20_memory:v20-other",
+          "library_v20_book:v20-small",
+          "library_v20_chapter:v20-small:v20-small-ch-0",
+          "library_v20_chapter:v20-small:v20-small-ch-1",
+          "library_v20_memory:v20-small",
+          "library_v20_manifest",
+          "library_v6_revision"
+        ]
+      }
+    },
+    {
+      "name": "incremental chapter persisted",
+      "pass": true,
+      "detail": {
+        "ok": true,
+        "ms": 92.30000000074506,
+        "puts": [
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "connection_credentials_v1",
+            "syncMs": 0,
+            "type": "string",
+            "chars": 2,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.5999999977648,
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_common",
+            "syncMs": 0.19999999925494194,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.5999999977648,
+            "payloadBytes": 44648,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_book:v20-large",
+            "syncMs": 0,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 34235,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "syncMs": 0.10000000149011612,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 28761,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_manifest",
+            "syncMs": 0.19999999925494194,
+            "type": "object",
+            "chars": null,
+            "bookCount": 3,
+            "chapterCount": 0,
+            "at": 1031,
+            "payloadBytes": 11343,
+            "hasWholeLibrary": true,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v6_revision",
+            "syncMs": 0,
+            "type": "string",
+            "chars": 2,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1031.199999999255,
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          }
+        ],
+        "stored": true,
+        "snapshotPreserved": true,
+        "otherBookPreserved": true,
+        "otherSnapshotWasLazy": true,
+        "otherSnapshotLoadedOnDemand": true,
+        "otherSnapshotMetadata": true
+      }
+    },
+    {
+      "name": "one chapter edit does not rewrite whole library",
+      "pass": true,
+      "detail": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.19999999925494194,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 1030.5999999977648,
+          "payloadBytes": 44648,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 1030.8999999985099,
+          "payloadBytes": 34235,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 1030.8999999985099,
+          "payloadBytes": 28761,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "name": "one chapter edit does not rewrite other books or request snapshots",
+      "pass": true,
+      "detail": {
+        "contentPuts": [
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_common",
+            "syncMs": 0.19999999925494194,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.5999999977648,
+            "payloadBytes": 44648,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_book:v20-large",
+            "syncMs": 0,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 34235,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "syncMs": 0.10000000149011612,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 28761,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          }
+        ],
+        "snapshotPreserved": true,
+        "otherBookPreserved": true
+      }
+    },
+    {
+      "name": "desktop input P95 is at most 100ms",
+      "pass": true,
+      "detail": {
+        "n": 5,
+        "p50": 21.5,
+        "p95": 22.099999997764826,
+        "min": 21,
+        "max": 22.099999997764826,
+        "samples": [
+          21.200000002980232,
+          21.5,
+          21.800000000745058,
+          22.099999997764826,
+          21
+        ]
+      }
+    },
+    {
+      "name": "opening settings and scrolling do not write book data",
+      "pass": true,
+      "detail": [
+        {
+          "openMs": 131.60000000149012,
+          "toggleMs": 189.30000000074506,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 32.899999998509884,
+          "toggleMs": 16.100000001490116,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 32.099999997764826,
+          "toggleMs": 15.600000001490116,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 38.69999999925494,
+          "toggleMs": 16.199999999254942,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 39.100000001490116,
+          "toggleMs": 15.5,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        }
+      ]
+    },
+    {
+      "name": "ordinary debounced edit reaches storage",
+      "pass": true,
+      "detail": [
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 9342.79999999702,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_common",
+              "syncMs": 0.20000000298023224,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 9342.79999999702,
+              "payloadBytes": 45059,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_book:v20-large",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 9343,
+              "payloadBytes": 34647,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+              "syncMs": 0.09999999776482582,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 9343,
+              "payloadBytes": 57260,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_manifest",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 0,
+              "at": 9343.199999999255,
+              "payloadBytes": 11342,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 9343.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 11435.599999997765,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_common",
+              "syncMs": 0.30000000074505806,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 11435.699999999255,
+              "payloadBytes": 45059,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_book:v20-large",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 11436,
+              "payloadBytes": 34647,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 11436,
+              "payloadBytes": 57278,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_manifest",
+              "syncMs": 0.10000000149011612,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 0,
+              "at": 11436.099999997765,
+              "payloadBytes": 11343,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 11436.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 13517.79999999702,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_common",
+              "syncMs": 0.20000000298023224,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 13517.79999999702,
+              "payloadBytes": 45059,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_book:v20-large",
+              "syncMs": 0.09999999776482582,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 13518,
+              "payloadBytes": 34647,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 13518.099999997765,
+              "payloadBytes": 57296,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_manifest",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 0,
+              "at": 13518.199999999255,
+              "payloadBytes": 11343,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 13518.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15597.099999997765,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_common",
+              "syncMs": 0.30000000074505806,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15597.199999999255,
+              "payloadBytes": 45059,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_book:v20-large",
+              "syncMs": 0.19999999925494194,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15597.5,
+              "payloadBytes": 34647,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+              "syncMs": 0.09999999776482582,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15597.699999999255,
+              "payloadBytes": 57314,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_manifest",
+              "syncMs": 0.10000000149011612,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 0,
+              "at": 15597.89999999851,
+              "payloadBytes": 11342,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15598,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 17748.79999999702,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_common",
+              "syncMs": 0.19999999925494194,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 17748.89999999851,
+              "payloadBytes": 45059,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_book:v20-large",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 17749.099999997765,
+              "payloadBytes": 34647,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+              "syncMs": 0.10000000149011612,
+              "type": "object",
+              "chars": null,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 17749.099999997765,
+              "payloadBytes": 57332,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v20_manifest",
+              "syncMs": 0,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 0,
+              "at": 17749.29999999702,
+              "payloadBytes": 11342,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 17749.29999999702,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "idle close performs no library writes",
+      "pass": true,
+      "detail": [
+        {
+          "ms": 0.09999999776482582,
+          "puts": []
+        },
+        {
+          "ms": 0,
+          "puts": []
+        },
+        {
+          "ms": 0.10000000149011612,
+          "puts": []
+        },
+        {
+          "ms": 0,
+          "puts": []
+        },
+        {
+          "ms": 0,
+          "puts": []
+        }
+      ]
+    },
+    {
+      "name": "early chapter draft survives real reload",
+      "pass": true,
+      "detail": {
+        "interactiveMs": 810.8000000007451,
+        "loadedMs": 752.1000000014901,
+        "domMs": 488.30000000074506,
+        "gets": [
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_manifest",
+            "at": 509.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "connection_credentials_v1",
+            "at": 513.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_common",
+            "at": 514.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-large",
+            "at": 514.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "at": 514.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-1",
+            "at": 514.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-2",
+            "at": 514.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-3",
+            "at": 514.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-4",
+            "at": 514.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-5",
+            "at": 514.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-6",
+            "at": 514.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-7",
+            "at": 515
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-8",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-9",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-10",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-11",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-12",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-13",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-14",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-15",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-16",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-17",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-18",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-19",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-20",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-21",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-22",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-23",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-24",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-25",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-26",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-27",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-28",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-29",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-30",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-31",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-32",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-33",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-34",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-35",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-36",
+            "at": 515.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-37",
+            "at": 515.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-38",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-39",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-40",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-41",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-42",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-43",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-44",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-45",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-46",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-47",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-48",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-49",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-50",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-51",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-52",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-53",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-54",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-55",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-56",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-57",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-58",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-59",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-60",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-61",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-62",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-63",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-64",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-65",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-66",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-67",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-68",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-69",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-70",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-71",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-72",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-73",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-74",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-75",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-76",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-77",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-78",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-79",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-80",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-81",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-82",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-83",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-84",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-85",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-86",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-87",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-88",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-89",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-90",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-91",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-92",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-93",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-94",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-95",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-96",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-97",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-98",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-99",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-large",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-other",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-0",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-1",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-2",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-3",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-4",
+            "at": 516.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-5",
+            "at": 516.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-6",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-7",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-8",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-9",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-10",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-11",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-12",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-13",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-14",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-15",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-16",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-17",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-18",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-19",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-20",
+            "at": 517
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-21",
+            "at": 517
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-22",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-23",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-other",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-small",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-small:v20-small-ch-0",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-small:v20-small-ch-1",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-small",
+            "at": 517.1000000014901
+          }
+        ],
+        "nonCurrentSnapshotReads": 0,
+        "chapterCount": 100,
+        "draft": true,
+        "snapshotChars": 0
+      }
+    },
+    {
+      "name": "the latest input is durable before the ordinary debounce fires",
+      "pass": true,
+      "detail": [
+        {
+          "ms": 58.899999998509884,
+          "draftSaved": true
+        },
+        {
+          "ms": 75.10000000149012,
+          "draftSaved": true
+        },
+        {
+          "ms": 67,
+          "draftSaved": true
+        },
+        {
+          "ms": 75.30000000074506,
+          "draftSaved": true
+        },
+        {
+          "ms": 57.30000000074506,
+          "draftSaved": true
+        }
+      ]
+    },
+    {
+      "name": "startup does not load non-current book snapshots",
+      "pass": true,
+      "detail": {
+        "interactiveMs": 810.8000000007451,
+        "loadedMs": 752.1000000014901,
+        "domMs": 488.30000000074506,
+        "gets": [
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_manifest",
+            "at": 509.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "connection_credentials_v1",
+            "at": 513.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_common",
+            "at": 514.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-large",
+            "at": 514.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "at": 514.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-1",
+            "at": 514.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-2",
+            "at": 514.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-3",
+            "at": 514.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-4",
+            "at": 514.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-5",
+            "at": 514.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-6",
+            "at": 514.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-7",
+            "at": 515
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-8",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-9",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-10",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-11",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-12",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-13",
+            "at": 515.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-14",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-15",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-16",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-17",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-18",
+            "at": 515.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-19",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-20",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-21",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-22",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-23",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-24",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-25",
+            "at": 515.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-26",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-27",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-28",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-29",
+            "at": 515.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-30",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-31",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-32",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-33",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-34",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-35",
+            "at": 515.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-36",
+            "at": 515.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-37",
+            "at": 515.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-38",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-39",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-40",
+            "at": 515.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-41",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-42",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-43",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-44",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-45",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-46",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-47",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-48",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-49",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-50",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-51",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-52",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-53",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-54",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-55",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-56",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-57",
+            "at": 515.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-58",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-59",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-60",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-61",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-62",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-63",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-64",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-65",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-66",
+            "at": 515.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-67",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-68",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-69",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-70",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-71",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-72",
+            "at": 516
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-73",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-74",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-75",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-76",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-77",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-78",
+            "at": 516.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-79",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-80",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-81",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-82",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-83",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-84",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-85",
+            "at": 516.1999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-86",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-87",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-88",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-89",
+            "at": 516.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-90",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-91",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-92",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-93",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-94",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-95",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-96",
+            "at": 516.3999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-97",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-98",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-99",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-large",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-other",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-0",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-1",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-2",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-3",
+            "at": 516.5
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-4",
+            "at": 516.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-5",
+            "at": 516.6000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-6",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-7",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-8",
+            "at": 516.6999999992549
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-9",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-10",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-11",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-12",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-13",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-14",
+            "at": 516.8000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-15",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-16",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-17",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-18",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-19",
+            "at": 516.8999999985099
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-20",
+            "at": 517
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-21",
+            "at": 517
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-22",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-other:v20-other-ch-23",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-other",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_book:v20-small",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-small:v20-small-ch-0",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_chapter:v20-small:v20-small-ch-1",
+            "at": 517.1000000014901
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v20_memory:v20-small",
+            "at": 517.1000000014901
+          }
+        ],
+        "nonCurrentSnapshotReads": 0,
+        "chapterCount": 100,
+        "draft": true,
+        "snapshotChars": 0
+      }
+    },
+    {
+      "name": "non-current snapshot loads on demand and survives a later save",
+      "pass": true,
+      "detail": {
+        "ok": true,
+        "ms": 92.30000000074506,
+        "puts": [
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "connection_credentials_v1",
+            "syncMs": 0,
+            "type": "string",
+            "chars": 2,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.5999999977648,
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_common",
+            "syncMs": 0.19999999925494194,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.5999999977648,
+            "payloadBytes": 44648,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_book:v20-large",
+            "syncMs": 0,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 34235,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "syncMs": 0.10000000149011612,
+            "type": "object",
+            "chars": null,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1030.8999999985099,
+            "payloadBytes": 28761,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v20_manifest",
+            "syncMs": 0.19999999925494194,
+            "type": "object",
+            "chars": null,
+            "bookCount": 3,
+            "chapterCount": 0,
+            "at": 1031,
+            "payloadBytes": 11343,
+            "hasWholeLibrary": true,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          },
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v6_revision",
+            "syncMs": 0,
+            "type": "string",
+            "chars": 2,
+            "bookCount": null,
+            "chapterCount": 0,
+            "at": 1031.199999999255,
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "snapshotMarkers": 0,
+            "hasOtherBookPayload": false
+          }
+        ],
+        "stored": true,
+        "snapshotPreserved": true,
+        "otherBookPreserved": true,
+        "otherSnapshotWasLazy": true,
+        "otherSnapshotLoadedOnDemand": true,
+        "otherSnapshotMetadata": true
+      }
+    },
+    {
+      "name": "no external API request",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "full export and book snapshot include every lazy request",
+      "pass": true,
+      "detail": {
+        "wasLazy": true,
+        "bytes": 28283641,
+        "backupRequestCount": 24,
+        "backupRequestChars": 25165824,
+        "snapshotOk": true,
+        "snapshotRequestCount": 24
+      }
+    },
+    {
+      "name": "lazy deletion removes only the chosen request from disk and list",
+      "pass": true,
+      "detail": {
+        "lazyBefore": true,
+        "deleted": true,
+        "remaining": 23,
+        "uiRemoved": true,
+        "otherPreserved": true,
+        "bodyPreserved": true
+      }
+    },
+    {
+      "name": "missing records and invalid manifest reject instead of loading an incomplete library",
+      "pass": true,
+      "detail": {
+        "missing": [
+          {
+            "key": "library_v20_common",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_book:v20-large",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_memory:v20-large",
+            "rejected": true
+          }
+        ],
+        "invalidRejected": true,
+        "writeRejected": true,
+        "transactionUnchanged": true
+      }
+    },
+    {
+      "name": "an interrupted write rolls back every changed record and its manifest",
+      "pass": true,
+      "detail": {
+        "missing": [
+          {
+            "key": "library_v20_common",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_book:v20-large",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+            "rejected": true
+          },
+          {
+            "key": "library_v20_memory:v20-large",
+            "rejected": true
+          }
+        ],
+        "invalidRejected": true,
+        "writeRejected": true,
+        "transactionUnchanged": true
+      }
+    }
+  ],
+  "metrics": {
+    "syncBookData": {
+      "n": 5,
+      "p50": 18.399999998509884,
+      "p95": 27.199999999254942,
+      "min": 17.5,
+      "max": 27.199999999254942,
+      "samples": [
+        27.199999999254942,
+        17.699999999254942,
+        19.5,
+        17.5,
+        18.399999998509884
+      ]
+    },
+    "loadBook": {
+      "n": 5,
+      "p50": 20.100000001490116,
+      "p95": 25.5,
+      "min": 18.899999998509884,
+      "max": 25.5,
+      "samples": [
+        25.5,
+        18.899999998509884,
+        21,
+        19.800000000745058,
+        20.100000001490116
+      ]
+    },
+    "loadBookToRender": {
+      "n": 5,
+      "p50": 56,
+      "p95": 73.70000000298023,
+      "min": 48,
+      "max": 73.70000000298023,
+      "samples": [
+        73.70000000298023,
+        56,
+        59.30000000074506,
+        48,
+        49.100000001490116
+      ]
+    },
+    "snapshot": {
+      "n": 5,
+      "p50": 61.69999999925494,
+      "p95": 71.09999999776483,
+      "min": 55.900000002235174,
+      "max": 71.09999999776483,
+      "samples": [
+        71.09999999776483,
+        59.399999998509884,
+        63.399999998509884,
+        55.900000002235174,
+        61.69999999925494
+      ]
+    },
+    "immediateSave": {
+      "n": 5,
+      "p50": 75.5,
+      "p95": 87.5,
+      "min": 69.40000000223517,
+      "max": 87.5,
+      "samples": [
+        79.5,
+        87.5,
+        69.40000000223517,
+        75.5,
+        70.60000000149012
+      ]
+    },
+    "switchSync": {
+      "n": 5,
+      "p50": 98.80000000074506,
+      "p95": 155.10000000149012,
+      "min": 97.39999999850988,
+      "max": 155.10000000149012,
+      "samples": [
+        155.10000000149012,
+        124.70000000298023,
+        98.80000000074506,
+        97.39999999850988,
+        97.90000000223517
+      ]
+    },
+    "switchTotal": {
+      "n": 5,
+      "p50": 171.80000000074506,
+      "p95": 358.1000000014901,
+      "min": 166.60000000149012,
+      "max": 358.1000000014901,
+      "samples": [
+        358.1000000014901,
+        212.40000000223517,
+        171.80000000074506,
+        167.59999999776483,
+        166.60000000149012
+      ]
+    },
+    "smallBookLoad": {
+      "n": 5,
+      "p50": 1.8999999985098839,
+      "p95": 2.600000001490116,
+      "min": 1.199999999254942,
+      "max": 2.600000001490116,
+      "samples": [
+        2.599999997764826,
+        1.8999999985098839,
+        1.5999999977648258,
+        1.199999999254942,
+        2.600000001490116
+      ]
+    },
+    "smallBookSave": {
+      "n": 5,
+      "p50": 40.5,
+      "p95": 59.100000001490116,
+      "min": 36.30000000074506,
+      "max": 59.100000001490116,
+      "samples": [
+        59.100000001490116,
+        40.5,
+        36.30000000074506,
+        38.400000002235174,
+        40.79999999701977
+      ]
+    },
+    "desktopInputToDisplay": {
+      "n": 5,
+      "p50": 21.5,
+      "p95": 22.099999997764826,
+      "min": 21,
+      "max": 22.099999997764826,
+      "samples": [
+        21.200000002980232,
+        21.5,
+        21.800000000745058,
+        22.099999997764826,
+        21
+      ]
+    },
+    "openSettings": {
+      "n": 5,
+      "p50": 38.69999999925494,
+      "p95": 131.60000000149012,
+      "min": 32.099999997764826,
+      "max": 131.60000000149012,
+      "samples": [
+        131.60000000149012,
+        32.899999998509884,
+        32.099999997764826,
+        38.69999999925494,
+        39.100000001490116
+      ]
+    },
+    "settingsToggle": {
+      "n": 5,
+      "p50": 16.100000001490116,
+      "p95": 189.30000000074506,
+      "min": 15.5,
+      "max": 189.30000000074506,
+      "samples": [
+        189.30000000074506,
+        16.100000001490116,
+        15.600000001490116,
+        16.199999999254942,
+        15.5
+      ]
+    },
+    "debouncedSave": {
+      "n": 5,
+      "p50": 2079.89999999851,
+      "p95": 2144.300000000745,
+      "min": 2079.400000002235,
+      "max": 2144.300000000745,
+      "samples": [
+        2079.699999999255,
+        2089.400000002235,
+        2079.400000002235,
+        2144.300000000745,
+        2079.89999999851
+      ]
+    },
+    "idleUnloadSync": {
+      "n": 5,
+      "p50": 0,
+      "p95": 0.10000000149011612,
+      "min": 0,
+      "max": 0.10000000149011612,
+      "samples": [
+        0.09999999776482582,
+        0,
+        0.10000000149011612,
+        0,
+        0
+      ]
+    },
+    "dirtyUnloadSync": {
+      "n": 5,
+      "p50": 67,
+      "p95": 75.30000000074506,
+      "min": 57.30000000074506,
+      "max": 75.30000000074506,
+      "samples": [
+        58.899999998509884,
+        75.10000000149012,
+        67,
+        75.30000000074506,
+        57.30000000074506
+      ]
+    },
+    "startupInteractive": {
+      "n": 5,
+      "p50": 761,
+      "p95": 810.8000000007451,
+      "min": 744.4000000022352,
+      "max": 810.8000000007451,
+      "samples": [
+        744.4000000022352,
+        759.5,
+        778.5,
+        761,
+        810.8000000007451
+      ]
+    },
+    "leavePage": {
+      "n": 5,
+      "p50": 67.18869999999879,
+      "p95": 68.77599999999802,
+      "min": 64.8784999999989,
+      "max": 68.77599999999802,
+      "samples": [
+        64.8784999999989,
+        67.18869999999879,
+        68.77599999999802,
+        65.8744000000006,
+        68.00070000000414
+      ]
+    }
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 800,
+      "mobile": false,
+      "touch": false,
+      "inputToDisplay": {
+        "n": 5,
+        "p50": 21.5,
+        "p95": 22.099999997764826,
+        "min": 21,
+        "max": 22.099999997764826,
+        "samples": [
+          21.200000002980232,
+          21.5,
+          21.800000000745058,
+          22.099999997764826,
+          21
+        ]
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 5
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 5,
+        "p50": 18.599999997764826,
+        "p95": 22.899999998509884,
+        "min": 18.099999997764826,
+        "max": 22.899999998509884,
+        "samples": [
+          22.599999997764826,
+          18.199999999254942,
+          22.899999998509884,
+          18.099999997764826,
+          18.599999997764826
+        ]
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 7
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "mobile": true,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 5,
+        "p50": 15.5,
+        "p95": 16.400000002235174,
+        "min": 15.100000001490116,
+        "max": 16.400000002235174,
+        "samples": [
+          16.400000002235174,
+          15.100000001490116,
+          15.100000001490116,
+          15.5,
+          16.100000001490116
+        ]
+      },
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 8
+    },
+    {
+      "width": 1024,
+      "height": 1366,
+      "mobile": false,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 5,
+        "p50": 15.699999999254942,
+        "p95": 16.300000000745058,
+        "min": 15,
+        "max": 16.300000000745058,
+        "samples": [
+          16.300000000745058,
+          15.399999998509884,
+          15.900000002235174,
+          15.699999999254942,
+          15
+        ]
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 1366
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 10
+    }
+  ],
+  "limitations": [
+    "Headless Edge with simulated viewports; no physical phone/tablet or real provider.",
+    "Synthetic input does not prove the performance of the historical 200 MB user backup.",
+    "Normal navigation is measured; this does not simulate operating system power loss."
+  ],
+  "sourceSha256": "5a1b027b2cfada5179bae829c29b483e7ff4dc2d932751935c789455d6c45857",
+  "incremental": {
+    "ok": true,
+    "ms": 92.30000000074506,
+    "puts": [
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "connection_credentials_v1",
+        "syncMs": 0,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1030.5999999977648,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_common",
+        "syncMs": 0.19999999925494194,
+        "type": "object",
+        "chars": null,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1030.5999999977648,
+        "payloadBytes": 44648,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_book:v20-large",
+        "syncMs": 0,
+        "type": "object",
+        "chars": null,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1030.8999999985099,
+        "payloadBytes": 34235,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+        "syncMs": 0.10000000149011612,
+        "type": "object",
+        "chars": null,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1030.8999999985099,
+        "payloadBytes": 28761,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_manifest",
+        "syncMs": 0.19999999925494194,
+        "type": "object",
+        "chars": null,
+        "bookCount": 3,
+        "chapterCount": 0,
+        "at": 1031,
+        "payloadBytes": 11343,
+        "hasWholeLibrary": true,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v6_revision",
+        "syncMs": 0,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1031.199999999255,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      }
+    ],
+    "stored": true,
+    "snapshotPreserved": true,
+    "otherBookPreserved": true,
+    "otherSnapshotWasLazy": true,
+    "otherSnapshotLoadedOnDemand": true,
+    "otherSnapshotMetadata": true
+  },
+  "settings": [
+    {
+      "openMs": 131.60000000149012,
+      "toggleMs": 189.30000000074506,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 32.899999998509884,
+      "toggleMs": 16.100000001490116,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 32.099999997764826,
+      "toggleMs": 15.600000001490116,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 38.69999999925494,
+      "toggleMs": 16.199999999254942,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 39.100000001490116,
+      "toggleMs": 15.5,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    }
+  ],
+  "debouncedSave": [
+    {
+      "ms": 2079.699999999255,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 9342.79999999702,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.20000000298023224,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 9342.79999999702,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 9343,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 9343,
+          "payloadBytes": 57260,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 9343.199999999255,
+          "payloadBytes": 11342,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 9343.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2089.400000002235,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 11435.599999997765,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.30000000074505806,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 11435.699999999255,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 11436,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 11436,
+          "payloadBytes": 57278,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 11436.099999997765,
+          "payloadBytes": 11343,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 11436.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2079.400000002235,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 13517.79999999702,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.20000000298023224,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 13517.79999999702,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 13518,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 13518.099999997765,
+          "payloadBytes": 57296,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 13518.199999999255,
+          "payloadBytes": 11343,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 13518.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2144.300000000745,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15597.099999997765,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.30000000074505806,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15597.199999999255,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.19999999925494194,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15597.5,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15597.699999999255,
+          "payloadBytes": 57314,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 15597.89999999851,
+          "payloadBytes": 11342,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15598,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2079.89999999851,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 17748.79999999702,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.19999999925494194,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 17748.89999999851,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 17749.099999997765,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 17749.099999997765,
+          "payloadBytes": 57332,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 17749.29999999702,
+          "payloadBytes": 11342,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 17749.29999999702,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    }
+  ],
+  "idleClose": [
+    {
+      "ms": 0.09999999776482582,
+      "puts": []
+    },
+    {
+      "ms": 0,
+      "puts": []
+    },
+    {
+      "ms": 0.10000000149011612,
+      "puts": []
+    },
+    {
+      "ms": 0,
+      "puts": []
+    },
+    {
+      "ms": 0,
+      "puts": []
+    }
+  ],
+  "dirtyClose": [
+    {
+      "ms": 58.899999998509884,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 20793,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 20793.099999997765,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 20793.099999997765,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 20793.199999999255,
+          "payloadBytes": 57446,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 20793.39999999851,
+          "payloadBytes": 11343,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 20793.5,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 75.10000000149012,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21283.89999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21283.89999999851,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21284,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21284.099999997765,
+          "payloadBytes": 57446,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.30000000074505806,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 21284.099999997765,
+          "payloadBytes": 11343,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21284.39999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 67,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21771.099999997765,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.30000000074505806,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21771.099999997765,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21771.39999999851,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21771.5,
+          "payloadBytes": 57446,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 21771.599999997765,
+          "payloadBytes": 11342,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21771.699999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 75.30000000074506,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22267.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22267.199999999255,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22267.29999999702,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22267.39999999851,
+          "payloadBytes": 57446,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0.09999999776482582,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 22267.5,
+          "payloadBytes": 11343,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22267.599999997765,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 57.30000000074506,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22738.29999999702,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_common",
+          "syncMs": 0.10000000149011612,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22738.29999999702,
+          "payloadBytes": 45059,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_book:v20-large",
+          "syncMs": 0.19999999925494194,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22738.39999999851,
+          "payloadBytes": 34647,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22738.599999997765,
+          "payloadBytes": 57446,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v20_manifest",
+          "syncMs": 0,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 0,
+          "at": 22738.699999999255,
+          "payloadBytes": 11345,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 22738.699999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    }
+  ],
+  "preReloadProbe": {
+    "puts": [
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "connection_credentials_v1",
+        "syncMs": 0,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 23109.599999997765,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_common",
+        "syncMs": 0.19999999925494194,
+        "type": "object",
+        "chars": null,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 23109.599999997765,
+        "payloadBytes": 45059,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_book:v20-large",
+        "syncMs": 0.10000000149011612,
+        "type": "object",
+        "chars": null,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 23109.79999999702,
+        "payloadBytes": 34647,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v20_manifest",
+        "syncMs": 0,
+        "type": "object",
+        "chars": null,
+        "bookCount": 3,
+        "chapterCount": 0,
+        "at": 23109.89999999851,
+        "payloadBytes": 11344,
+        "hasWholeLibrary": true,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v6_revision",
+        "syncMs": 0,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 23109.89999999851,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      }
+    ],
+    "longTasks": [
+      {
+        "start": 115,
+        "duration": 344
+      },
+      {
+        "start": 510.5,
+        "duration": 114
+      },
+      {
+        "start": 667.5,
+        "duration": 161
+      },
+      {
+        "start": 931.5999999977648,
+        "duration": 87
+      },
+      {
+        "start": 1106.5999999977648,
+        "duration": 57
+      },
+      {
+        "start": 1465.199999999255,
+        "duration": 65
+      },
+      {
+        "start": 1634.8999999985099,
+        "duration": 110
+      },
+      {
+        "start": 2026.8999999985099,
+        "duration": 62
+      },
+      {
+        "start": 2394.5,
+        "duration": 66
+      },
+      {
+        "start": 2517.7999999970198,
+        "duration": 80
+      },
+      {
+        "start": 2832,
+        "duration": 66
+      },
+      {
+        "start": 2992.699999999255,
+        "duration": 62
+      },
+      {
+        "start": 3091.199999999255,
+        "duration": 103
+      },
+      {
+        "start": 3427.699999999255,
+        "duration": 108
+      },
+      {
+        "start": 3545.89999999851,
+        "duration": 63
+      },
+      {
+        "start": 3654.2999999970198,
+        "duration": 64
+      },
+      {
+        "start": 3784.7999999970198,
+        "duration": 63
+      },
+      {
+        "start": 3888.099999997765,
+        "duration": 69
+      },
+      {
+        "start": 3972,
+        "duration": 69
+      },
+      {
+        "start": 4118.199999999255,
+        "duration": 64
+      },
+      {
+        "start": 4222.29999999702,
+        "duration": 69
+      },
+      {
+        "start": 4308.5,
+        "duration": 72
+      },
+      {
+        "start": 4460,
+        "duration": 68
+      },
+      {
+        "start": 4566.699999999255,
+        "duration": 78
+      },
+      {
+        "start": 4662,
+        "duration": 68
+      },
+      {
+        "start": 4801.699999999255,
+        "duration": 73
+      },
+      {
+        "start": 4922.79999999702,
+        "duration": 64
+      },
+      {
+        "start": 6793.599999997765,
+        "duration": 60
+      },
+      {
+        "start": 7199.39999999851,
+        "duration": 60
+      },
+      {
+        "start": 9273.599999997765,
+        "duration": 61
+      },
+      {
+        "start": 11355.79999999702,
+        "duration": 71
+      },
+      {
+        "start": 13448.199999999255,
+        "duration": 62
+      },
+      {
+        "start": 15529,
+        "duration": 61
+      },
+      {
+        "start": 15603.39999999851,
+        "duration": 66
+      },
+      {
+        "start": 17677.89999999851,
+        "duration": 62
+      },
+      {
+        "start": 19963.79999999702,
+        "duration": 60
+      },
+      {
+        "start": 20090.199999999255,
+        "duration": 59
+      },
+      {
+        "start": 20215.29999999702,
+        "duration": 59
+      },
+      {
+        "start": 20339.89999999851,
+        "duration": 60
+      },
+      {
+        "start": 20465.79999999702,
+        "duration": 67
+      },
+      {
+        "start": 20605.39999999851,
+        "duration": 72
+      },
+      {
+        "start": 20688.89999999851,
+        "duration": 93
+      },
+      {
+        "start": 21089.599999997765,
+        "duration": 59
+      },
+      {
+        "start": 21166.79999999702,
+        "duration": 108
+      },
+      {
+        "start": 21589.39999999851,
+        "duration": 61
+      },
+      {
+        "start": 21664.599999997765,
+        "duration": 96
+      },
+      {
+        "start": 22071.599999997765,
+        "duration": 60
+      },
+      {
+        "start": 22150.699999999255,
+        "duration": 108
+      },
+      {
+        "start": 22571.39999999851,
+        "duration": 62
+      },
+      {
+        "start": 22647.199999999255,
+        "duration": 83
+      },
+      {
+        "start": 23039.39999999851,
+        "duration": 60
+      }
+    ],
+    "external": []
+  },
+  "startupLast": {
+    "interactiveMs": 810.8000000007451,
+    "loadedMs": 752.1000000014901,
+    "domMs": 488.30000000074506,
+    "gets": [
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_manifest",
+        "at": 509.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "connection_credentials_v1",
+        "at": 513.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_common",
+        "at": 514.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-large",
+        "at": 514.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+        "at": 514.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-1",
+        "at": 514.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-2",
+        "at": 514.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-3",
+        "at": 514.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-4",
+        "at": 514.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-5",
+        "at": 514.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-6",
+        "at": 514.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-7",
+        "at": 515
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-8",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-9",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-10",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-11",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-12",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-13",
+        "at": 515.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-14",
+        "at": 515.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-15",
+        "at": 515.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-16",
+        "at": 515.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-17",
+        "at": 515.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-18",
+        "at": 515.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-19",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-20",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-21",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-22",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-23",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-24",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-25",
+        "at": 515.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-26",
+        "at": 515.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-27",
+        "at": 515.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-28",
+        "at": 515.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-29",
+        "at": 515.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-30",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-31",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-32",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-33",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-34",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-35",
+        "at": 515.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-36",
+        "at": 515.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-37",
+        "at": 515.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-38",
+        "at": 515.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-39",
+        "at": 515.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-40",
+        "at": 515.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-41",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-42",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-43",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-44",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-45",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-46",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-47",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-48",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-49",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-50",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-51",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-52",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-53",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-54",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-55",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-56",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-57",
+        "at": 515.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-58",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-59",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-60",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-61",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-62",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-63",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-64",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-65",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-66",
+        "at": 515.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-67",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-68",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-69",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-70",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-71",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-72",
+        "at": 516
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-73",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-74",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-75",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-76",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-77",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-78",
+        "at": 516.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-79",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-80",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-81",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-82",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-83",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-84",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-85",
+        "at": 516.1999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-86",
+        "at": 516.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-87",
+        "at": 516.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-88",
+        "at": 516.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-89",
+        "at": 516.3000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-90",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-91",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-92",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-93",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-94",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-95",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-96",
+        "at": 516.3999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-97",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-98",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-99",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-large",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-other",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-0",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-1",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-2",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-3",
+        "at": 516.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-4",
+        "at": 516.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-5",
+        "at": 516.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-6",
+        "at": 516.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-7",
+        "at": 516.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-8",
+        "at": 516.6999999992549
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-9",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-10",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-11",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-12",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-13",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-14",
+        "at": 516.8000000007451
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-15",
+        "at": 516.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-16",
+        "at": 516.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-17",
+        "at": 516.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-18",
+        "at": 516.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-19",
+        "at": 516.8999999985099
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-20",
+        "at": 517
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-21",
+        "at": 517
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-22",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-23",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-other",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-small",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-small:v20-small-ch-0",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-small:v20-small-ch-1",
+        "at": 517.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-small",
+        "at": 517.1000000014901
+      }
+    ],
+    "nonCurrentSnapshotReads": 0,
+    "chapterCount": 100,
+    "draft": true,
+    "snapshotChars": 0
+  },
+  "probe": {
+    "puts": [],
+    "gets": [
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_manifest",
+        "at": 468.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "connection_credentials_v1",
+        "at": 489.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_common",
+        "at": 492.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-large",
+        "at": 493
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-1",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-2",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-3",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-4",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-5",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-6",
+        "at": 493.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-7",
+        "at": 493.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-8",
+        "at": 493.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-9",
+        "at": 493.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-10",
+        "at": 493.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-11",
+        "at": 493.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-12",
+        "at": 493.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-13",
+        "at": 493.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-14",
+        "at": 493.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-15",
+        "at": 493.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-16",
+        "at": 493.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-17",
+        "at": 493.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-18",
+        "at": 494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-19",
+        "at": 494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-20",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-21",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-22",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-23",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-24",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-25",
+        "at": 494.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-26",
+        "at": 494.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-27",
+        "at": 494.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-28",
+        "at": 494.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-29",
+        "at": 494.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-30",
+        "at": 494.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-31",
+        "at": 494.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-32",
+        "at": 494.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-33",
+        "at": 494.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-34",
+        "at": 494.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-35",
+        "at": 494.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-36",
+        "at": 494.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-37",
+        "at": 494.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-38",
+        "at": 494.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-39",
+        "at": 494.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-40",
+        "at": 494.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-41",
+        "at": 494.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-42",
+        "at": 494.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-43",
+        "at": 494.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-44",
+        "at": 494.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-45",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-46",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-47",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-48",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-49",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-50",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-51",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-52",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-53",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-54",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-55",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-56",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-57",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-58",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-59",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-60",
+        "at": 494.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-61",
+        "at": 495
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-62",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-63",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-64",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-65",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-66",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-67",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-68",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-69",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-70",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-71",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-72",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-73",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-74",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-75",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-76",
+        "at": 495.1000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-77",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-78",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-79",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-80",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-81",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-82",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-83",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-84",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-85",
+        "at": 495.19999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-86",
+        "at": 495.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-87",
+        "at": 495.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-88",
+        "at": 495.30000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-89",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-90",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-91",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-92",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-93",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-94",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-95",
+        "at": 495.4000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-96",
+        "at": 495.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-97",
+        "at": 495.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-98",
+        "at": 495.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-large:v20-large-ch-99",
+        "at": 495.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-large",
+        "at": 495.5
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-other",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-0",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-1",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-2",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-3",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-4",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-5",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-6",
+        "at": 495.6000000014901
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-7",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-8",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-9",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-10",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-11",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-12",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-13",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-14",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-15",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-16",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-17",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-18",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-19",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-20",
+        "at": 495.69999999925494
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-21",
+        "at": 495.80000000074506
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-22",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-other:v20-other-ch-23",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-other",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_book:v20-small",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-small:v20-small-ch-0",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_chapter:v20-small:v20-small-ch-1",
+        "at": 495.9000000022352
+      },
+      {
+        "db": "NovelWriterV6",
+        "key": "library_v20_memory:v20-small",
+        "at": 495.9000000022352
+      }
+    ],
+    "longTasks": [
+      {
+        "start": 130.90000000223517,
+        "duration": 326
+      },
+      {
+        "start": 505.6000000014901,
+        "duration": 179
+      },
+      {
+        "start": 731.3000000007451,
+        "duration": 57
+      }
+    ],
+    "external": [],
+    "chapters": 100,
+    "books": 3
+  },
+  "errors": [],
+  "lazyBackup": {
+    "wasLazy": true,
+    "bytes": 28283641,
+    "backupRequestCount": 24,
+    "backupRequestChars": 25165824,
+    "snapshotOk": true,
+    "snapshotRequestCount": 24
+  },
+  "lazyDeletion": {
+    "lazyBefore": true,
+    "deleted": true,
+    "remaining": 23,
+    "uiRemoved": true,
+    "otherPreserved": true,
+    "bodyPreserved": true
+  },
+  "integrity": {
+    "missing": [
+      {
+        "key": "library_v20_common",
+        "rejected": true
+      },
+      {
+        "key": "library_v20_book:v20-large",
+        "rejected": true
+      },
+      {
+        "key": "library_v20_chapter:v20-large:v20-large-ch-0",
+        "rejected": true
+      },
+      {
+        "key": "library_v20_memory:v20-large",
+        "rejected": true
+      }
+    ],
+    "invalidRejected": true,
+    "writeRejected": true,
+    "transactionUnchanged": true
+  },
+  "passed": true,
+  "cleanup": {
+    "profileRemoved": true,
+    "error": null
+  }
+}

@@ -42,13 +42,17 @@ module.exports=async function(c,check){
   });
   assert.equal(d.failed.calls,1);assert.equal(d.failed.rows,0);assert.ok(d.failed.error);assert.equal(d.automatic,1);assert.equal(d.retried,1);assert.equal(d.stopped,0);assert.equal(d.changed,0);assert.equal(d.busy,false);return d;
  });
- await check('记忆换向量模型：写作前补建索引，召回不混用旧模型；坏向量可重建',async()=>{
+ await check('记忆换向量模型：召回不混用旧索引，手动重建坏向量',async()=>{
   const d=await c.ev(async()=>{
    __s.cancelMemoryWork();__s.memoryLibrary.settings.enabled=true;__s.memoryLibrary.settings.autoSummarize=true;__s.memoryLibrary.settings.mode='enhanced';__s.settings.memoryEmbeddingModel='v18-vector-next';
-   const first=__s.getValidMemoryRows()[0];if(first)first.vector={data:'broken',dims:10};
+   const context=__s.visibleChapters,activeChapterIds=new Set(context.map(chapter=>String(chapter.id))),activeBlocks=()=>__s.memoryLibrary.blocks.filter(block=>activeChapterIds.has(block.chapterId)&&block.branchId===String(__s.activeBranchId)),first=activeBlocks()[0];if(first)first.vector={data:'broken',dims:10};
    const messages=await __s.appendEnhancedMemoryRecall([{role:'user',content:'铜钥匙'}],__s.visibleChapters,'铜钥匙',new AbortController().signal);
-   __s.cancelMemoryWork();return{models:[...new Set(__s.getValidMemoryRows().filter(m=>m.enabled!==false).map(m=>m.vectorModel))],hits:__s.getValidMemoryRows().filter(m=>m.enabled!==false).length,recalled:messages[0].content.includes('enhanced_memory_recall')};
-  });assert.equal(d.models.length,1);assert.ok(d.models[0].includes('v18-vector-next'));assert.equal(d.recalled,true);return d;
+   const recall=messages.find(message=>message?._moyunContextSlot==='history'),recalled=!!recall?.content.includes('【相关事实参考');
+   const staleModels=[...new Set(activeBlocks().map(block=>block.vectorModel))],badVectorKept=activeBlocks().some(block=>block.vector?.data==='broken');
+   await __s.runMemoryBackfill();
+   const indexed=activeBlocks(),models=[...new Set(indexed.map(block=>block.vectorModel))],blockCount=indexed.length,vectorCount=indexed.filter(block=>block.vector&&block.vectorModel===models[0]).length;
+   __s.cancelMemoryWork();return{staleModels,badVectorKept,recalled,models,blockCount,vectorCount};
+  });assert.ok(d.staleModels.some(model=>!model.includes('v18-vector-next')));assert.equal(d.badVectorKept,true);assert.equal(d.recalled,true);assert.equal(d.models.length,1);assert.ok(d.models[0].includes('v18-vector-next'));assert.equal(d.vectorCount,d.blockCount);return d;
  });
  await check('字数输入边界：空值、非数字和越界不覆盖原值，固定选项可恢复',async()=>{
   const d=await c.ev(()=>{
@@ -62,13 +66,13 @@ module.exports=async function(c,check){
   await c.ev(async()=>{__s.cancelMemoryWork();__s.activeBranchId='main';__s.chapters=__s.chapters.slice(0,2);await __s.generateVolumeHandoff(2,{force:true,overwriteEdited:true});__s.settings.geminiTestInput=true;__s.wordCountTarget=300.5;__s.nextChapterPrompt='V18_VOLUME_NEXT：按约定到东门，核对钥匙归属。';__s.startGeneration();});
   for(let i=0;i<150;i++){if(!await c.ev(()=>__s.isGenerating))break;await delay(80);}await delay(800);
   const d=await c.ev(()=>({count:__s.chapters.length,rows:__s.getValidMemoryRows().length,handoffRows:__s.summaries.filter(item=>item.kind==='volume-handoff').length,wire:__wire.filter(r=>!r.url.includes('embeddings') && JSON.stringify(r.body).includes('V18_VOLUME_NEXT') && !JSON.stringify(r.body).includes('逐章记忆整理器')).at(-1),usage:__s.lastWritingUsage}));
-  assert.equal(d.count,3);assert.ok(d.handoffRows>=1);const text=JSON.stringify(d.wire.body);assert.ok(text.includes('上一卷交接'));assert.ok(text.includes('下一卷起笔核对'));assert.ok(text.includes('V18_HANDOFF_FACT'));assert.ok(text.includes('实际卷纲修正'));assert.ok(text.includes('铜钥匙在阿雪手中'));assert.ok(text.includes('enhanced_memory_recall'));assert.ok(text.includes('300.5字'));assert.ok(d.rows>=3);return{count:d.count,recorded:d.rows,handoffRows:d.handoffRows,usage:d.usage};
+  assert.equal(d.count,3);assert.ok(d.handoffRows>=1);const text=JSON.stringify(d.wire.body);assert.ok(text.includes('上一卷交接'));assert.ok(text.includes('下一卷起笔核对'));assert.ok(text.includes('V18_HANDOFF_FACT'));assert.ok(text.includes('实际卷纲修正'));assert.ok(text.includes('铜钥匙在阿雪手中'));assert.ok(text.includes('【相关事实参考｜按相关度排列'));assert.ok(text.includes('300.5字'));assert.ok(d.rows>=3);return{count:d.count,recorded:d.rows,handoffRows:d.handoffRows,usage:d.usage};
  });
  await check('中断续写：旧稿保留，增强记忆与原输入接入，保存后自动记录',async()=>{
   await c.ev(()=>{__s.cancelMemoryWork();__s.settings.geminiTestInput=false;__s.nextChapterPrompt='V18_CONTINUE：阿雪仍持钥匙，等待林舟。';__s.interruptedContent='阿雪握紧铜钥匙，停在东门的树下。她听见脚步声，抬头等待林舟。';__s.isInterrupted=true;__s.interruptedIssue=null;__s.interruptedCanContinue=true;__s.continueGeneration();});
   for(let i=0;i<150;i++){if(!await c.ev(()=>__s.isGenerating))break;await delay(80);}await delay(800);
   const d=await c.ev(()=>({last:__s.chapters.at(-1),wire:__wire.filter(r=>!r.url.includes('embeddings') && JSON.stringify(r.body).includes('V18_CONTINUE') && !JSON.stringify(r.body).includes('逐章记忆整理器')).at(-1),valid:__s.getValidMemoryRows().map(m=>m.chapterId),interrupted:__s.isInterrupted,usage:__s.lastWritingUsage}));
-  assert.ok(d.last.memoryUserInput.includes('V18_CONTINUE'));assert.ok(d.last.content.includes('停在东门的树下'));assert.ok(JSON.stringify(d.wire.body).includes('enhanced_memory_recall'));assert.ok(d.valid.includes(d.last.id));assert.equal(d.interrupted,false);assert.equal(d.usage.prompt,240);return{chapterId:d.last.id,recorded:true,volumeHandoffIncluded:true,usage:d.usage};
+  assert.ok(d.last.memoryUserInput.includes('V18_CONTINUE'));assert.ok(d.last.content.includes('停在东门的树下'));assert.ok(JSON.stringify(d.wire.body).includes('【相关事实参考｜按相关度排列'));assert.ok(d.valid.includes(d.last.id));assert.equal(d.interrupted,false);assert.equal(d.usage.prompt,240);return{chapterId:d.last.id,recorded:true,volumeHandoffIncluded:true,usage:d.usage};
  });
  await check('书籍导入：记忆随追加章节重映射、重复导入不叠加、全局模型连接不被改号',async()=>{
   const d=await c.ev(async()=>{

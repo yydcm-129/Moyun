@@ -91,6 +91,7 @@ function runtime(options = {}) {
   const timers = new Map(), saves = [], runs = new Map(), requestModuleKeys = []; let token = 0;
   const chapters = ref(options.chapters || [{ id:'c1', title:'第一章', content:'原正文。', branchId:'main' }]);
   const scope = {
+    requestedLibraryWrite:0,
     ref, computed:fn => ({ get value() { return fn(); } }),
     setTimeout(fn) { const id = ++token; timers.set(id, fn); return id; }, clearTimeout:id => timers.delete(id),
     requestAnimationFrame:() => 1, cancelAnimationFrame:() => {},
@@ -138,6 +139,7 @@ test('handwriting autosaves the editable draft after two seconds, then Save chan
   assert.equal(context.chapters.value[0].content, '原正文。');
   assert.equal(context.chapters.value[0].tempContent, '手写修改。');
   assert.equal(timers.size, 1);
+  assert.equal(context.requestedLibraryWrite, 1, '关页前必须知道沉浸草稿尚未保存');
   await [...timers.values()][0]();
   assert.equal(saves[0].chapters[0].tempContent, '手写修改。');
   assert.equal(api.immersiveDraftStatus.value, '草稿已保存');

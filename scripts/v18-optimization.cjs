@@ -36,19 +36,20 @@ module.exports=async function(c,check,shot){
    }finally{window.fetch=before;__s.connectionCenter.defaultProfileId=profile.id;__s.connectionCenter.moduleRoutes.summary=route;__s.connectionCenter.profiles=__s.connectionCenter.profiles.filter(p=>p.id!=='other-summary');__s.settings.memoryEmbeddingModel=original;__s.cancelMemoryWork();}
   });assert.equal(d.ok,true);assert.equal(d.urls[0],'https://v18.invalid/v1/models');assert.ok(d.options.includes('chat-model')&&d.options.includes('manual-vector'));assert.equal(d.stale,false);assert.equal(d.selected,'manual-vector');assert.ok(d.error.includes('503'));assert.equal(d.retried,true);assert.equal(d.loading,false);return{defaultSite:true,manualSelection:true,staleExcluded:true,retried:true};
  });
- await check('向量失败和重复索引不阻断写作，回退逐章上下文；取消仍抛出',async()=>{
+ await check('向量失败和重复索引不阻断写作，关键词召回仍保留原输入；取消仍抛出',async()=>{
   const d=await c.ev(async()=>{
    const before=fetch,original=JSON.parse(JSON.stringify(__s.memoryLibrary));
    try{
     __s.cancelMemoryWork();__s.memoryLibrary.settings.enabled=true;__s.memoryLibrary.settings.autoSummarize=true;__s.memoryLibrary.settings.mode='enhanced';
-    for(const m of __s.memoryLibrary.memories)delete m.vector;
+    const blocksBefore=JSON.stringify(__s.memoryLibrary.blocks.map(block=>({id:block.id,vectorModel:block.vectorModel,vectorTextHash:block.vectorTextHash,vector:block.vector})));
     const messages=[{role:'user',content:'FALLBACK_WRITING'}];
     window.fetch=async()=>new Response('{"error":{"message":"offline"}}',{status:503});const fallback=await __s.appendEnhancedMemoryRecall(messages,__s.visibleChapters,'铜钥匙',new AbortController().signal);
     window.fetch=async()=>new Response(JSON.stringify({data:[{index:0,embedding:[1,0]},{index:0,embedding:[1,0]}]}));const duplicate=await __s.appendEnhancedMemoryRecall(messages,__s.visibleChapters,'铜钥匙',new AbortController().signal);
     const controller=new AbortController();controller.abort();let aborted=false;try{await __s.appendEnhancedMemoryRecall(messages,__s.visibleChapters,'铜钥匙',controller.signal);}catch(e){aborted=e.name==='AbortError';}
-    return{fallback:JSON.stringify(fallback),duplicate:JSON.stringify(duplicate),vectors:__s.memoryLibrary.memories.filter(m=>m.vector).length,aborted};
+    const recallText=items=>items.find(message=>message?._moyunContextSlot==='history')?.content||'';
+    return{fallbackHit:recallText(fallback).includes('【相关事实参考'),duplicateHit:recallText(duplicate).includes('【相关事实参考'),fallbackInput:fallback.some(message=>message?.content==='FALLBACK_WRITING'),duplicateInput:duplicate.some(message=>message?.content==='FALLBACK_WRITING'),blocksUnchanged:blocksBefore===JSON.stringify(__s.memoryLibrary.blocks.map(block=>({id:block.id,vectorModel:block.vectorModel,vectorTextHash:block.vectorTextHash,vector:block.vector}))),aborted};
    }finally{window.fetch=before;__s.cancelMemoryWork();__s.memoryLibrary=original;}
-  });assert.equal(d.fallback,'[{"role":"user","content":"FALLBACK_WRITING"}]');assert.equal(d.duplicate,d.fallback);assert.equal(d.vectors,0);assert.equal(d.aborted,true);return d;
+  });assert.equal(d.fallbackHit,true);assert.equal(d.duplicateHit,true);assert.equal(d.fallbackInput,true);assert.equal(d.duplicateInput,true);assert.equal(d.blocksUnchanged,true);assert.equal(d.aborted,true);return d;
  });
  await check('抗截断进入实际写作与记忆总结，工具外壳不进入章节，全局采样覆盖固定值',async()=>{
   await c.ev(()=>{

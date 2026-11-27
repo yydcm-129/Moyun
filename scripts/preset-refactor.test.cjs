@@ -357,6 +357,7 @@ function buildScenarios(api) {
   scenarios.strictThemeNegative = serialize(api.buildChapterMessages(baseOptions()));
 
   baseState(api);
+  api.memoryLibrary.value.settings.replaceHistoryWithSummaries = true;
   api.summaries.value = [{ useForContext: true, startChapter: 1, endChapter: 2, content: '第一至二章：林晚接手书店并受托寻人。' }];
   scenarios.rangeSummary = serialize(api.buildChapterMessages(baseOptions()));
 
@@ -408,7 +409,7 @@ function loadGolden() {
   // v19 经实际请求确认：无细纲时也需限制文风改人设。只声明这一处预期增量，历史对照文件不改，其余仍逐字比较。
   const anchor = '新章节的文风必须优先遵守系统预设中的规定文风。';
   const boundary = '作者确认的性格和人物关系不得为迎合文风或范文而改写。';
-  return Object.fromEntries(Object.entries(golden).map(([key, value]) => [key, typeof value === 'string' ? value.replace(anchor, anchor + boundary) : value]));
+  return Object.fromEntries(Object.entries(golden).map(([key, value]) => [key, typeof value === 'string' && !value.includes(boundary) ? value.replace(anchor, anchor + boundary) : value]));
 }
 
 if (process.env.MOYUN_CAPTURE) {
@@ -587,7 +588,7 @@ if (process.env.MOYUN_CAPTURE) {
   const SYNC_BOOK_DATA = slice('    function syncBookData() {', '\n    // 中文注释：新书只继承插件配置');
   const INIT_BOOKS = slice('    /* 初始化书架 */\n    function initBooks() {', '    /* ═══ 书架操作 ═══ */');
   const CREATE_AND_LOAD_BOOK = slice('    function createNewBook(title, theme, worldView) {', '    function returnToWritingSurface() {');
-  const SAVE_SNAPSHOT = slice('    function saveSnapshot(reason) {', '    function loadSnapshots() {');
+  const SAVE_SNAPSHOT = slice('    async function saveSnapshot(reason) {', '    function loadSnapshots() {');
   const RESTORE_SNAPSHOT = slice('    function restoreSnapshot(snap) {', '    function clearAll() {');
   const CLEAR_ALL = slice('    function clearAll() {', '    const activeSettingsTab');
   const EXPORT_FULL_BACKUP = slice('    async function performExportBookFullBackup() {', '    // 书名与章节名同样可能来自旧 AI 结果');
@@ -647,6 +648,7 @@ if (process.env.MOYUN_CAPTURE) {
       buildSanitizedModPrivateDataForExport: () => ({}),
       buildCurrentInterruptedDraftRecord: () => null,
       saveDataNow: async () => true,
+      loadBookRegenSnapshots: async () => 0,
       branchCopyBusy: false,
       // 图片为独立 IDB 存储边界；此 fixture 无图片，备份回空表。
       ImageStore: { exportBook: async () => ({}) },

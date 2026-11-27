@@ -1,0 +1,91 @@
+{
+  "label": "current",
+  "createdAt": "2026-11-27T14:43:03.750Z",
+  "sourceSha256": "f03b883ace68f9f9631624e5101a53a38b2a47187933ab206690b80c894f9420",
+  "samples": 9,
+  "comparison": {
+    "baselineSha256": "b421d2d44e20dbb4b438f7491b8c2fdb7622e12d15256dde2752f45caff21970",
+    "startupImprovement": 0.20129053884111703,
+    "switchImprovement": 0.3519375361559226
+  },
+  "passed": false,
+  "assertions": [
+    {
+      "name": "fixture saved",
+      "pass": true
+    },
+    {
+      "name": "incremental chapter persisted",
+      "pass": true
+    },
+    {
+      "name": "one chapter edit does not rewrite whole library",
+      "pass": true
+    },
+    {
+      "name": "one chapter edit does not rewrite other books or request snapshots",
+      "pass": true
+    },
+    {
+      "name": "desktop input P95 is at most 100ms",
+      "pass": true
+    },
+    {
+      "name": "opening settings and scrolling do not write book data",
+      "pass": true
+    },
+    {
+      "name": "ordinary debounced edit reaches storage",
+      "pass": true
+    },
+    {
+      "name": "idle close performs no library writes",
+      "pass": true
+    },
+    {
+      "name": "early chapter draft survives real reload",
+      "pass": true
+    },
+    {
+      "name": "the latest input is durable before the ordinary debounce fires",
+      "pass": true
+    },
+    {
+      "name": "startup does not load non-current book snapshots",
+      "pass": true
+    },
+    {
+      "name": "non-current snapshot loads on demand and survives a later save",
+      "pass": true
+    },
+    {
+      "name": "no external API request",
+      "pass": true
+    },
+    {
+      "name": "full export and book snapshot include every lazy request",
+      "pass": true
+    },
+    {
+      "name": "lazy deletion removes only the chosen request from disk and list",
+      "pass": true
+    },
+    {
+      "name": "missing records and invalid manifest reject instead of loading an incomplete library",
+      "pass": true
+    },
+    {
+      "name": "an interrupted write rolls back every changed record and its manifest",
+      "pass": true
+    },
+    {
+      "name": "startup median improves by at least 30 percent",
+      "pass": false
+    },
+    {
+      "name": "book switching median improves by at least 30 percent",
+      "pass": true
+    }
+  ],
+  "note": "Prior failed comparison; final accepted comparison is a paired baseline and current run with 9 samples each."
+}

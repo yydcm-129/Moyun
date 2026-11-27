@@ -1,6 +1,6 @@
 {
   "name": "moyun-web",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "private": true,
   "scripts": {
     "preview": "node scripts/preview-local.cjs",

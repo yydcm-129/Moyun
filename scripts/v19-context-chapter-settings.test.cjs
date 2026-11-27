@@ -22,13 +22,13 @@ test('0章在普通和省token模式以及记忆开关下均不发送原文',()=
 test('主动启用记忆替换时同时遵守全文章数和记忆保留章数',()=>{
  const c=runtime({contextFullChapters:2},{enabled:true,replaceHistoryWithSummaries:true,summaryKeepChapters:10});assert.deepEqual(fullNumbers(c.buildBudgetedChapterHistory(rows)),[11,12]);c.settings.value.contextFullChapters=8;c.memoryLibrary.value.settings.summaryKeepChapters=1;assert.deepEqual(fullNumbers(c.buildBudgetedChapterHistory(rows)),[12]);
 });
-test('字数预算不足时更早章仍有摘要；提高预算后恢复所选章节原文',()=>{
- const long=rows.map(ch=>({...ch,content:ch.content+'长'.repeat(4000)})),c=runtime({contextHistoryCharLimit:15000});let h=c.buildBudgetedChapterHistory(long);assert.equal(h.rawChars,15000);for(const ch of long)assert.ok(h.text.includes(ch.content)||h.text.includes(ch.summary),ch.id);assert.equal(h.missingChapters.length,0);c.settings.value.contextHistoryCharLimit=60000;h=c.buildBudgetedChapterHistory(long,{wholeChapters:true});assert.equal(long.filter(ch=>h.text.includes(ch.content)).length,8);
+test('完整前文预算同时计算材料标签；摘要章数限制可见，增加预算后恢复原文',()=>{
+ const long=rows.map(ch=>({...ch,content:ch.content+'长'.repeat(4000)})),c=runtime({contextHistoryCharLimit:15000});let h=c.buildBudgetedChapterHistory(long);assert.ok(h.rawChars<15000);assert.ok(h.totalChars<=15000);for(const ch of long.slice(2))assert.ok(h.text.includes(ch.summary)||h.text.includes(ch.content),ch.id);assert.deepEqual(Array.from(h.missingChapters).sort((a,b)=>a-b),[1,2]);c.settings.value.contextHistoryCharLimit=60000;h=c.buildBudgetedChapterHistory(long,{wholeChapters:true});assert.equal(long.filter(ch=>h.text.includes(ch.content)).length,8);
 });
 test('历史缺省保留3章；数字字符串、0、越界和空值正确恢复',()=>{
  for(const [value,expected]of [[undefined,3],[null,3],['',3],['8',8],[0,0],[-2,0],[30,20],['oops',3]]){const c=runtime({contextFullChapters:value});c.normalizeContextSettings();assert.equal(c.settings.value.contextFullChapters,expected,String(value));}
 });
 test('长章碰到单章上限后继续读取更早原文，记忆开关不绕过单章上限',()=>{
  const long=rows.map(ch=>({...ch,content:'头部'+ch.id+'。'+'文'.repeat(6000)+'尾部'+ch.id+'。'}));
- for(const enabled of [false,true]){const c=runtime({contextFullChapters:4,contextMaxFullChapterChars:1000,contextHistoryCharLimit:15000},{enabled}),h=c.buildBudgetedChapterHistory(long);assert.equal(h.rawChars,4000);for(const ch of long.slice(-4)){assert.ok(h.text.includes('尾部'+ch.id+'。'),ch.id);assert.ok(h.text.includes(ch.summary),ch.id+'摘要');assert.ok(!h.text.includes('头部'+ch.id+'。'),ch.id+'单章上限');}assert.equal(h.missingChapters.length,0);}
+ for(const enabled of [false,true]){const c=runtime({contextFullChapters:4,contextMaxFullChapterChars:1000,contextHistoryCharLimit:15000},{enabled}),h=c.buildBudgetedChapterHistory(long);assert.equal(h.rawChars,4000);for(const ch of long.slice(-4)){assert.ok(h.text.includes('尾部'+ch.id+'。'),ch.id);assert.ok(h.text.includes(ch.summary),ch.id+'摘要');assert.ok(!h.text.includes('头部'+ch.id+'。'),ch.id+'单章上限');}assert.deepEqual(Array.from(h.missingChapters).sort((a,b)=>a-b),[1,2]);}
 });

@@ -1,0 +1,252 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "name": "实际文件选择导入：完整保留首次请求，未调用AI",
+      "ok": true,
+      "data": {
+        "chapters": 5,
+        "regens": 4,
+        "memories": 5,
+        "groups": 0,
+        "details": 0,
+        "summaries": 1,
+        "volumes": 0,
+        "aiCalls": 0,
+        "bytes": 1710388,
+        "ms": 343
+      }
+    },
+    {
+      "name": "真实入口打开：全分支列表、正确章号、默认不渲染大请求",
+      "ok": true,
+      "data": {
+        "rows": 4,
+        "details": 0,
+        "branches": [
+          [
+            "主线",
+            1
+          ],
+          [
+            "主线",
+            2
+          ],
+          [
+            "验收支线",
+            1
+          ],
+          [
+            "验收支线",
+            2
+          ]
+        ],
+        "bookSnapshots": 0,
+        "ms": 970
+      }
+    },
+    {
+      "name": "1280 浅色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 304,
+        "right": 976,
+        "bottom": 720,
+        "width": 1280,
+        "height": 800,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1259
+      }
+    },
+    {
+      "name": "1280 深色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 304,
+        "right": 976,
+        "bottom": 720,
+        "width": 1280,
+        "height": 800,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1158
+      }
+    },
+    {
+      "name": "360 浅色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 0,
+        "right": 360,
+        "bottom": 732,
+        "width": 360,
+        "height": 740,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1150
+      }
+    },
+    {
+      "name": "360 深色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 0,
+        "right": 360,
+        "bottom": 732,
+        "width": 360,
+        "height": 740,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1157
+      }
+    },
+    {
+      "name": "320 浅色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 0,
+        "right": 320,
+        "bottom": 732,
+        "width": 320,
+        "height": 740,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1146
+      }
+    },
+    {
+      "name": "320 深色 列表、单条详情、滚动与点击命中",
+      "ok": true,
+      "data": {
+        "left": 0,
+        "right": 320,
+        "bottom": 732,
+        "width": 320,
+        "height": 740,
+        "overflow": false,
+        "chars": 12000,
+        "preScrollable": true,
+        "listScrollable": true,
+        "minButtonHeight": 44,
+        "scriptElements": 0,
+        "literalScript": false,
+        "ms": 1160
+      }
+    },
+    {
+      "name": "分段导航按完整原文显示，末段代码标记仍是纯文本",
+      "ok": true,
+      "data": {
+        "matches": true,
+        "literalScript": true,
+        "scripts": 0,
+        "pages": 13
+      }
+    },
+    {
+      "name": "取消逐条删除，数据和保存均不改变",
+      "ok": true,
+      "data": {
+        "regens": 4
+      }
+    },
+    {
+      "name": "逐条删除并刷新：只减一份，正文旧稿摘要记忆不变",
+      "ok": true,
+      "data": {
+        "regens": 3,
+        "refreshed": true
+      }
+    },
+    {
+      "name": "本机书籍快照仍可保存，清理不会连带删除",
+      "ok": true,
+      "data": {
+        "localSnapshots": 1
+      }
+    },
+    {
+      "name": "存储失败：保留重生成快照，不报删除成功",
+      "ok": true,
+      "data": {
+        "regens": 3,
+        "calls": 1,
+        "toast": "清理未完成，重生成快照已保留，请检查保存状态后重试",
+        "emergency": true
+      }
+    },
+    {
+      "name": "删除本书全部分支的重生成快照，非快照数据指纹不变",
+      "ok": true,
+      "data": {
+        "persisted": 0,
+        "chapters": 5,
+        "memories": 5,
+        "otherUnchanged": true,
+        "bookSnapshots": 1,
+        "ms": 1043
+      }
+    },
+    {
+      "name": "关闭刷新：清理已持久保存，正文旧稿记忆仍一致",
+      "ok": true,
+      "data": {
+        "regens": 0,
+        "unchanged": true
+      }
+    },
+    {
+      "name": "全量导出再导入：已清理快照不复活",
+      "ok": true,
+      "data": {
+        "bytes": 100702,
+        "regens": 0,
+        "error": ""
+      }
+    },
+    {
+      "name": "恢复原测试文件带回原快照，本机书籍快照仍独立保留",
+      "ok": true,
+      "data": {
+        "regens": 4,
+        "newBookSnapshots": 0
+      }
+    },
+    {
+      "name": "原本机书籍快照可恢复和删除，恢复点可带回其内的重生成快照",
+      "ok": true,
+      "data": {
+        "regens": 3,
+        "before": 2,
+        "after": 1
+      }
+    }
+  ],
+  "errors": []
+}

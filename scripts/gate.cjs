@@ -27,7 +27,8 @@ const steps = [
   { id: 'startup', title: '启动资源检查', args: ['--test', 'scripts/startup-regression.cjs'] },
   { id: 'v17', title: '预设与上下文回归', args: ['--test', 'scripts/preset-refactor.test.cjs', 'scripts/v17-context-regression.cjs'] },
   { id: 'v18-memory', title: '记忆库回归', args: ['scripts/v18-memory-volume.test.cjs'] },
-  { id: 'v19', title: 'v0.0.19 功能回归', args: ['--test', ...fs.readdirSync(path.join(ROOT,'scripts')).filter(name => /^v19-.*\.test\.cjs$/.test(name)).sort().map(name => 'scripts/' + name)] }
+  { id: 'v19', title: 'v0.0.19 功能回归', args: ['--test', ...fs.readdirSync(path.join(ROOT,'scripts')).filter(name => /^v19-.*\.test\.cjs$/.test(name)).sort().map(name => 'scripts/' + name)] },
+  { id: 'v20', title: 'v0.0.20 功能回归', args: ['--test', ...fs.readdirSync(path.join(ROOT,'scripts')).filter(name => /^v20-.*\.test\.cjs$/.test(name)).sort().map(name => 'scripts/' + name)] }
 ];
 const browserSteps = [
   { id: 'v19-ai-input-retention', title: 'AI输入错误返回、手动返回与重新打开（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--ai-input-retention'], browser: true },
@@ -46,8 +47,11 @@ const browserSteps = [
   { id: 'v19-planning-recovery', title: '通用规划解析与中断恢复（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--planning-recovery'], browser: true },
   { id: 'v19-manual-planning', title: '手动选择原文与分区填充（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--manual-planning'], browser: true },
   { id: 'v19-volume-classification', title: '真实文本分卷、接受和刷新（浏览器本地重放）', args: ['scripts/v19-outline-review-browser.cjs', '--volume-classification'], browser: true },
-  { id: 'v19-branch-context', title: '三层分支实际请求隔离与1116公告（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--branch-context'], browser: true },
-  { id: 'v19-settings-search', title: '设置关联词搜索与定位（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--settings-search'], browser: true }
+  { id: 'v19-branch-context', title: '三层分支实际请求隔离与1128公告（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--branch-context'], browser: true },
+  { id: 'v19-settings-search', title: '设置关联词搜索与定位（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--settings-search'], browser: true },
+  { id: 'v20-character-batch', title: '角色分类、批量预览和手机点击命中（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--character-batch'], browser: true },
+  { id: 'v20-memory-hybrid', title: '父子块混合召回、重排和最终写作请求（浏览器本地 mock）', args: ['scripts/v19-outline-review-browser.cjs', '--memory-hybrid'], browser: true },
+  { id: 'v20-storage-performance', title: '存储增量、编辑响应、切书与关闭性能（浏览器）', args: ['scripts/v20-storage-browser.cjs', '--samples', '5'], browser: true }
 ];
 
 const tail = (text, n) => String(text || '').split(/\r?\n/).slice(-n).join('\n');

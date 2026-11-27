@@ -81,17 +81,18 @@ module.exports=async function(c,check,shot){
   const d=await c.ev(async()=>{
    __s.cancelMemoryWork();__s.settings.memoryEmbeddingModel='v18-vector';__s.memoryLibrary=__s.normalizeMemoryLibrary({settings:{enabled:false,mode:'enhanced',classicConcurrency:5}});
    __s.chapters=Array.from({length:31},(_,i)=>({id:'memory-'+(i+1),branchId:'main',title:'旧仓库'+(i+1),content:'第'+(i+1)+'日，林舟把铜钥匙交给阿雪，约定次日到东门。守门人不知道此事。',memoryUserInput:i?'第'+(i+1)+'日继续约定':'',summary:'短摘要',versions:[]}));
-   __s.activeBranchId='main';await __s.runMemoryBackfill();
-   return{progress:__s.memoryProgress,total:__s.memoryLibrary.memories.length,vectors:__s.memoryLibrary.memories.filter(m=>m.vector).length,groups:__s.memoryLibrary.groups,valid:__s.getValidMemoryRows().length};
-  });assert.equal(d.progress.error,'');assert.equal(d.total,31);assert.equal(d.vectors,31);assert.equal(d.groups.length,1);assert.equal(d.groups[0].sourceMemories.length,5);assert.equal(d.valid,31);return{total:d.total,vectors:d.vectors,groups:d.groups.length,originals:d.groups[0].sourceMemories.length};
+   __s.activeBranchId='main';await Vue.nextTick();__s.memoryLibrary=__s.normalizeMemoryLibrary({settings:{enabled:false,mode:'enhanced',classicConcurrency:5}});await Vue.nextTick();await __s.runMemoryBackfill();
+   return{progress:__s.memoryProgress,total:__s.memoryLibrary.memories.length,blockCount:__s.memoryLibrary.blocks.length,vectors:__s.memoryLibrary.blocks.filter(m=>m.vector).length,groups:__s.memoryLibrary.groups,valid:__s.getValidMemoryRows().length,visible:__s.visibleChapters.length,branch:__s.activeBranchId,busy:__s.isGenerating,memoryBusy:__s.memoryProgress.busy,failures:Object.keys(__s.memoryFailures),requests:__wire.filter(r=>r.url.includes('v18.invalid')&&!r.url.includes('embeddings')).length};
+  });assert.equal(d.progress.error,'');assert.equal(d.total,31);assert.ok(d.blockCount>31);assert.equal(d.vectors,d.blockCount);assert.equal(d.groups.length,1);assert.equal(d.groups[0].sourceMemories.length,5);assert.equal(d.valid,31);return{total:d.total,blocks:d.blockCount,vectors:d.vectors,groups:d.groups.length,originals:d.groups[0].sourceMemories.length};
  });
- await check('记忆：旧章替换总结、最新原文保留、召回最多10条按时间排序',async()=>{
+ await check('记忆：旧章替换总结、最新原文保留、召回最多10条按相关度排序并注入历史上下文',async()=>{
   const d=await c.ev(async()=>{
    __s.memoryLibrary.settings.enabled=true;__s.memoryLibrary.settings.autoSummarize=true;
    const history=__s.buildMemoryHistory(__s.visibleChapters);
    const messages=await __s.appendEnhancedMemoryRecall([{role:'user',content:'铜钥匙在哪里？'}],__s.visibleChapters,'铜钥匙在哪里？',new AbortController().signal);
-   __s.cancelMemoryWork();return{history,messages,hits:messages[0].content.match(/<memory_fragment /g)?.length || 0};
-  });assert.ok(d.history.text.includes('【合并记忆'));assert.ok(d.history.text.includes('记忆6'));assert.ok(d.history.text.includes('第31日'));assert.equal(d.hits,10);assert.ok(d.messages[0].content.indexOf('chapter="1"')<d.messages[0].content.indexOf('chapter="10"'));return{hits:d.hits,summary:d.history.hasSummaryContext};
+   const recallMessage=messages.find(message=>message?._moyunContextSlot==='history'),ranked=__s.memoryLastRecall.map(hit=>hit.score);
+   const result={history,messages,recallText:recallMessage?.content||'',hits:(recallMessage?.content.match(/【第\d+章 /g)||[]).length,ranked,queryPreserved:messages.some(message=>message?.content==='铜钥匙在哪里？')};__s.cancelMemoryWork();return result;
+  });assert.ok(d.history.text.includes('【合并记忆'));assert.ok(d.history.text.includes('记忆6'));assert.ok(d.history.text.includes('第31日'));assert.equal(d.hits,10);assert.ok(d.recallText.startsWith('\n\n【相关事实参考｜按相关度排列'));assert.equal(d.queryPreserved,true);assert.equal(d.ranked.length,10);for(let i=1;i<d.ranked.length;i++)assert.ok(d.ranked[i-1]>=d.ranked[i],JSON.stringify(d.ranked));return{hits:d.hits,summary:d.history.hasSummaryContext,relevanceOrdered:true,historySlot:true};
  });
  await check('记忆：正文重写立即失效、停用回退原文、支线隔离',async()=>{
   const d=await c.ev(()=>{

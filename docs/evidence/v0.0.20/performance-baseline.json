@@ -1,0 +1,2758 @@
+{
+  "label": "baseline",
+  "createdAt": "2026-11-27T14:51:20.612Z",
+  "source": "<workspace-parent>\\Moyun-v0.0.19-before-v20-20261127\\source\\moyun.single.html",
+  "pathProtocol": "local HTTP",
+  "synthetic": true,
+  "samples": 9,
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v24.15.0",
+    "cpus": "Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz",
+    "base": "http://127.0.0.1:54498/index.html",
+    "browser": {
+      "protocolVersion": "1.3",
+      "product": "Edg/158.0.4370.45",
+      "revision": "@b68f961247905cbca598f78f879145c09aacc1cf",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+      "jsVersion": "15.8.13.4"
+    }
+  },
+  "fixture": {
+    "books": 3,
+    "largeChapters": 100,
+    "largeChars": 1000000,
+    "largeSnapshotTextBytes": 25165824,
+    "otherSnapshotTextBytes": 4194304,
+    "vectorRows": 126,
+    "vectorDimensions": 384,
+    "paidMemoryMaintenance": false,
+    "externalApi": false,
+    "actual": {
+      "ok": true,
+      "saveMs": 462.79999999701977,
+      "bytes": 61107113,
+      "chapterCount": 100,
+      "snapshotChars": 25165824,
+      "errors": [],
+      "putErrors": [],
+      "putKeys": [
+        "connection_credentials_v1",
+        "library_v6",
+        "library_v6_revision"
+      ]
+    }
+  },
+  "assertions": [
+    {
+      "name": "fixture saved",
+      "pass": true,
+      "detail": {
+        "ok": true,
+        "saveMs": 462.79999999701977,
+        "bytes": 61107113,
+        "chapterCount": 100,
+        "snapshotChars": 25165824,
+        "errors": [],
+        "putErrors": [],
+        "putKeys": [
+          "connection_credentials_v1",
+          "library_v6",
+          "library_v6_revision"
+        ]
+      }
+    },
+    {
+      "name": "incremental chapter persisted",
+      "pass": true,
+      "detail": {
+        "ok": true,
+        "ms": 187.60000000149012,
+        "puts": [
+          {
+            "key": "connection_credentials_v1",
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "hasOtherBookPayload": false
+          },
+          {
+            "key": "library_v6",
+            "payloadBytes": 61181284,
+            "hasWholeLibrary": true,
+            "hasOtherBookPayload": true
+          },
+          {
+            "key": "library_v6_revision",
+            "payloadBytes": 2,
+            "hasWholeLibrary": false,
+            "hasOtherBookPayload": false
+          }
+        ],
+        "stored": true,
+        "snapshotPreserved": true,
+        "otherBookPreserved": true,
+        "otherSnapshotWasLazy": false,
+        "otherSnapshotLoadedOnDemand": false,
+        "otherSnapshotMetadata": false
+      }
+    },
+    {
+      "name": "one chapter edit does not rewrite whole library",
+      "pass": false,
+      "detail": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 86.80000000074506,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 1593.3999999985099,
+          "payloadBytes": 61181284,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        }
+      ]
+    },
+    {
+      "name": "one chapter edit does not rewrite other books or request snapshots",
+      "pass": false,
+      "detail": {
+        "contentPuts": [
+          {
+            "db": "NovelWriterV6",
+            "store": "kv",
+            "key": "library_v6",
+            "syncMs": 86.80000000074506,
+            "type": "object",
+            "chars": null,
+            "bookCount": 3,
+            "chapterCount": 100,
+            "at": 1593.3999999985099,
+            "payloadBytes": 61181284,
+            "hasWholeLibrary": true,
+            "snapshotMarkers": 52,
+            "hasOtherBookPayload": true
+          }
+        ],
+        "snapshotPreserved": true,
+        "otherBookPreserved": true
+      }
+    },
+    {
+      "name": "desktop input P95 is at most 100ms",
+      "pass": true,
+      "detail": {
+        "n": 9,
+        "p50": 25,
+        "p95": 29.699999999254942,
+        "min": 19.699999999254942,
+        "max": 29.699999999254942,
+        "samples": [
+          27.599999997764826,
+          29.5,
+          29.699999999254942,
+          27,
+          19.699999999254942,
+          23.300000000745058,
+          24,
+          23.199999999254942,
+          25
+        ]
+      }
+    },
+    {
+      "name": "opening settings and scrolling do not write book data",
+      "pass": true,
+      "detail": [
+        {
+          "openMs": 142.30000000074506,
+          "toggleMs": 24.5,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 35.80000000074506,
+          "toggleMs": 24.699999999254942,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 33.19999999925494,
+          "toggleMs": 16.100000001490116,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 31.899999998509884,
+          "toggleMs": 14.199999999254942,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 29.300000000745058,
+          "toggleMs": 33.30000000074506,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 39.399999998509884,
+          "toggleMs": 13.699999999254942,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 35.19999999925494,
+          "toggleMs": 13.599999997764826,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 30,
+          "toggleMs": 16.200000002980232,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        },
+        {
+          "openMs": 34.400000002235174,
+          "toggleMs": 16.400000002235174,
+          "found": true,
+          "openPuts": [],
+          "scrollPuts": []
+        }
+      ]
+    },
+    {
+      "name": "ordinary debounced edit reaches storage",
+      "pass": true,
+      "detail": [
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15355.10000000149,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 91.5,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 15355.199999999255,
+              "payloadBytes": 61239297,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 15446.800000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 18287.300000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 115.5,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 18287.300000000745,
+              "payloadBytes": 61239333,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 18402.800000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 21287.5,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 92.10000000149012,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 21287.5,
+              "payloadBytes": 61239369,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 21379.60000000149,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 24119.800000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 80.90000000223517,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 24119.89999999851,
+              "payloadBytes": 61239405,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 24200.800000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 26965.5,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 82.79999999701977,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 26965.60000000149,
+              "payloadBytes": 61239441,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 27048.39999999851,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 29764.699999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 84.39999999850988,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 29764.800000000745,
+              "payloadBytes": 61239477,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 29849.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 32587.10000000149,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 83.19999999925494,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 32587.199999999255,
+              "payloadBytes": 61239513,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 32670.39999999851,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 35407,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 83.89999999850988,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 35407.10000000149,
+              "payloadBytes": 61239549,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.19999999925494194,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 35491,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "saved": true,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "connection_credentials_v1",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 38264.10000000149,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 97.5,
+              "type": "object",
+              "chars": null,
+              "bookCount": 3,
+              "chapterCount": 100,
+              "at": 38264.199999999255,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": true,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 38361.699999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "idle close performs no library writes",
+      "pass": false,
+      "detail": [
+        {
+          "ms": 261.69999999925494,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 99.89999999850988,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 41717.800000000745,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 41817.800000000745,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 209.20000000298023,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 92.60000000149012,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 42761.39999999851,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 42854.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 256.70000000298023,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 91.39999999850988,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 43885.10000000149,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 43976.699999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 216.89999999850988,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 89.10000000149012,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 44963.89999999851,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 45053,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 243.19999999925494,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 99.79999999701977,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 46136.10000000149,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 46236,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 219.5,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 97.89999999850988,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 47219.300000000745,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.10000000149011612,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 47317.5,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 247.90000000223517,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 106.80000000074506,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 48495.699999999255,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 48602.5,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 230.30000000074506,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 96.5,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 49599.5,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 49696.199999999255,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        },
+        {
+          "ms": 235.20000000298023,
+          "puts": [
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6",
+              "syncMs": 88.40000000223517,
+              "type": "string",
+              "chars": 57234397,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 50664.699999999255,
+              "payloadBytes": 61239585,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 52,
+              "hasOtherBookPayload": true
+            },
+            {
+              "db": "NovelWriterV6",
+              "store": "kv",
+              "key": "library_v6_revision",
+              "syncMs": 0.09999999776482582,
+              "type": "string",
+              "chars": 2,
+              "bookCount": null,
+              "chapterCount": 0,
+              "at": 50753.10000000149,
+              "payloadBytes": 2,
+              "hasWholeLibrary": false,
+              "snapshotMarkers": 0,
+              "hasOtherBookPayload": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "early chapter draft survives real reload",
+      "pass": true,
+      "detail": {
+        "interactiveMs": 1171.0999999977648,
+        "loadedMs": 1127.199999999255,
+        "domMs": 631.8999999985099,
+        "gets": [
+          {
+            "db": "NovelWriterV6",
+            "key": "library_v6",
+            "at": 656.3000000007451
+          },
+          {
+            "db": "NovelWriterV6",
+            "key": "connection_credentials_v1",
+            "at": 662.3000000007451
+          }
+        ],
+        "nonCurrentSnapshotReads": 0,
+        "chapterCount": 100,
+        "draft": true,
+        "snapshotChars": 25165824
+      }
+    },
+    {
+      "name": "the latest input is durable before the ordinary debounce fires",
+      "pass": true,
+      "detail": [
+        {
+          "ms": 212,
+          "draftSaved": true
+        },
+        {
+          "ms": 271.9000000022352,
+          "draftSaved": true
+        },
+        {
+          "ms": 234.19999999925494,
+          "draftSaved": true
+        },
+        {
+          "ms": 245.80000000074506,
+          "draftSaved": true
+        },
+        {
+          "ms": 240.69999999925494,
+          "draftSaved": true
+        },
+        {
+          "ms": 217.59999999776483,
+          "draftSaved": true
+        },
+        {
+          "ms": 234.80000000074506,
+          "draftSaved": true
+        },
+        {
+          "ms": 246.80000000074506,
+          "draftSaved": true
+        },
+        {
+          "ms": 256.0999999977648,
+          "draftSaved": true
+        }
+      ]
+    },
+    {
+      "name": "no external API request",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "metrics": {
+    "syncBookData": {
+      "n": 9,
+      "p50": 19.899999998509884,
+      "p95": 24.300000000745058,
+      "min": 17,
+      "max": 24.300000000745058,
+      "samples": [
+        24.300000000745058,
+        18.5,
+        20.300000000745058,
+        20,
+        18.5,
+        20.900000002235174,
+        17,
+        17.899999998509884,
+        19.899999998509884
+      ]
+    },
+    "loadBook": {
+      "n": 9,
+      "p50": 118.80000000074506,
+      "p95": 155.40000000223517,
+      "min": 108.19999999925494,
+      "max": 155.40000000223517,
+      "samples": [
+        155.40000000223517,
+        119.09999999776483,
+        120.10000000149012,
+        118.80000000074506,
+        117.69999999925494,
+        125.10000000149012,
+        109.5,
+        110.59999999776483,
+        108.19999999925494
+      ]
+    },
+    "loadBookToRender": {
+      "n": 9,
+      "p50": 150,
+      "p95": 223.90000000223517,
+      "min": 137.60000000149012,
+      "max": 223.90000000223517,
+      "samples": [
+        223.90000000223517,
+        153.69999999925494,
+        152.30000000074506,
+        150,
+        149,
+        161.60000000149012,
+        139.69999999925494,
+        141.5,
+        137.60000000149012
+      ]
+    },
+    "snapshot": {
+      "n": 9,
+      "p50": 59.30000000074506,
+      "p95": 107,
+      "min": 55.19999999925494,
+      "max": 107,
+      "samples": [
+        107,
+        63.599999997764826,
+        63.900000002235174,
+        59,
+        61.399999998509884,
+        59.30000000074506,
+        55.19999999925494,
+        56.399999998509884,
+        55.79999999701977
+      ]
+    },
+    "immediateSave": {
+      "n": 9,
+      "p50": 172.09999999776483,
+      "p95": 244.59999999776483,
+      "min": 153.10000000149012,
+      "max": 244.59999999776483,
+      "samples": [
+        244.59999999776483,
+        201.90000000223517,
+        183.79999999701977,
+        169.89999999850988,
+        171.40000000223517,
+        172.09999999776483,
+        205.30000000074506,
+        153.10000000149012,
+        160.40000000223517
+      ]
+    },
+    "switchSync": {
+      "n": 9,
+      "p50": 202.40000000223517,
+      "p95": 239,
+      "min": 179,
+      "max": 239,
+      "samples": [
+        226.39999999850988,
+        214.89999999850988,
+        239,
+        194.19999999925494,
+        202.90000000223517,
+        202.40000000223517,
+        179,
+        192.69999999925494,
+        182.90000000223517
+      ]
+    },
+    "switchTotal": {
+      "n": 9,
+      "p50": 357.69999999925494,
+      "p95": 501.69999999925494,
+      "min": 333.1000000014901,
+      "max": 501.69999999925494,
+      "samples": [
+        501.69999999925494,
+        395.29999999701977,
+        420.0999999977648,
+        352.6000000014901,
+        370.69999999925494,
+        357.69999999925494,
+        335.4000000022352,
+        352.5999999977648,
+        333.1000000014901
+      ]
+    },
+    "smallBookLoad": {
+      "n": 9,
+      "p50": 2,
+      "p95": 3.300000000745058,
+      "min": 1.5,
+      "max": 3.300000000745058,
+      "samples": [
+        1.5,
+        1.6000000014901161,
+        1.5,
+        2,
+        2.400000002235174,
+        2.300000000745058,
+        3.300000000745058,
+        3.300000000745058,
+        1.9000000022351742
+      ]
+    },
+    "smallBookSave": {
+      "n": 9,
+      "p50": 97.89999999850988,
+      "p95": 110.5,
+      "min": 85.89999999850988,
+      "max": 110.5,
+      "samples": [
+        90.80000000074506,
+        87,
+        85.89999999850988,
+        95.69999999925494,
+        104.19999999925494,
+        98.89999999850988,
+        110.5,
+        97.89999999850988,
+        100.09999999776483
+      ]
+    },
+    "desktopInputToDisplay": {
+      "n": 9,
+      "p50": 25,
+      "p95": 29.699999999254942,
+      "min": 19.699999999254942,
+      "max": 29.699999999254942,
+      "samples": [
+        27.599999997764826,
+        29.5,
+        29.699999999254942,
+        27,
+        19.699999999254942,
+        23.300000000745058,
+        24,
+        23.199999999254942,
+        25
+      ]
+    },
+    "openSettings": {
+      "n": 9,
+      "p50": 34.400000002235174,
+      "p95": 142.30000000074506,
+      "min": 29.300000000745058,
+      "max": 142.30000000074506,
+      "samples": [
+        142.30000000074506,
+        35.80000000074506,
+        33.19999999925494,
+        31.899999998509884,
+        29.300000000745058,
+        39.399999998509884,
+        35.19999999925494,
+        30,
+        34.400000002235174
+      ]
+    },
+    "settingsToggle": {
+      "n": 9,
+      "p50": 16.200000002980232,
+      "p95": 33.30000000074506,
+      "min": 13.599999997764826,
+      "max": 33.30000000074506,
+      "samples": [
+        24.5,
+        24.699999999254942,
+        16.100000001490116,
+        14.199999999254942,
+        33.30000000074506,
+        13.699999999254942,
+        13.599999997764826,
+        16.200000002980232,
+        16.400000002235174
+      ]
+    },
+    "debouncedSave": {
+      "n": 9,
+      "p50": 2173.800000000745,
+      "p95": 2275.699999999255,
+      "min": 2158.699999999255,
+      "max": 2275.699999999255,
+      "samples": [
+        2181.5,
+        2275.699999999255,
+        2173.800000000745,
+        2158.699999999255,
+        2176,
+        2161.900000002235,
+        2164.300000000745,
+        2161.2999999970198,
+        2191.300000000745
+      ]
+    },
+    "idleUnloadSync": {
+      "n": 9,
+      "p50": 235.20000000298023,
+      "p95": 261.69999999925494,
+      "min": 209.20000000298023,
+      "max": 261.69999999925494,
+      "samples": [
+        261.69999999925494,
+        209.20000000298023,
+        256.70000000298023,
+        216.89999999850988,
+        243.19999999925494,
+        219.5,
+        247.90000000223517,
+        230.30000000074506,
+        235.20000000298023
+      ]
+    },
+    "dirtyUnloadSync": {
+      "n": 9,
+      "p50": 240.69999999925494,
+      "p95": 271.9000000022352,
+      "min": 212,
+      "max": 271.9000000022352,
+      "samples": [
+        212,
+        271.9000000022352,
+        234.19999999925494,
+        245.80000000074506,
+        240.69999999925494,
+        217.59999999776483,
+        234.80000000074506,
+        246.80000000074506,
+        256.0999999977648
+      ]
+    },
+    "startupInteractive": {
+      "n": 9,
+      "p50": 1339.9000000022352,
+      "p95": 1610.7999999970198,
+      "min": 1171.0999999977648,
+      "max": 1610.7999999970198,
+      "samples": [
+        1564.5,
+        1238,
+        1339.9000000022352,
+        1180.199999999255,
+        1429.5999999977648,
+        1610.7999999970198,
+        1208.8999999985099,
+        1343.6000000014901,
+        1171.0999999977648
+      ]
+    },
+    "leavePage": {
+      "n": 9,
+      "p50": 396.7366000000038,
+      "p95": 687.8229000000138,
+      "min": 371.2241999999969,
+      "max": 687.8229000000138,
+      "samples": [
+        498.50220000000263,
+        387.2985999999946,
+        447.74520000000484,
+        396.7366000000038,
+        548.9388000000035,
+        394.8625999999931,
+        386.99060000000463,
+        687.8229000000138,
+        371.2241999999969
+      ]
+    }
+  },
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 800,
+      "mobile": false,
+      "touch": false,
+      "inputToDisplay": {
+        "n": 9,
+        "p50": 25,
+        "p95": 29.699999999254942,
+        "min": 19.699999999254942,
+        "max": 29.699999999254942,
+        "samples": [
+          27.599999997764826,
+          29.5,
+          29.699999999254942,
+          27,
+          19.699999999254942,
+          23.300000000745058,
+          24,
+          23.199999999254942,
+          25
+        ]
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 12
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 9,
+        "p50": 20,
+        "p95": 29.800000000745058,
+        "min": 17.599999997764826,
+        "max": 29.800000000745058,
+        "samples": [
+          25.899999998509884,
+          29.800000000745058,
+          19.099999997764826,
+          20,
+          23.399999998509884,
+          19.800000000745058,
+          20,
+          18.200000002980232,
+          17.599999997764826
+        ]
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 16
+    },
+    {
+      "width": 320,
+      "height": 740,
+      "mobile": true,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 9,
+        "p50": 16.800000000745058,
+        "p95": 18.699999999254942,
+        "min": 15.699999999254942,
+        "max": 18.699999999254942,
+        "samples": [
+          18.699999999254942,
+          16.699999999254942,
+          17.100000001490116,
+          18,
+          16.699999999254942,
+          15.699999999254942,
+          16.300000000745058,
+          16.800000000745058,
+          18.199999999254942
+        ]
+      },
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 18
+    },
+    {
+      "width": 1024,
+      "height": 1366,
+      "mobile": false,
+      "touch": true,
+      "inputToDisplay": {
+        "n": 9,
+        "p50": 15.800000000745058,
+        "p95": 20.800000000745058,
+        "min": 15.199999999254942,
+        "max": 20.800000000745058,
+        "samples": [
+          20.800000000745058,
+          15.5,
+          15.800000000745058,
+          20.5,
+          15.900000002235174,
+          15.200000002980232,
+          15.199999999254942,
+          19.100000001490116,
+          15.300000000745058
+        ]
+      },
+      "viewport": {
+        "width": 1024,
+        "height": 1366
+      },
+      "overflow": false,
+      "input": true,
+      "longTaskCount": 21
+    }
+  ],
+  "limitations": [
+    "Headless Edge with simulated viewports; no physical phone/tablet or real provider.",
+    "Synthetic input does not prove the performance of the historical 200 MB user backup.",
+    "Normal navigation is measured; this does not simulate operating system power loss."
+  ],
+  "sourceSha256": "b421d2d44e20dbb4b438f7491b8c2fdb7622e12d15256dde2752f45caff21970",
+  "incremental": {
+    "ok": true,
+    "ms": 187.60000000149012,
+    "puts": [
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "connection_credentials_v1",
+        "syncMs": 0.09999999776482582,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1593.300000000745,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v6",
+        "syncMs": 86.80000000074506,
+        "type": "object",
+        "chars": null,
+        "bookCount": 3,
+        "chapterCount": 100,
+        "at": 1593.3999999985099,
+        "payloadBytes": 61181284,
+        "hasWholeLibrary": true,
+        "snapshotMarkers": 52,
+        "hasOtherBookPayload": true
+      },
+      {
+        "db": "NovelWriterV6",
+        "store": "kv",
+        "key": "library_v6_revision",
+        "syncMs": 0.10000000149011612,
+        "type": "string",
+        "chars": 2,
+        "bookCount": null,
+        "chapterCount": 0,
+        "at": 1680.199999999255,
+        "payloadBytes": 2,
+        "hasWholeLibrary": false,
+        "snapshotMarkers": 0,
+        "hasOtherBookPayload": false
+      }
+    ],
+    "stored": true,
+    "snapshotPreserved": true,
+    "otherBookPreserved": true,
+    "otherSnapshotWasLazy": false,
+    "otherSnapshotLoadedOnDemand": false,
+    "otherSnapshotMetadata": false
+  },
+  "settings": [
+    {
+      "openMs": 142.30000000074506,
+      "toggleMs": 24.5,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 35.80000000074506,
+      "toggleMs": 24.699999999254942,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 33.19999999925494,
+      "toggleMs": 16.100000001490116,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 31.899999998509884,
+      "toggleMs": 14.199999999254942,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 29.300000000745058,
+      "toggleMs": 33.30000000074506,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 39.399999998509884,
+      "toggleMs": 13.699999999254942,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 35.19999999925494,
+      "toggleMs": 13.599999997764826,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 30,
+      "toggleMs": 16.200000002980232,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    },
+    {
+      "openMs": 34.400000002235174,
+      "toggleMs": 16.400000002235174,
+      "found": true,
+      "openPuts": [],
+      "scrollPuts": []
+    }
+  ],
+  "debouncedSave": [
+    {
+      "ms": 2181.5,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15355.10000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 91.5,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 15355.199999999255,
+          "payloadBytes": 61239297,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 15446.800000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2275.699999999255,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 18287.300000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 115.5,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 18287.300000000745,
+          "payloadBytes": 61239333,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 18402.800000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2173.800000000745,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21287.5,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 92.10000000149012,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 21287.5,
+          "payloadBytes": 61239369,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 21379.60000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2158.699999999255,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 24119.800000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 80.90000000223517,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 24119.89999999851,
+          "payloadBytes": 61239405,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 24200.800000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2176,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 26965.5,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 82.79999999701977,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 26965.60000000149,
+          "payloadBytes": 61239441,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 27048.39999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2161.900000002235,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 29764.699999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 84.39999999850988,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 29764.800000000745,
+          "payloadBytes": 61239477,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 29849.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2164.300000000745,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 32587.10000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 83.19999999925494,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 32587.199999999255,
+          "payloadBytes": 61239513,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 32670.39999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2161.2999999970198,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 35407,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 83.89999999850988,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 35407.10000000149,
+          "payloadBytes": 61239549,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.19999999925494194,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 35491,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 2191.300000000745,
+      "saved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "connection_credentials_v1",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 38264.10000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 97.5,
+          "type": "object",
+          "chars": null,
+          "bookCount": 3,
+          "chapterCount": 100,
+          "at": 38264.199999999255,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": true,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 38361.699999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    }
+  ],
+  "idleClose": [
+    {
+      "ms": 261.69999999925494,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 99.89999999850988,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 41717.800000000745,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 41817.800000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 209.20000000298023,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 92.60000000149012,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 42761.39999999851,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 42854.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 256.70000000298023,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 91.39999999850988,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 43885.10000000149,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 43976.699999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 216.89999999850988,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 89.10000000149012,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 44963.89999999851,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 45053,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 243.19999999925494,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 99.79999999701977,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 46136.10000000149,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 46236,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 219.5,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 97.89999999850988,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 47219.300000000745,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 47317.5,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 247.90000000223517,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 106.80000000074506,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 48495.699999999255,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 48602.5,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 230.30000000074506,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 96.5,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 49599.5,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 49696.199999999255,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 235.20000000298023,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 88.40000000223517,
+          "type": "string",
+          "chars": 57234397,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 50664.699999999255,
+          "payloadBytes": 61239585,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 50753.10000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    }
+  ],
+  "dirtyClose": [
+    {
+      "ms": 212,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 90,
+          "type": "string",
+          "chars": 57234521,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 51742.800000000745,
+          "payloadBytes": 61239957,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 51832.89999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 271.9000000022352,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 108,
+          "type": "string",
+          "chars": 57234521,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 53527.300000000745,
+          "payloadBytes": 61239957,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 53635.300000000745,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 234.19999999925494,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 91.5,
+          "type": "string",
+          "chars": 57234521,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 55140.300000000745,
+          "payloadBytes": 61239957,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 55231.89999999851,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 245.80000000074506,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 97.89999999850988,
+          "type": "string",
+          "chars": 57234521,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 56702.10000000149,
+          "payloadBytes": 61239957,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 2,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 56800.10000000149,
+          "payloadBytes": 2,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 240.69999999925494,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 120,
+          "type": "string",
+          "chars": 57234522,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 58321.5,
+          "payloadBytes": 61239958,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 3,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 58441.60000000149,
+          "payloadBytes": 3,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 217.59999999776483,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 88.70000000298023,
+          "type": "string",
+          "chars": 57234522,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 60000.39999999851,
+          "payloadBytes": 61239958,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 3,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 60089.199999999255,
+          "payloadBytes": 3,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 234.80000000074506,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 95.5,
+          "type": "string",
+          "chars": 57234522,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 61487.800000000745,
+          "payloadBytes": 61239958,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.09999999776482582,
+          "type": "string",
+          "chars": 3,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 61583.300000000745,
+          "payloadBytes": 3,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 246.80000000074506,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 104.39999999850988,
+          "type": "string",
+          "chars": 57234522,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 63026.10000000149,
+          "payloadBytes": 61239958,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0,
+          "type": "string",
+          "chars": 3,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 63130.60000000149,
+          "payloadBytes": 3,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    },
+    {
+      "ms": 256.0999999977648,
+      "draftSaved": true,
+      "puts": [
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6",
+          "syncMs": 106.89999999850988,
+          "type": "string",
+          "chars": 57234522,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 64839.60000000149,
+          "payloadBytes": 61239958,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 52,
+          "hasOtherBookPayload": true
+        },
+        {
+          "db": "NovelWriterV6",
+          "store": "kv",
+          "key": "library_v6_revision",
+          "syncMs": 0.10000000149011612,
+          "type": "string",
+          "chars": 3,
+          "bookCount": null,
+          "chapterCount": 0,
+          "at": 64946.699999999255,
+          "payloadBytes": 3,
+          "hasWholeLibrary": false,
+          "snapshotMarkers": 0,
+          "hasOtherBookPayload": false
+        }
+      ]
+    }
+  ],
+  "passed": false,
+  "cleanup": {
+    "profileRemoved": true,
+    "error": null
+  }
+}
