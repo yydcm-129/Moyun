@@ -1,0 +1,6 @@
+Command: node scripts/v19-outline-review-browser.cjs --memory-hybrid --url https://yydcm-129.github.io/Moyun/
+Prior online result (the command and assertion stayed intact):
+AssertionError [ERR_ASSERTION]: {"width":1024,"dark":false,"x":718.9439086914062,"y":708.4930725097656,"height":43.98809814453125,"hit":true,"before":false}
+    at module.exports (<workspace>/scripts/v20-memory-browser.cjs:25:573)
+    at async main (<workspace>/scripts/v19-outline-review-browser.cjs:75:50)
+Cause identified: the settings dialog transition had not settled when the minimum-height geometry was measured. The 44px assertion was kept; the test now waits for the transition to finish.

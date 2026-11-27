@@ -1,0 +1,195 @@
+{
+  "site": "https://yydcm-129.github.io/Moyun/",
+  "runtimeCandidate": "3f2ef87f12fc138e59ca41ccb65c7b490a07cb03",
+  "command": "node scripts/v19-outline-review-browser.cjs --memory-hybrid --url https://yydcm-129.github.io/Moyun/",
+  "apiMode": "Public HTTPS page; embedding, rerank, and writing endpoints replaced by local mock restricted to hybrid.invalid",
+  "recordedAt": "2026-11-27T16:51:22.165Z",
+  "passed": true,
+  "mock": true,
+  "facts": 8,
+  "results": [
+    {
+      "name": "手动建立原文父子向量索引",
+      "pass": true,
+      "blocks": 16,
+      "requests": 2,
+      "error": ""
+    },
+    {
+      "name": "最终写作请求 诺言",
+      "pass": true,
+      "query": "诺言",
+      "expected": "黎明前会回来",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 309
+    },
+    {
+      "name": "最终写作请求 海图",
+      "pass": true,
+      "query": "海图",
+      "expected": "星图交给顾迟",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 313
+    },
+    {
+      "name": "最终写作请求 旧约",
+      "pass": true,
+      "query": "旧约",
+      "expected": "北岸钟楼",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 317
+    },
+    {
+      "name": "最终写作请求 暗号",
+      "pass": true,
+      "query": "暗号",
+      "expected": "白鸢就是林岚",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 312
+    },
+    {
+      "name": "最终写作请求 力量",
+      "pass": true,
+      "query": "力量",
+      "expected": "第三重",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 311
+    },
+    {
+      "name": "最终写作请求 秘密",
+      "pass": true,
+      "query": "秘密",
+      "expected": "只有林岚知晓",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 316
+    },
+    {
+      "name": "最终写作请求 跨卷",
+      "pass": true,
+      "query": "跨卷",
+      "expected": "铜钥匙",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 317
+    },
+    {
+      "name": "最终写作请求 伏笔",
+      "pass": true,
+      "query": "伏笔",
+      "expected": "红色封蜡",
+      "injected": true,
+      "wrongBranch": false,
+      "rerankCandidates": 2,
+      "writingRequests": 1,
+      "added": 1,
+      "historyChars": 219
+    },
+    {
+      "name": "向量429与异常重排均保留本地结果和原索引",
+      "pass": true,
+      "keyword": true,
+      "localRank": true,
+      "indexUnchanged": true
+    },
+    {
+      "name": "父子块随书籍分记录保存",
+      "pass": true,
+      "blocks": 16
+    },
+    {
+      "name": "快照保留开关 320 light",
+      "pass": true,
+      "height": 46,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 320 dark",
+      "pass": true,
+      "height": 46,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 360 light",
+      "pass": true,
+      "height": 46,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 360 dark",
+      "pass": true,
+      "height": 46,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 768 light",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 768 dark",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 1024 light",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 1024 dark",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 1280 light",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "快照保留开关 1280 dark",
+      "pass": true,
+      "height": 44,
+      "hit": true
+    },
+    {
+      "name": "实际生成开关开关、保存刷新与旧快照保留",
+      "pass": true,
+      "enabled": false,
+      "oldKept": true,
+      "newAbsent": true
+    }
+  ],
+  "errors": []
+}

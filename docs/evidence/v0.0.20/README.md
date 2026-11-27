@@ -11,4 +11,6 @@
 - `date-specific-browser.log`：公告实际发布日期变为1128后，入口、分支和角色批量功能的专项通过日志。
 - `phone-character-long-name.png`、`tablet-settings-dark.png`：390宽手机超长角色名与1024×1366平板设置截图。两者是本机Edge视口模拟，不是实体设备照片。
 
-以上证据记录本地浏览器和mock验证，不证明真实服务商的效果。公测HTTPS的候选字节、Pages构建与线上检查待发布回执补录。
+线上补充证据文件：`public-candidate-pages.json`记录目标账号、Pages来源与实际构建；`public-release-gate.json`及两个`public-*-details.json`记录公测55项发布门禁、7个启动文件指纹及桌面/入口/平板结果。`public-memory.json`是公测HTTPS页面内的22项合成记忆测试，真实服务端口已拦截；`public-memory-prior-failure.log`保留首次滚动点击未命中的原始失败，`public-memory-animation-prior-failure.log`保留动画期间43.988px的原始失败；`public-memory.log`为调整等待方式后完整通过记录。`public-characters.log`记录公测站100角色保存与13个尺寸/主题场景。`gate-receipt.json`记录回执更新后的普通门禁与结构审计。候选`3f2ef87f12fc138e59ca41ccb65c7b490a07cb03`已部署，2026-11-28核对Pages构建ID`1409164296`状态built，线上门禁完成。
+
+证据反映本机Edge对公测HTTPS的模拟视口和mock请求；不会证明真实服务商、iOS/厂商真机或用户200.7MB备份。
