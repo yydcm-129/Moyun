@@ -23,3 +23,7 @@
 真实服务调用只使用授权的 OpenAI 兼容 /embeddings 和 [官]gemini-embedding-2。写作、总结、生图、外部重排没有真实调用。47 条找不到现存章节来源的记忆仍保留，没有自动关联。整书任意问题效果与手机真机仍未覆盖。
 
 - performance.json：最终完整门禁内五轮合成百万字书性能、增量写入和故障回滚结果；全部 17 条断言通过。
+- public-release-gate.json／public-release.log：候选 f97adad 的公测 HTTPS 发布门禁 55/55；public-release-results.json、public-tablet-results.json 分别包含入口与触屏平板明细及 8 个资源指纹。
+- public-settings-worldbook.json／.log：同一线上候选的新设置专项 18/18；书籍为合成夹具，请求为 mock，不消耗真实向量额度。
+- pages-candidate.json、repo-metadata.json：两站 Pages 提交／来源／构建及公测身份回执，正式库不变。
+- proxy-session.json：经用户本轮授权的临时 GitHub 专用代理启动范围；不是最终关闭证明。最终停止状态在全部上传与验收后检查，保留于本机忽略目录。

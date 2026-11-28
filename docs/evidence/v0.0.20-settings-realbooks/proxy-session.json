@@ -1,0 +1,14 @@
+{
+    "startedAt":  "2026-11-28T08:30:55.0724970Z",
+    "pid":  2332,
+    "domains":  [
+                    "github.com",
+                    "github.io",
+                    "githubusercontent.com",
+                    "githubassets.com"
+                ],
+    "fallback":  "DIRECT",
+    "configFileChanged":  false,
+    "systemProxyChanged":  false,
+    "configurationInMemory":  true
+}

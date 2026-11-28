@@ -1,0 +1,43 @@
+{
+    "generatedAt":  "2026-11-28T08:33:23.5272099Z",
+    "account":  "yydcm-129",
+    "phase":  "candidate",
+    "repositories":  [
+                         {
+                             "repo":  "yydcm-129/Moyun",
+                             "url":  "https://yydcm-129.github.io/Moyun/",
+                             "source":  {
+                                            "branch":  "main",
+                                            "path":  "/"
+                                        },
+                             "status":  "built",
+                             "build":  {
+                                           "id":  "1411114331",
+                                           "status":  "built",
+                                           "commit":  "f97adad36169dde074fca0f16a5cd5059ce67f7a",
+                                           "updatedAt":  "2026-11-28T08:32:19Z",
+                                           "error":  {
+                                                         "message":  null
+                                                     }
+                                       }
+                         },
+                         {
+                             "repo":  "Not1a-del/Moyun",
+                             "url":  "https://not1a-del.github.io/Moyun/",
+                             "source":  {
+                                            "branch":  "main",
+                                            "path":  "/"
+                                        },
+                             "status":  "built",
+                             "build":  {
+                                           "id":  "1401105946",
+                                           "status":  "built",
+                                           "commit":  "79998277e3aa8c46d079a35c6449222d4b051051",
+                                           "updatedAt":  "2026-11-25T04:26:48Z",
+                                           "error":  {
+                                                         "message":  null
+                                                     }
+                                       }
+                         }
+                     ]
+}
