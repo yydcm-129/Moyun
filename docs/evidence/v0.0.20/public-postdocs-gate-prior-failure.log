@@ -1,0 +1,4 @@
+Error: CDP 超时：Runtime.evaluate
+    at Timeout._onTimeout (<workspace>\scripts\v16-r2-browser-session.cjs:11:141)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)

@@ -19,7 +19,7 @@ module.exports=async function(c){
    const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
    const files=['index.html',...[...html.matchAll(/<(?:script|link) [^>]*?(?:src|href)="([^"]+)"/g)].map(x=>x[1])];
    assert.ok(files.length>=6,'没有收集到全部启动资源');
-   const rows=await c.ev(async files=>{const rows=[];for(const file of files){const response=await fetch(new URL(file,location.href),{cache:'reload'}),bytes=await response.arrayBuffer();rows.push({file,status:response.status,bytes:bytes.byteLength,sha256:[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('')});}return rows;},files);
+   const rows=await c.ev(async files=>Promise.all(files.map(async file=>{const response=await fetch(new URL(file,location.href),{cache:'reload'}),bytes=await response.arrayBuffer();return{file,status:response.status,bytes:bytes.byteLength,sha256:[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('')};})),files);
    for(const row of rows){
     assert.equal(row.status,200,row.file);const file=row.file.split('?')[0].replace(/^[.][/]/,''),local=fs.readFileSync(path.join(root,file));
     // Windows 提交时会标准化换行；线上必须逐字节匹配 Git 中真正发布的文件。

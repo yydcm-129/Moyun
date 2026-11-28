@@ -14,3 +14,5 @@
 线上补充证据文件：`public-candidate-pages.json`记录目标账号、Pages来源与实际构建；`public-release-gate.json`及两个`public-*-details.json`记录公测55项发布门禁、7个启动文件指纹及桌面/入口/平板结果。`public-memory.json`是公测HTTPS页面内的22项合成记忆测试，真实服务端口已拦截；`public-memory-prior-failure.log`保留首次滚动点击未命中的原始失败，`public-memory-animation-prior-failure.log`保留动画期间43.988px的原始失败；`public-memory.log`为调整等待方式后完整通过记录。`public-characters.log`记录公测站100角色保存与13个尺寸/主题场景。`gate-receipt.json`记录回执更新后的普通门禁与结构审计。候选`3f2ef87f12fc138e59ca41ccb65c7b490a07cb03`已部署，2026-11-28核对Pages构建ID`1409164296`状态built，线上门禁完成。
 
 证据反映本机Edge对公测HTTPS的模拟视口和mock请求；不会证明真实服务商、iOS/厂商真机或用户200.7MB备份。
+
+`public-postdocs-gate-prior-failure.json/.log`保留回执提交后的文件指纹CDP超时；`public-postdocs-release-gate.json`记录并行读取修正后的整轮55/55通过。`public-postdocs-release-results.json`、`public-postdocs-tablet-results.json`及对应`.log`分别保存入口25项和平板30项的详细证据，实际线上基准为`0f2805794371c87f62679a1c5691737eaa01d5a7`，8个资源均匹配Git字节。最终收尾提交的部署回执另保留在本机`.ui-check/release-gate/`并随最终交付说明引用。
