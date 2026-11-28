@@ -1,0 +1,414 @@
+{
+  "passed": true,
+  "mock": true,
+  "results": [
+    {
+      "name": "上下文保留参考范围，所有辅助控制移入新分区",
+      "ok": true,
+      "data": {
+        "tabs": [
+          "api",
+          "context",
+          "auxiliary",
+          "editable",
+          "mods",
+          "image",
+          "changelog"
+        ],
+        "groups": [
+          {
+            "key": "second-round",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "third-round",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "generation-truncation",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "regen-retention",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "gemini-input",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "auto-scroll",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "reader-navigation",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "reviewer",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "inline-comment",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "auto-comment",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "stream",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "timeout",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "thinking",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "token-usage",
+            "panel": "settings-panel-auxiliary"
+          },
+          {
+            "key": "word-count",
+            "panel": "settings-panel-auxiliary"
+          }
+        ],
+        "context": [
+          "settings-panel-context",
+          "settings-panel-context",
+          "settings-panel-context",
+          "settings-panel-context"
+        ]
+      }
+    },
+    {
+      "name": "320 light 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 254,
+          "y": 457,
+          "height": 46,
+          "hit": true
+        },
+        "summary": {
+          "x": 157,
+          "y": 457,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 21,
+        "right": 293,
+        "width": 320,
+        "sections": 6
+      }
+    },
+    {
+      "name": "320 dark 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 254,
+          "y": 457,
+          "height": 46,
+          "hit": true
+        },
+        "summary": {
+          "x": 157,
+          "y": 457,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 21,
+        "right": 293,
+        "width": 320,
+        "sections": 6
+      }
+    },
+    {
+      "name": "360 light 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 294,
+          "y": 457,
+          "height": 46,
+          "hit": true
+        },
+        "summary": {
+          "x": 177,
+          "y": 457,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 21,
+        "right": 333,
+        "width": 360,
+        "sections": 6
+      }
+    },
+    {
+      "name": "360 dark 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 294,
+          "y": 457,
+          "height": 46,
+          "hit": true
+        },
+        "summary": {
+          "x": 177,
+          "y": 457,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 21,
+        "right": 333,
+        "width": 360,
+        "sections": 6
+      }
+    },
+    {
+      "name": "768 light 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 574,
+          "y": 450,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 381,
+          "y": 450,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 149,
+        "right": 613,
+        "width": 768,
+        "sections": 6
+      }
+    },
+    {
+      "name": "768 dark 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 574,
+          "y": 450,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 381,
+          "y": 450,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 149,
+        "right": 613,
+        "width": 768,
+        "sections": 6
+      }
+    },
+    {
+      "name": "1024 light 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 702,
+          "y": 506,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 509,
+          "y": 768,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 277,
+        "right": 741,
+        "width": 1024,
+        "sections": 6
+      }
+    },
+    {
+      "name": "1024 dark 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 702,
+          "y": 506,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 509,
+          "y": 768,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 277,
+        "right": 741,
+        "width": 1024,
+        "sections": 6
+      }
+    },
+    {
+      "name": "1280 light 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 830,
+          "y": 446,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 637,
+          "y": 446,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 405,
+        "right": 869,
+        "width": 1280,
+        "sections": 6
+      }
+    },
+    {
+      "name": "1280 dark 生图关闭时规则可见，展开与开关实际命中",
+      "ok": true,
+      "data": {
+        "button": {
+          "x": 830,
+          "y": 446,
+          "height": 44,
+          "hit": true
+        },
+        "summary": {
+          "x": 637,
+          "y": 446,
+          "height": 44,
+          "hit": true
+        },
+        "visible": true,
+        "overflow": false,
+        "left": 405,
+        "right": 869,
+        "width": 1280,
+        "sections": 6
+      }
+    },
+    {
+      "name": "实际输入保存到当前书；请求启用/停用、生图关闭和空字符串均生效",
+      "ok": true,
+      "data": {
+        "custom": "WORLDBOOK_CUSTOM_SENTINEL：只画蓝色雨伞。",
+        "blank": "",
+        "enabled": true,
+        "disabled": false,
+        "off": false,
+        "hasAppearance": false
+      }
+    },
+    {
+      "name": "切书与完整备份导回保留单书自定义，不混到新书",
+      "ok": true,
+      "data": {
+        "other": "",
+        "equal": true
+      }
+    },
+    {
+      "name": "刷新后清空值与自定义保留，恢复只影响单项",
+      "ok": true,
+      "data": {
+        "custom": "WORLDBOOK_CUSTOM_SENTINEL：只画蓝色雨伞。",
+        "unchanged": true,
+        "restored": true
+      }
+    },
+    {
+      "name": "全局标签模板清空后刷新保留，两个恢复按钮实际可用",
+      "ok": true,
+      "data": {
+        "emptyAfterReload": true,
+        "restored": {
+          "image": true,
+          "avatar": true
+        }
+      }
+    },
+    {
+      "name": "连接中心按向量接口验证指定模型，独立索引不调用总结",
+      "ok": true,
+      "data": {
+        "test": true,
+        "saved": true,
+        "calls": [
+          {
+            "url": "https://vector.invalid/v1/embeddings",
+            "model": "fixture-embedding",
+            "inputs": 1
+          },
+          {
+            "url": "https://vector.invalid/v1/embeddings",
+            "model": "fixture-embedding",
+            "inputs": 2
+          }
+        ],
+        "first": 2,
+        "second": 2,
+        "blocks": 2,
+        "memories": 0,
+        "error": "",
+        "profile": "id_1795841143684_ke8d855a",
+        "model": "fixture-embedding",
+        "writing": true
+      }
+    },
+    {
+      "name": "向量连接与手填模型保存刷新仍在",
+      "ok": true,
+      "data": {
+        "profile": true,
+        "model": "fixture-embedding"
+      }
+    },
+    {
+      "name": "实际正文请求包含当前书的自定义生图规则",
+      "ok": true,
+      "data": {
+        "requests": 1,
+        "custom": 1
+      }
+    }
+  ],
+  "errors": []
+}

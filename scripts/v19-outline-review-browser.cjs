@@ -73,6 +73,9 @@ async function main(){
     if(process.argv.includes('--character-relations')){await require('./v19-character-relations-browser.cjs')(c,{backup:option('--backup')});return;}
     if(process.argv.includes('--character-batch')){await require('./v20-character-batch-browser.cjs')(c);return;}
     if(process.argv.includes('--memory-hybrid')){await require('./v20-memory-browser.cjs')(c);return;}
+    if(process.argv.includes('--real-book')){await require('./v20-real-book-browser.cjs')(c,{backup:option('--backup')});return;}
+    if(process.argv.includes('--settings-worldbook')){await require('./v20-settings-worldbook-browser.cjs')(c);return;}
+    if(process.argv.includes('--live-vector')){await require('./v20-live-vector-browser.cjs')(c,{backup:option('--backup'),casesFile:option('--cases')});return;}
     if(process.argv.includes('--snapshot-cleanup')){await require('./v19-regen-snapshot-browser.cjs')(c,{backup:option('--backup')});return;}
     const seed=await c.ev(()=>{const s=__s,id='v19-outline-browser';if(!s.books.some(book=>book.id===id))s.books.push({id,novel:{title:'卷纲审阅验收',outline:'总纲',volumes:[{id:'v1',title:'旧卷',startChapter:1,endChapter:2,summary:'旧计划'}]},chapters:[],characters:[]});s.loadBook(id);s.chapterOutlines=Array.from({length:10},(_,i)=>({id:'o'+i,chapterNo:i+1,title:'第'+(i+1)+'章',content:'细纲'+(i+1)}));s.novel.volumes=[{id:'v1',title:'旧卷',startChapter:1,endChapter:10,summary:'旧计划'}];return true;});
     const results=[];

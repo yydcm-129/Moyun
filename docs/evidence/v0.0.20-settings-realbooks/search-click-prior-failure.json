@@ -1,0 +1,4408 @@
+{
+  "passed": false,
+  "results": [
+    {
+      "name": "1280-light全部常用关联词进入可见前十",
+      "ok": true,
+      "data": {
+        "pairs": 247,
+        "checks": [
+          {
+            "query": "上下箭头",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "上下顶按钮",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "回到顶部",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "自动消失",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "隐藏时间",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "显示时间",
+            "target": "reader-navigation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮"
+            ]
+          },
+          {
+            "query": "接口网址",
+            "target": "api-profiles",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              }
+            ],
+            "dom": [
+              "连接中心｜API 配置"
+            ]
+          },
+          {
+            "query": "API密钥",
+            "target": "api-profiles",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              },
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "连接中心｜API 配置",
+              "生图设置"
+            ]
+          },
+          {
+            "query": "密匙",
+            "target": "api-profiles",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              }
+            ],
+            "dom": [
+              "连接中心｜API 配置"
+            ]
+          },
+          {
+            "query": "更换服务商",
+            "target": "api-profiles",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              }
+            ],
+            "dom": [
+              "连接中心｜API 配置"
+            ]
+          },
+          {
+            "query": "连接测试",
+            "target": "api-profiles",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              }
+            ],
+            "dom": [
+              "连接中心｜API 配置"
+            ]
+          },
+          {
+            "query": "思考深度",
+            "target": "global-controls",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-global-controls",
+                "title": "全局温度与思考强度"
+              }
+            ],
+            "dom": [
+              "全局温度与思考强度"
+            ]
+          },
+          {
+            "query": "创意",
+            "target": "global-controls",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-global-controls",
+                "title": "全局温度与思考强度"
+              }
+            ],
+            "dom": [
+              "全局温度与思考强度"
+            ]
+          },
+          {
+            "query": "随机程度",
+            "target": "global-controls",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-global-controls",
+                "title": "全局温度与思考强度"
+              }
+            ],
+            "dom": [
+              "全局温度与思考强度"
+            ]
+          },
+          {
+            "query": "推理强度",
+            "target": "global-controls",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-global-controls",
+                "title": "全局温度与思考强度"
+              }
+            ],
+            "dom": [
+              "全局温度与思考强度"
+            ]
+          },
+          {
+            "query": "回复不完整",
+            "target": "anti-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              }
+            ],
+            "dom": [
+              "Gemini 抗截断"
+            ]
+          },
+          {
+            "query": "被截断",
+            "target": "anti-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              },
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              },
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "Gemini 抗截断",
+              "截断设置",
+              "上下文截断上限",
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "断流",
+            "target": "anti-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              }
+            ],
+            "dom": [
+              "Gemini 抗截断"
+            ]
+          },
+          {
+            "query": "工具回复",
+            "target": "anti-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              }
+            ],
+            "dom": [
+              "Gemini 抗截断"
+            ]
+          },
+          {
+            "query": "上下文是什么",
+            "target": "context-intro",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-intro",
+                "title": "上下文设置说明"
+              }
+            ],
+            "dom": [
+              "上下文设置说明"
+            ]
+          },
+          {
+            "query": "AI参考内容",
+            "target": "context-intro",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-intro",
+                "title": "上下文设置说明"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              }
+            ],
+            "dom": [
+              "上下文设置说明",
+              "正文参考资料开关"
+            ]
+          },
+          {
+            "query": "模块说明",
+            "target": "context-intro",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-intro",
+                "title": "上下文设置说明"
+              }
+            ],
+            "dom": [
+              "上下文设置说明"
+            ]
+          },
+          {
+            "query": "一段话开书",
+            "target": "team-book",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜策划员 API",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "一键开书",
+            "target": "team-book",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              },
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              },
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              }
+            ],
+            "dom": [
+              "团队开书｜统一 API 配置",
+              "模块模型分配｜设定模块",
+              "模块模型分配｜大纲模块"
+            ]
+          },
+          {
+            "query": "开书模型",
+            "target": "team-book",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              },
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              },
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              },
+              {
+                "target": "settings-search-team-settings",
+                "title": "团队开书｜设定员 API"
+              },
+              {
+                "target": "settings-search-team-character",
+                "title": "团队开书｜角色员 API"
+              },
+              {
+                "target": "settings-search-team-outline",
+                "title": "团队开书｜大纲与细纲员 API"
+              },
+              {
+                "target": "settings-search-team-review",
+                "title": "团队开书｜审查员 API"
+              },
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              },
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              }
+            ],
+            "dom": [
+              "团队开书｜统一 API 配置",
+              "团队开书｜已有书籍模型联动",
+              "团队开书｜策划员 API",
+              "团队开书｜设定员 API",
+              "团队开书｜角色员 API",
+              "团队开书｜大纲与细纲员 API",
+              "团队开书｜审查员 API",
+              "模块模型分配｜设定模块",
+              "模块模型分配｜大纲模块"
+            ]
+          },
+          {
+            "query": "统一模型",
+            "target": "team-book",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "灵感拆解",
+            "target": "team-planner",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜策划员 API"
+            ]
+          },
+          {
+            "query": "策划模型",
+            "target": "team-planner",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              },
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜策划员 API",
+              "模块模型分配｜大纲模块",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "策划接口",
+            "target": "team-planner",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜策划员 API",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "世界观生成",
+            "target": "team-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-settings",
+                "title": "团队开书｜设定员 API"
+              },
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              }
+            ],
+            "dom": [
+              "团队开书｜设定员 API",
+              "模块模型分配｜设定模块"
+            ]
+          },
+          {
+            "query": "开书设定",
+            "target": "team-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-settings",
+                "title": "团队开书｜设定员 API"
+              },
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              },
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              }
+            ],
+            "dom": [
+              "团队开书｜设定员 API",
+              "模块模型分配｜设定模块",
+              "团队开书｜统一 API 配置",
+              "团队开书｜已有书籍模型联动"
+            ]
+          },
+          {
+            "query": "设定员接口",
+            "target": "team-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-settings",
+                "title": "团队开书｜设定员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜设定员 API",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "开书角色",
+            "target": "team-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-character",
+                "title": "团队开书｜角色员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              },
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              }
+            ],
+            "dom": [
+              "团队开书｜角色员 API",
+              "团队开书｜统一 API 配置",
+              "团队开书｜已有书籍模型联动"
+            ]
+          },
+          {
+            "query": "角色员模型",
+            "target": "team-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-character",
+                "title": "团队开书｜角色员 API"
+              },
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜角色员 API",
+              "模块模型分配｜角色模块",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "角色员接口",
+            "target": "team-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-character",
+                "title": "团队开书｜角色员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜角色员 API",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "开书卷纲",
+            "target": "team-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-outline",
+                "title": "团队开书｜大纲与细纲员 API"
+              },
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              }
+            ],
+            "dom": [
+              "团队开书｜大纲与细纲员 API",
+              "模块模型分配｜大纲模块"
+            ]
+          },
+          {
+            "query": "细纲员模型",
+            "target": "team-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-outline",
+                "title": "团队开书｜大纲与细纲员 API"
+              },
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "团队开书｜大纲与细纲员 API",
+              "模块模型分配｜大纲模块",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "规划员",
+            "target": "team-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-outline",
+                "title": "团队开书｜大纲与细纲员 API"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              },
+              {
+                "target": "settings-search-team-planner",
+                "title": "团队开书｜策划员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜大纲与细纲员 API",
+              "团队开书｜统一 API 配置",
+              "团队开书｜策划员 API"
+            ]
+          },
+          {
+            "query": "冲突判断",
+            "target": "team-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-review",
+                "title": "团队开书｜审查员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜审查员 API"
+            ]
+          },
+          {
+            "query": "最高优先要求",
+            "target": "team-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-review",
+                "title": "团队开书｜审查员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜审查员 API"
+            ]
+          },
+          {
+            "query": "审查费用",
+            "target": "team-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-review",
+                "title": "团队开书｜审查员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜审查员 API"
+            ]
+          },
+          {
+            "query": "审核模型",
+            "target": "team-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-review",
+                "title": "团队开书｜审查员 API"
+              }
+            ],
+            "dom": [
+              "团队开书｜审查员 API"
+            ]
+          },
+          {
+            "query": "旧书联动",
+            "target": "team-book-existing-routes",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              }
+            ],
+            "dom": [
+              "团队开书｜已有书籍模型联动"
+            ]
+          },
+          {
+            "query": "微调开关",
+            "target": "team-book-existing-routes",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              }
+            ],
+            "dom": [
+              "团队开书｜已有书籍模型联动"
+            ]
+          },
+          {
+            "query": "团队配置复用",
+            "target": "team-book-existing-routes",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-team-book-existing-routes",
+                "title": "团队开书｜已有书籍模型联动"
+              }
+            ],
+            "dom": [
+              "团队开书｜已有书籍模型联动"
+            ]
+          },
+          {
+            "query": "忘剧情",
+            "target": "context-workbench",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "向量模型",
+            "target": "context-workbench",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "记忆检索",
+            "target": "context-workbench",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "吃书",
+            "target": "context-workbench",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "前文字数上限",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "embedding",
+            "target": "context-workbench",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              },
+              {
+                "target": "settings-search-api-profiles",
+                "title": "连接中心｜API 配置"
+              }
+            ],
+            "dom": [
+              "创作设定工作台与记忆库入口",
+              "连接中心｜API 配置"
+            ]
+          },
+          {
+            "query": "AI读什么",
+            "target": "context-sources",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              }
+            ],
+            "dom": [
+              "正文参考资料开关"
+            ]
+          },
+          {
+            "query": "参考开关",
+            "target": "context-sources",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              }
+            ],
+            "dom": [
+              "正文参考资料开关"
+            ]
+          },
+          {
+            "query": "发送资料",
+            "target": "context-sources",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              },
+              {
+                "target": "settings-search-context-intro",
+                "title": "上下文设置说明"
+              }
+            ],
+            "dom": [
+              "正文参考资料开关",
+              "上下文设置说明"
+            ]
+          },
+          {
+            "query": "发送前文",
+            "target": "context-full-text",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-full-text",
+                "title": "发送最近正文"
+              },
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              }
+            ],
+            "dom": [
+              "发送最近正文",
+              "最近正文的章节数"
+            ]
+          },
+          {
+            "query": "参考原文",
+            "target": "context-full-text",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-full-text",
+                "title": "发送最近正文"
+              }
+            ],
+            "dom": [
+              "发送最近正文"
+            ]
+          },
+          {
+            "query": "携带正文",
+            "target": "context-full-text",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-full-text",
+                "title": "发送最近正文"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              },
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              }
+            ],
+            "dom": [
+              "发送最近正文",
+              "正文参考资料开关",
+              "最近正文的章节数"
+            ]
+          },
+          {
+            "query": "前情提要",
+            "target": "context-chapter-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-chapter-summary",
+                "title": "发送章节摘要"
+              }
+            ],
+            "dom": [
+              "发送章节摘要"
+            ]
+          },
+          {
+            "query": "携带摘要",
+            "target": "context-chapter-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-chapter-summary",
+                "title": "发送章节摘要"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              }
+            ],
+            "dom": [
+              "发送章节摘要",
+              "正文参考资料开关"
+            ]
+          },
+          {
+            "query": "参考摘要",
+            "target": "context-chapter-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-chapter-summary",
+                "title": "发送章节摘要"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              },
+              {
+                "target": "settings-search-summary-chapters",
+                "title": "章节摘要数量"
+              }
+            ],
+            "dom": [
+              "发送章节摘要",
+              "正文参考资料开关",
+              "章节摘要数量"
+            ]
+          },
+          {
+            "query": "旧剧情回顾",
+            "target": "context-range-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-range-summary",
+                "title": "发送长期总结"
+              }
+            ],
+            "dom": [
+              "发送长期总结"
+            ]
+          },
+          {
+            "query": "历史总结",
+            "target": "context-range-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-range-summary",
+                "title": "发送长期总结"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "发送长期总结",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "长期记忆",
+            "target": "context-range-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-range-summary",
+                "title": "发送长期总结"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "发送长期总结",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "按纲写作",
+            "target": "context-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-outline",
+                "title": "发送细纲"
+              }
+            ],
+            "dom": [
+              "发送细纲"
+            ]
+          },
+          {
+            "query": "携带细纲",
+            "target": "context-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-outline",
+                "title": "发送细纲"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              }
+            ],
+            "dom": [
+              "发送细纲",
+              "正文参考资料开关"
+            ]
+          },
+          {
+            "query": "剧情范围",
+            "target": "context-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-outline",
+                "title": "发送细纲"
+              },
+              {
+                "target": "settings-search-context-range-summary",
+                "title": "发送长期总结"
+              }
+            ],
+            "dom": [
+              "发送细纲",
+              "发送长期总结"
+            ]
+          },
+          {
+            "query": "防跑偏",
+            "target": "context-final-check",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-final-check",
+                "title": "最终校验上下文"
+              }
+            ],
+            "dom": [
+              "最终校验上下文"
+            ]
+          },
+          {
+            "query": "设定核对",
+            "target": "context-final-check",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-final-check",
+                "title": "最终校验上下文"
+              }
+            ],
+            "dom": [
+              "最终校验上下文"
+            ]
+          },
+          {
+            "query": "人物一致性",
+            "target": "context-final-check",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-final-check",
+                "title": "最终校验上下文"
+              }
+            ],
+            "dom": [
+              "最终校验上下文"
+            ]
+          },
+          {
+            "query": "时间",
+            "target": "auto-timeline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-timeline",
+                "title": "事件时间线自动补录"
+              },
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              },
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "事件时间线自动补录",
+              "正文上下跳转按钮",
+              "首字超时",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "事件记录",
+            "target": "auto-timeline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-timeline",
+                "title": "事件时间线自动补录"
+              }
+            ],
+            "dom": [
+              "事件时间线自动补录"
+            ]
+          },
+          {
+            "query": "剧情年表",
+            "target": "auto-timeline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-timeline",
+                "title": "事件时间线自动补录"
+              }
+            ],
+            "dom": [
+              "事件时间线自动补录"
+            ]
+          },
+          {
+            "query": "时间顺序",
+            "target": "auto-timeline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-timeline",
+                "title": "事件时间线自动补录"
+              }
+            ],
+            "dom": [
+              "事件时间线自动补录"
+            ]
+          },
+          {
+            "query": "省钱",
+            "target": "compact-mode",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              },
+              {
+                "target": "settings-search-compact-mode",
+                "title": "省 Token 模式"
+              }
+            ],
+            "dom": [
+              "前文字数上限",
+              "省 Token 模式"
+            ]
+          },
+          {
+            "query": "精简上下文",
+            "target": "compact-mode",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-compact-mode",
+                "title": "省 Token 模式"
+              }
+            ],
+            "dom": [
+              "省 Token 模式"
+            ]
+          },
+          {
+            "query": "小窗口",
+            "target": "compact-mode",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-compact-mode",
+                "title": "省 Token 模式"
+              }
+            ],
+            "dom": [
+              "省 Token 模式"
+            ]
+          },
+          {
+            "query": "减少输入",
+            "target": "compact-mode",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-compact-mode",
+                "title": "省 Token 模式"
+              }
+            ],
+            "dom": [
+              "省 Token 模式"
+            ]
+          },
+          {
+            "query": "补写",
+            "target": "second-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "二轮补写",
+              "三轮摘要补写",
+              "模块模型分配｜续写补写",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "字数不够",
+            "target": "second-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              }
+            ],
+            "dom": [
+              "二轮补写"
+            ]
+          },
+          {
+            "query": "没写够",
+            "target": "second-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              }
+            ],
+            "dom": [
+              "二轮补写"
+            ]
+          },
+          {
+            "query": "第二轮",
+            "target": "second-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              }
+            ],
+            "dom": [
+              "二轮补写",
+              "三轮摘要补写"
+            ]
+          },
+          {
+            "query": "补摘要",
+            "target": "second-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              }
+            ],
+            "dom": [
+              "前文字数上限",
+              "三轮摘要补写",
+              "二轮补写",
+              "模块模型分配｜AI总结",
+              "模块模型分配｜续写补写"
+            ]
+          },
+          {
+            "query": "补写",
+            "target": "third-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "二轮补写",
+              "三轮摘要补写",
+              "模块模型分配｜续写补写",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "补摘要",
+            "target": "third-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              }
+            ],
+            "dom": [
+              "前文字数上限",
+              "三轮摘要补写",
+              "二轮补写",
+              "模块模型分配｜AI总结",
+              "模块模型分配｜续写补写"
+            ]
+          },
+          {
+            "query": "摘要缺失",
+            "target": "third-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              }
+            ],
+            "dom": [
+              "三轮摘要补写",
+              "二轮补写",
+              "模块模型分配｜续写补写"
+            ]
+          },
+          {
+            "query": "第三轮",
+            "target": "third-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              }
+            ],
+            "dom": [
+              "三轮摘要补写",
+              "二轮补写"
+            ]
+          },
+          {
+            "query": "补全摘要",
+            "target": "third-round",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-second-round",
+                "title": "二轮补写"
+              },
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "三轮摘要补写",
+              "二轮补写",
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "截断设置",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              }
+            ],
+            "dom": [
+              "截断设置"
+            ]
+          },
+          {
+            "query": "超字数",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-compact-mode",
+                "title": "省 Token 模式"
+              },
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "截断设置",
+              "省 Token 模式",
+              "首字超时"
+            ]
+          },
+          {
+            "query": "超长",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              }
+            ],
+            "dom": [
+              "截断设置"
+            ]
+          },
+          {
+            "query": "保留全文",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "截断设置",
+              "Gemini 抗截断",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "2.5倍",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              }
+            ],
+            "dom": [
+              "截断设置"
+            ]
+          },
+          {
+            "query": "不截断",
+            "target": "generation-truncation",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-anti-truncation",
+                "title": "Gemini 抗截断"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              },
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "截断设置",
+              "Gemini 抗截断",
+              "上下文截断上限",
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "评论自动跟随生成",
+            "target": "auto-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-comment",
+                "title": "评论自动跟随生成"
+              }
+            ],
+            "dom": [
+              "评论自动跟随生成"
+            ]
+          },
+          {
+            "query": "自动评论",
+            "target": "auto-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              },
+              {
+                "target": "settings-search-auto-comment",
+                "title": "评论自动跟随生成"
+              },
+              {
+                "target": "settings-search-comment-count",
+                "title": "每章模拟评论数量"
+              },
+              {
+                "target": "settings-search-route-comments",
+                "title": "模块模型分配｜AI评论"
+              }
+            ],
+            "dom": [
+              "书评团功能",
+              "评论自动跟随生成",
+              "每章模拟评论数量",
+              "模块模型分配｜AI评论"
+            ]
+          },
+          {
+            "query": "关闭自动评论",
+            "target": "auto-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-comment",
+                "title": "评论自动跟随生成"
+              },
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              }
+            ],
+            "dom": [
+              "评论自动跟随生成",
+              "书评团功能"
+            ]
+          },
+          {
+            "query": "紧接生成",
+            "target": "auto-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-comment",
+                "title": "评论自动跟随生成"
+              }
+            ],
+            "dom": [
+              "评论自动跟随生成"
+            ]
+          },
+          {
+            "query": "Gemini输入改写",
+            "target": "gemini-input",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-gemini-input",
+                "title": "Gemini 测试输入"
+              }
+            ],
+            "dom": [
+              "Gemini 测试输入"
+            ]
+          },
+          {
+            "query": "用户输入改写",
+            "target": "gemini-input",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-gemini-input",
+                "title": "Gemini 测试输入"
+              }
+            ],
+            "dom": [
+              "Gemini 测试输入"
+            ]
+          },
+          {
+            "query": "输入混淆",
+            "target": "gemini-input",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-gemini-input",
+                "title": "Gemini 测试输入"
+              }
+            ],
+            "dom": [
+              "Gemini 测试输入"
+            ]
+          },
+          {
+            "query": "参考几章",
+            "target": "full-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              },
+              {
+                "target": "settings-search-summary-chapters",
+                "title": "章节摘要数量"
+              }
+            ],
+            "dom": [
+              "最近正文的章节数",
+              "章节摘要数量"
+            ]
+          },
+          {
+            "query": "携带几章",
+            "target": "full-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              }
+            ],
+            "dom": [
+              "最近正文的章节数"
+            ]
+          },
+          {
+            "query": "最近几章",
+            "target": "full-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              }
+            ],
+            "dom": [
+              "最近正文的章节数"
+            ]
+          },
+          {
+            "query": "摘要几章",
+            "target": "summary-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-summary-chapters",
+                "title": "章节摘要数量"
+              }
+            ],
+            "dom": [
+              "章节摘要数量"
+            ]
+          },
+          {
+            "query": "总结章数",
+            "target": "summary-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-summary-chapters",
+                "title": "章节摘要数量"
+              }
+            ],
+            "dom": [
+              "章节摘要数量"
+            ]
+          },
+          {
+            "query": "前情章数",
+            "target": "summary-chapters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-summary-chapters",
+                "title": "章节摘要数量"
+              },
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              },
+              {
+                "target": "settings-search-outline-range",
+                "title": "细纲注入范围"
+              }
+            ],
+            "dom": [
+              "章节摘要数量",
+              "最近正文的章节数",
+              "细纲注入范围"
+            ]
+          },
+          {
+            "query": "单章字数限制",
+            "target": "context-limits",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              }
+            ],
+            "dom": [
+              "上下文截断上限"
+            ]
+          },
+          {
+            "query": "摘要字数限制",
+            "target": "context-limits",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              },
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "上下文截断上限",
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "世界观长度",
+            "target": "context-limits",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              }
+            ],
+            "dom": [
+              "上下文截断上限"
+            ]
+          },
+          {
+            "query": "角色长度",
+            "target": "context-limits",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              },
+              {
+                "target": "settings-search-character-word-count",
+                "title": "角色资料字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "上下文截断上限",
+              "角色资料字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "跳到最新章节",
+            "target": "auto-scroll",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-scroll",
+                "title": "生成开始时定位"
+              }
+            ],
+            "dom": [
+              "生成开始时定位"
+            ]
+          },
+          {
+            "query": "生成时跳转",
+            "target": "auto-scroll",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-scroll",
+                "title": "生成开始时定位"
+              }
+            ],
+            "dom": [
+              "生成开始时定位"
+            ]
+          },
+          {
+            "query": "滚动位置",
+            "target": "auto-scroll",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-scroll",
+                "title": "生成开始时定位"
+              }
+            ],
+            "dom": [
+              "生成开始时定位"
+            ]
+          },
+          {
+            "query": "关闭书评",
+            "target": "reviewer",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              },
+              {
+                "target": "settings-search-auto-comment",
+                "title": "评论自动跟随生成"
+              }
+            ],
+            "dom": [
+              "书评团功能",
+              "评论自动跟随生成"
+            ]
+          },
+          {
+            "query": "作品评价",
+            "target": "reviewer",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              }
+            ],
+            "dom": [
+              "书评团功能"
+            ]
+          },
+          {
+            "query": "读者反馈",
+            "target": "reviewer",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              }
+            ],
+            "dom": [
+              "书评团功能"
+            ]
+          },
+          {
+            "query": "同时评论",
+            "target": "inline-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-inline-comment",
+                "title": "评论与正文合并生成"
+              }
+            ],
+            "dom": [
+              "评论与正文合并生成"
+            ]
+          },
+          {
+            "query": "合并书评",
+            "target": "inline-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-inline-comment",
+                "title": "评论与正文合并生成"
+              }
+            ],
+            "dom": [
+              "评论与正文合并生成"
+            ]
+          },
+          {
+            "query": "同次 API",
+            "target": "inline-comment",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-inline-comment",
+                "title": "评论与正文合并生成"
+              },
+              {
+                "target": "settings-search-team-book",
+                "title": "团队开书｜统一 API 配置"
+              }
+            ],
+            "dom": [
+              "评论与正文合并生成",
+              "团队开书｜统一 API 配置"
+            ]
+          },
+          {
+            "query": "评论几条",
+            "target": "comment-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-comment-count",
+                "title": "每章模拟评论数量"
+              }
+            ],
+            "dom": [
+              "每章模拟评论数量"
+            ]
+          },
+          {
+            "query": "读者人数",
+            "target": "comment-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-comment-count",
+                "title": "每章模拟评论数量"
+              },
+              {
+                "target": "settings-search-review-personas",
+                "title": "书评人设"
+              }
+            ],
+            "dom": [
+              "每章模拟评论数量",
+              "书评人设"
+            ]
+          },
+          {
+            "query": "点评数量",
+            "target": "comment-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-comment-count",
+                "title": "每章模拟评论数量"
+              }
+            ],
+            "dom": [
+              "每章模拟评论数量"
+            ]
+          },
+          {
+            "query": "边写边显示",
+            "target": "stream",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-stream",
+                "title": "流式输出"
+              }
+            ],
+            "dom": [
+              "流式输出"
+            ]
+          },
+          {
+            "query": "逐字显示",
+            "target": "stream",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-stream",
+                "title": "流式输出"
+              }
+            ],
+            "dom": [
+              "流式输出"
+            ]
+          },
+          {
+            "query": "一次性返回",
+            "target": "stream",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-stream",
+                "title": "流式输出"
+              }
+            ],
+            "dom": [
+              "流式输出"
+            ]
+          },
+          {
+            "query": "流式开关",
+            "target": "stream",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-stream",
+                "title": "流式输出"
+              }
+            ],
+            "dom": [
+              "流式输出"
+            ]
+          },
+          {
+            "query": "时间",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-auto-timeline",
+                "title": "事件时间线自动补录"
+              },
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              },
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "事件时间线自动补录",
+              "正文上下跳转按钮",
+              "首字超时",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "等待时间",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "首字超时"
+            ]
+          },
+          {
+            "query": "不出字",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              },
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "首字超时",
+              "截断设置",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "一直转圈",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "首字超时"
+            ]
+          },
+          {
+            "query": "卡住",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "首字超时"
+            ]
+          },
+          {
+            "query": "秒数",
+            "target": "timeout",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-reader-navigation",
+                "title": "正文上下跳转按钮"
+              },
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "正文上下跳转按钮",
+              "首字超时"
+            ]
+          },
+          {
+            "query": "隐藏思考",
+            "target": "thinking",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-thinking",
+                "title": "显示思维链"
+              }
+            ],
+            "dom": [
+              "显示思维链"
+            ]
+          },
+          {
+            "query": "推理可见",
+            "target": "thinking",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-thinking",
+                "title": "显示思维链"
+              }
+            ],
+            "dom": [
+              "显示思维链"
+            ]
+          },
+          {
+            "query": "思维过程",
+            "target": "thinking",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-thinking",
+                "title": "显示思维链"
+              }
+            ],
+            "dom": [
+              "显示思维链"
+            ]
+          },
+          {
+            "query": "花费",
+            "target": "token-usage",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-token-usage",
+                "title": "显示 Token 用量"
+              }
+            ],
+            "dom": [
+              "显示 Token 用量"
+            ]
+          },
+          {
+            "query": "费用统计",
+            "target": "token-usage",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-token-usage",
+                "title": "显示 Token 用量"
+              }
+            ],
+            "dom": [
+              "显示 Token 用量"
+            ]
+          },
+          {
+            "query": "令牌",
+            "target": "token-usage",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-token-usage",
+                "title": "显示 Token 用量"
+              }
+            ],
+            "dom": [
+              "显示 Token 用量"
+            ]
+          },
+          {
+            "query": "缓存用量",
+            "target": "token-usage",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-token-usage",
+                "title": "显示 Token 用量"
+              }
+            ],
+            "dom": [
+              "显示 Token 用量"
+            ]
+          },
+          {
+            "query": "字数控制",
+            "target": "word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              },
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              }
+            ],
+            "dom": [
+              "AI 生成文本的字数参考",
+              "截断设置"
+            ]
+          },
+          {
+            "query": "生成长度",
+            "target": "word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "大纲字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "输出字数",
+            "target": "word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              },
+              {
+                "target": "settings-search-generation-truncation",
+                "title": "截断设置"
+              },
+              {
+                "target": "settings-search-timeout",
+                "title": "首字超时"
+              }
+            ],
+            "dom": [
+              "AI 生成文本的字数参考",
+              "截断设置",
+              "首字超时"
+            ]
+          },
+          {
+            "query": "总纲字数",
+            "target": "outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              }
+            ],
+            "dom": [
+              "大纲字数参考",
+              "细纲字数参考"
+            ]
+          },
+          {
+            "query": "大纲长度",
+            "target": "outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              },
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              }
+            ],
+            "dom": [
+              "大纲字数参考",
+              "AI 生成文本的字数参考",
+              "细纲字数参考",
+              "上下文截断上限"
+            ]
+          },
+          {
+            "query": "大纲目标字数",
+            "target": "outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "大纲字数参考",
+              "细纲字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "章纲字数",
+            "target": "detailed-outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              },
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              }
+            ],
+            "dom": [
+              "细纲字数参考",
+              "大纲字数参考",
+              "上下文截断上限"
+            ]
+          },
+          {
+            "query": "细纲长度",
+            "target": "detailed-outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              },
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              }
+            ],
+            "dom": [
+              "细纲字数参考",
+              "AI 生成文本的字数参考",
+              "大纲字数参考",
+              "上下文截断上限"
+            ]
+          },
+          {
+            "query": "细纲目标字数",
+            "target": "detailed-outline-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-detailed-outline-word-count",
+                "title": "细纲字数参考"
+              },
+              {
+                "target": "settings-search-outline-word-count",
+                "title": "大纲字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "细纲字数参考",
+              "大纲字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "灵感长度",
+            "target": "suggestion-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-word-count",
+                "title": "建议字数参考"
+              }
+            ],
+            "dom": [
+              "建议字数参考"
+            ]
+          },
+          {
+            "query": "建议长度",
+            "target": "suggestion-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-word-count",
+                "title": "建议字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "建议字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "建议目标字数",
+            "target": "suggestion-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-word-count",
+                "title": "建议字数参考"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "建议字数参考",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "人设长度",
+            "target": "character-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-character-word-count",
+                "title": "角色资料字数参考"
+              }
+            ],
+            "dom": [
+              "角色资料字数参考"
+            ]
+          },
+          {
+            "query": "人物资料长度",
+            "target": "character-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-character-word-count",
+                "title": "角色资料字数参考"
+              }
+            ],
+            "dom": [
+              "角色资料字数参考"
+            ]
+          },
+          {
+            "query": "角色字数",
+            "target": "character-word-count",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-character-word-count",
+                "title": "角色资料字数参考"
+              },
+              {
+                "target": "settings-search-context-limits",
+                "title": "上下文截断上限"
+              },
+              {
+                "target": "settings-search-word-count",
+                "title": "AI 生成文本的字数参考"
+              }
+            ],
+            "dom": [
+              "角色资料字数参考",
+              "上下文截断上限",
+              "AI 生成文本的字数参考"
+            ]
+          },
+          {
+            "query": "前文长度",
+            "target": "history-limit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "历史字数",
+            "target": "history-limit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "前文预算",
+            "target": "history-limit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "少带前文",
+            "target": "history-limit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              }
+            ],
+            "dom": [
+              "前文字数上限"
+            ]
+          },
+          {
+            "query": "吃书",
+            "target": "history-limit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-history-limit",
+                "title": "前文字数上限"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "前文字数上限",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "剧透",
+            "target": "outline-range",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-range",
+                "title": "细纲注入范围"
+              }
+            ],
+            "dom": [
+              "细纲注入范围"
+            ]
+          },
+          {
+            "query": "抢跑",
+            "target": "outline-range",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-range",
+                "title": "细纲注入范围"
+              }
+            ],
+            "dom": [
+              "细纲注入范围"
+            ]
+          },
+          {
+            "query": "提前写",
+            "target": "outline-range",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-range",
+                "title": "细纲注入范围"
+              }
+            ],
+            "dom": [
+              "细纲注入范围"
+            ]
+          },
+          {
+            "query": "后续预告",
+            "target": "outline-range",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-outline-range",
+                "title": "细纲注入范围"
+              }
+            ],
+            "dom": [
+              "细纲注入范围"
+            ]
+          },
+          {
+            "query": "续写模型",
+            "target": "route-writing",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              },
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 续写",
+              "模块模型分配｜正文生成",
+              "模块模型分配｜续写补写",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "正文模型",
+            "target": "route-writing",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-route-translate",
+                "title": "模块模型分配｜翻译模块"
+              },
+              {
+                "target": "settings-search-context-intro",
+                "title": "上下文设置说明"
+              },
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              },
+              {
+                "target": "settings-search-route-suggestion",
+                "title": "模块模型分配｜预设模块"
+              },
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜正文生成",
+              "模块模型分配｜续写补写",
+              "模块模型分配｜翻译模块",
+              "上下文设置说明",
+              "模块模型分配｜沉浸模式 AI 续写",
+              "模块模型分配｜预设模块",
+              "模块模型分配｜AI书评"
+            ]
+          },
+          {
+            "query": "提炼文风模型",
+            "target": "route-writing",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜正文生成"
+            ]
+          },
+          {
+            "query": "文风蒸馏",
+            "target": "route-writing",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜正文生成"
+            ]
+          },
+          {
+            "query": "补写模型",
+            "target": "route-supplement",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜续写补写",
+              "模块模型分配｜正文生成",
+              "三轮摘要补写",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "二轮补写模型",
+            "target": "route-supplement",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜续写补写",
+              "三轮摘要补写"
+            ]
+          },
+          {
+            "query": "三轮补写模型",
+            "target": "route-supplement",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜续写补写",
+              "三轮摘要补写"
+            ]
+          },
+          {
+            "query": "沉浸扩写模型",
+            "target": "route-immersive-expand",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-expand",
+                "title": "模块模型分配｜沉浸模式 AI 扩写"
+              },
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 扩写",
+              "模块模型分配｜沉浸模式 AI 续写"
+            ]
+          },
+          {
+            "query": "选文改写",
+            "target": "route-immersive-expand",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-expand",
+                "title": "模块模型分配｜沉浸模式 AI 扩写"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 扩写",
+              "模块模型分配｜续写补写"
+            ]
+          },
+          {
+            "query": "扩写接口",
+            "target": "route-immersive-expand",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-expand",
+                "title": "模块模型分配｜沉浸模式 AI 扩写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 扩写"
+            ]
+          },
+          {
+            "query": "沉浸续写模型",
+            "target": "route-immersive-continue",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              },
+              {
+                "target": "settings-search-route-immersive-expand",
+                "title": "模块模型分配｜沉浸模式 AI 扩写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 续写",
+              "模块模型分配｜沉浸模式 AI 扩写"
+            ]
+          },
+          {
+            "query": "沉浸写作模型",
+            "target": "route-immersive-continue",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 续写"
+            ]
+          },
+          {
+            "query": "沉浸接口",
+            "target": "route-immersive-continue",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-immersive-continue",
+                "title": "模块模型分配｜沉浸模式 AI 续写"
+              },
+              {
+                "target": "settings-search-route-immersive-expand",
+                "title": "模块模型分配｜沉浸模式 AI 扩写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜沉浸模式 AI 续写",
+              "模块模型分配｜沉浸模式 AI 扩写"
+            ]
+          },
+          {
+            "query": "简介模型",
+            "target": "route-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜设定模块"
+            ]
+          },
+          {
+            "query": "题材模型",
+            "target": "route-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜设定模块"
+            ]
+          },
+          {
+            "query": "设定补全模型",
+            "target": "route-settings",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-settings",
+                "title": "模块模型分配｜设定模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜设定模块"
+            ]
+          },
+          {
+            "query": "角色补全模型",
+            "target": "route-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜角色模块"
+            ]
+          },
+          {
+            "query": "人设模型",
+            "target": "route-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              },
+              {
+                "target": "settings-search-route-suggestion",
+                "title": "模块模型分配｜预设模块"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              },
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜角色模块",
+              "模块模型分配｜预设模块",
+              "创作设定工作台与记忆库入口",
+              "模块模型分配｜AI书评"
+            ]
+          },
+          {
+            "query": "批量角色",
+            "target": "route-character",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜角色模块"
+            ]
+          },
+          {
+            "query": "图片标签模型",
+            "target": "route-imagetext",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-imagetext",
+                "title": "模块模型分配｜封面/立绘"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜封面/立绘"
+            ]
+          },
+          {
+            "query": "封面提示词模型",
+            "target": "route-imagetext",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-imagetext",
+                "title": "模块模型分配｜封面/立绘"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜封面/立绘"
+            ]
+          },
+          {
+            "query": "翻译图片标签",
+            "target": "route-imagetext",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-imagetext",
+                "title": "模块模型分配｜封面/立绘"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜封面/立绘"
+            ]
+          },
+          {
+            "query": "纲要整理模型",
+            "target": "route-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜大纲模块"
+            ]
+          },
+          {
+            "query": "卷纲模型",
+            "target": "route-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              },
+              {
+                "target": "settings-search-team-outline",
+                "title": "团队开书｜大纲与细纲员 API"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜大纲模块",
+              "团队开书｜大纲与细纲员 API"
+            ]
+          },
+          {
+            "query": "分卷模型",
+            "target": "route-outline",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-outline",
+                "title": "模块模型分配｜大纲模块"
+              },
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜大纲模块",
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "文风模型",
+            "target": "route-suggestion",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-suggestion",
+                "title": "模块模型分配｜预设模块"
+              },
+              {
+                "target": "settings-search-route-writing",
+                "title": "模块模型分配｜正文生成"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜预设模块",
+              "模块模型分配｜正文生成"
+            ]
+          },
+          {
+            "query": "预设模型",
+            "target": "route-suggestion",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-suggestion",
+                "title": "模块模型分配｜预设模块"
+              },
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              },
+              {
+                "target": "settings-search-route-translate",
+                "title": "模块模型分配｜翻译模块"
+              },
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜预设模块",
+              "模块模型分配｜角色模块",
+              "模块模型分配｜翻译模块",
+              "生图设置"
+            ]
+          },
+          {
+            "query": "建议模型",
+            "target": "route-suggestion",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-suggestion",
+                "title": "模块模型分配｜预设模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜预设模块"
+            ]
+          },
+          {
+            "query": "章节点评模型",
+            "target": "route-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI书评"
+            ]
+          },
+          {
+            "query": "书评模型",
+            "target": "route-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              },
+              {
+                "target": "settings-search-route-comments",
+                "title": "模块模型分配｜AI评论"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI书评",
+              "模块模型分配｜AI评论"
+            ]
+          },
+          {
+            "query": "书评团模型",
+            "target": "route-review",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI书评"
+            ]
+          },
+          {
+            "query": "补摘要模型",
+            "target": "route-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              },
+              {
+                "target": "settings-search-route-supplement",
+                "title": "模块模型分配｜续写补写"
+              },
+              {
+                "target": "settings-search-third-round",
+                "title": "三轮摘要补写"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI总结",
+              "模块模型分配｜续写补写",
+              "三轮摘要补写"
+            ]
+          },
+          {
+            "query": "记忆模型",
+            "target": "route-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI总结",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "卷末交接模型",
+            "target": "route-summary",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-summary",
+                "title": "模块模型分配｜AI总结"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI总结"
+            ]
+          },
+          {
+            "query": "读者模型",
+            "target": "route-comments",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-comments",
+                "title": "模块模型分配｜AI评论"
+              },
+              {
+                "target": "settings-search-reviewer",
+                "title": "书评团功能"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI评论",
+              "书评团功能"
+            ]
+          },
+          {
+            "query": "段评模型",
+            "target": "route-comments",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-comments",
+                "title": "模块模型分配｜AI评论"
+              },
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI评论",
+              "模块模型分配｜AI书评"
+            ]
+          },
+          {
+            "query": "评论模型",
+            "target": "route-comments",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-comments",
+                "title": "模块模型分配｜AI评论"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜AI评论"
+            ]
+          },
+          {
+            "query": "翻译模型",
+            "target": "route-translate",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-translate",
+                "title": "模块模型分配｜翻译模块"
+              },
+              {
+                "target": "settings-search-route-imagetext",
+                "title": "模块模型分配｜封面/立绘"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜翻译模块",
+              "模块模型分配｜封面/立绘"
+            ]
+          },
+          {
+            "query": "翻译接口",
+            "target": "route-translate",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-translate",
+                "title": "模块模型分配｜翻译模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜翻译模块"
+            ]
+          },
+          {
+            "query": "预留翻译",
+            "target": "route-translate",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-route-translate",
+                "title": "模块模型分配｜翻译模块"
+              }
+            ],
+            "dom": [
+              "模块模型分配｜翻译模块"
+            ]
+          },
+          {
+            "query": "真实上下文",
+            "target": "editable-preview",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-preview",
+                "title": "发送预览"
+              }
+            ],
+            "dom": [
+              "发送预览"
+            ]
+          },
+          {
+            "query": "请求体",
+            "target": "editable-preview",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-preview",
+                "title": "发送预览"
+              }
+            ],
+            "dom": [
+              "发送预览"
+            ]
+          },
+          {
+            "query": "发给AI",
+            "target": "editable-preview",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-preview",
+                "title": "发送预览"
+              }
+            ],
+            "dom": [
+              "发送预览"
+            ]
+          },
+          {
+            "query": "最近发送",
+            "target": "editable-preview",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-preview",
+                "title": "发送预览"
+              },
+              {
+                "target": "settings-search-context-sources",
+                "title": "正文参考资料开关"
+              },
+              {
+                "target": "settings-search-context-full-text",
+                "title": "发送最近正文"
+              },
+              {
+                "target": "settings-search-context-chapter-summary",
+                "title": "发送章节摘要"
+              },
+              {
+                "target": "settings-search-full-chapters",
+                "title": "最近正文的章节数"
+              }
+            ],
+            "dom": [
+              "发送预览",
+              "正文参考资料开关",
+              "发送最近正文",
+              "发送章节摘要",
+              "最近正文的章节数"
+            ]
+          },
+          {
+            "query": "修改书名",
+            "target": "book-edit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-book-edit",
+                "title": "书籍设定与世界观"
+              }
+            ],
+            "dom": [
+              "书籍设定与世界观"
+            ]
+          },
+          {
+            "query": "作品介绍",
+            "target": "book-edit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-book-edit",
+                "title": "书籍设定与世界观"
+              }
+            ],
+            "dom": [
+              "书籍设定与世界观"
+            ]
+          },
+          {
+            "query": "禁止内容",
+            "target": "book-edit",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-book-edit",
+                "title": "书籍设定与世界观"
+              }
+            ],
+            "dom": [
+              "书籍设定与世界观"
+            ]
+          },
+          {
+            "query": "建议助手",
+            "target": "suggestion-persona",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-persona",
+                "title": "AI 建议人设"
+              }
+            ],
+            "dom": [
+              "AI 建议人设"
+            ]
+          },
+          {
+            "query": "灵感助手",
+            "target": "suggestion-persona",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-persona",
+                "title": "AI 建议人设"
+              }
+            ],
+            "dom": [
+              "AI 建议人设"
+            ]
+          },
+          {
+            "query": "建议身份",
+            "target": "suggestion-persona",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-suggestion-persona",
+                "title": "AI 建议人设"
+              }
+            ],
+            "dom": [
+              "AI 建议人设"
+            ]
+          },
+          {
+            "query": "提示词顺序",
+            "target": "editable-prompts",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-prompts",
+                "title": "提示词流水线"
+              }
+            ],
+            "dom": [
+              "提示词流水线"
+            ]
+          },
+          {
+            "query": "系统规则",
+            "target": "editable-prompts",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-prompts",
+                "title": "提示词流水线"
+              }
+            ],
+            "dom": [
+              "提示词流水线"
+            ]
+          },
+          {
+            "query": "提示词分层",
+            "target": "editable-prompts",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-prompts",
+                "title": "提示词流水线"
+              }
+            ],
+            "dom": [
+              "提示词流水线"
+            ]
+          },
+          {
+            "query": "五感",
+            "target": "atmosphere",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-atmosphere",
+                "title": "环境氛围增强"
+              }
+            ],
+            "dom": [
+              "环境氛围增强"
+            ]
+          },
+          {
+            "query": "气氛",
+            "target": "atmosphere",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-atmosphere",
+                "title": "环境氛围增强"
+              }
+            ],
+            "dom": [
+              "环境氛围增强"
+            ]
+          },
+          {
+            "query": "环境描写",
+            "target": "atmosphere",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-atmosphere",
+                "title": "环境氛围增强"
+              }
+            ],
+            "dom": [
+              "环境氛围增强"
+            ]
+          },
+          {
+            "query": "爱心",
+            "target": "favorites",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-favorites",
+                "title": "喜欢查看"
+              }
+            ],
+            "dom": [
+              "喜欢查看"
+            ]
+          },
+          {
+            "query": "点赞",
+            "target": "favorites",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-favorites",
+                "title": "喜欢查看"
+              }
+            ],
+            "dom": [
+              "喜欢查看"
+            ]
+          },
+          {
+            "query": "收藏夹",
+            "target": "favorites",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-favorites",
+                "title": "喜欢查看"
+              }
+            ],
+            "dom": [
+              "喜欢查看"
+            ]
+          },
+          {
+            "query": "满意片段",
+            "target": "favorites",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-favorites",
+                "title": "喜欢查看"
+              }
+            ],
+            "dom": [
+              "喜欢查看"
+            ]
+          },
+          {
+            "query": "口癖",
+            "target": "editable-characters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-characters",
+                "title": "角色可编辑信息"
+              }
+            ],
+            "dom": [
+              "角色可编辑信息"
+            ]
+          },
+          {
+            "query": "人物性格",
+            "target": "editable-characters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-characters",
+                "title": "角色可编辑信息"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              }
+            ],
+            "dom": [
+              "角色可编辑信息",
+              "创作设定工作台与记忆库入口"
+            ]
+          },
+          {
+            "query": "修改角色",
+            "target": "editable-characters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-editable-characters",
+                "title": "角色可编辑信息"
+              }
+            ],
+            "dom": [
+              "角色可编辑信息"
+            ]
+          },
+          {
+            "query": "人设",
+            "target": "editable-characters",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-review-personas",
+                "title": "书评人设"
+              },
+              {
+                "target": "settings-search-suggestion-persona",
+                "title": "AI 建议人设"
+              },
+              {
+                "target": "settings-search-character-word-count",
+                "title": "角色资料字数参考"
+              },
+              {
+                "target": "settings-search-editable-characters",
+                "title": "角色可编辑信息"
+              },
+              {
+                "target": "settings-search-route-review",
+                "title": "模块模型分配｜AI书评"
+              },
+              {
+                "target": "settings-search-route-character",
+                "title": "模块模型分配｜角色模块"
+              },
+              {
+                "target": "settings-search-context-workbench",
+                "title": "创作设定工作台与记忆库入口"
+              },
+              {
+                "target": "settings-search-context-final-check",
+                "title": "最终校验上下文"
+              }
+            ],
+            "dom": [
+              "书评人设",
+              "AI 建议人设",
+              "角色资料字数参考",
+              "角色可编辑信息",
+              "模块模型分配｜AI书评",
+              "模块模型分配｜角色模块",
+              "创作设定工作台与记忆库入口",
+              "最终校验上下文"
+            ]
+          },
+          {
+            "query": "读者人设",
+            "target": "review-personas",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-review-personas",
+                "title": "书评人设"
+              },
+              {
+                "target": "settings-search-comment-count",
+                "title": "每章模拟评论数量"
+              }
+            ],
+            "dom": [
+              "书评人设",
+              "每章模拟评论数量"
+            ]
+          },
+          {
+            "query": "书评口吻",
+            "target": "review-personas",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-review-personas",
+                "title": "书评人设"
+              }
+            ],
+            "dom": [
+              "书评人设"
+            ]
+          },
+          {
+            "query": "点评风格",
+            "target": "review-personas",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-review-personas",
+                "title": "书评人设"
+              }
+            ],
+            "dom": [
+              "书评人设"
+            ]
+          },
+          {
+            "query": "插件安装",
+            "target": "plugin-manager",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-plugin-manager",
+                "title": "插件与 MOD 管理"
+              }
+            ],
+            "dom": [
+              "插件与 MOD 管理"
+            ]
+          },
+          {
+            "query": "扩展功能",
+            "target": "plugin-manager",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-plugin-manager",
+                "title": "插件与 MOD 管理"
+              }
+            ],
+            "dom": [
+              "插件与 MOD 管理"
+            ]
+          },
+          {
+            "query": "插件权限",
+            "target": "plugin-manager",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-plugin-manager",
+                "title": "插件与 MOD 管理"
+              }
+            ],
+            "dom": [
+              "插件与 MOD 管理"
+            ]
+          },
+          {
+            "query": "画图",
+            "target": "image",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              },
+              {
+                "target": "settings-search-image-worldbook",
+                "title": "生图世界书"
+              }
+            ],
+            "dom": [
+              "生图设置",
+              "生图世界书"
+            ]
+          },
+          {
+            "query": "生图接口",
+            "target": "image",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "生图设置"
+            ]
+          },
+          {
+            "query": "画师预设",
+            "target": "image",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "生图设置"
+            ]
+          },
+          {
+            "query": "生图余额",
+            "target": "image",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "生图设置"
+            ]
+          },
+          {
+            "query": "图片缓存",
+            "target": "image",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image",
+                "title": "生图设置"
+              }
+            ],
+            "dom": [
+              "生图设置"
+            ]
+          },
+          {
+            "query": "首次注入",
+            "target": "regen-retention",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-regen-retention",
+                "title": "保存后续重生成请求快照"
+              }
+            ],
+            "dom": [
+              "保存后续重生成请求快照"
+            ]
+          },
+          {
+            "query": "快照保留",
+            "target": "regen-retention",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-regen-retention",
+                "title": "保存后续重生成请求快照"
+              }
+            ],
+            "dom": [
+              "保存后续重生成请求快照"
+            ]
+          },
+          {
+            "query": "不保存",
+            "target": "regen-retention",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-regen-retention",
+                "title": "保存后续重生成请求快照"
+              }
+            ],
+            "dom": [
+              "保存后续重生成请求快照"
+            ]
+          },
+          {
+            "query": "重生成请求快照",
+            "target": "regen-retention",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-regen-retention",
+                "title": "保存后续重生成请求快照"
+              }
+            ],
+            "dom": [
+              "保存后续重生成请求快照"
+            ]
+          },
+          {
+            "query": "生图世界书",
+            "target": "image-worldbook",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-worldbook",
+                "title": "生图世界书"
+              }
+            ],
+            "dom": [
+              "生图世界书"
+            ]
+          },
+          {
+            "query": "画面优先级",
+            "target": "image-worldbook",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-worldbook",
+                "title": "生图世界书"
+              }
+            ],
+            "dom": [
+              "生图世界书"
+            ]
+          },
+          {
+            "query": "角色外貌一致性",
+            "target": "image-worldbook",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-worldbook",
+                "title": "生图世界书"
+              }
+            ],
+            "dom": [
+              "生图世界书"
+            ]
+          },
+          {
+            "query": "生图标签提取模板",
+            "target": "image-templates",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-templates",
+                "title": "生图标签提取模板"
+              }
+            ],
+            "dom": [
+              "生图标签提取模板"
+            ]
+          },
+          {
+            "query": "立绘模板",
+            "target": "image-templates",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-templates",
+                "title": "生图标签提取模板"
+              }
+            ],
+            "dom": [
+              "生图标签提取模板"
+            ]
+          },
+          {
+            "query": "封面模板",
+            "target": "image-templates",
+            "focused": true,
+            "results": [
+              {
+                "target": "settings-search-image-templates",
+                "title": "生图标签提取模板"
+              }
+            ],
+            "dom": [
+              "生图标签提取模板"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "1280-light搜索“时间”布局",
+      "ok": true,
+      "data": {
+        "titles": [
+          "事件时间线自动补录",
+          "正文上下跳转按钮",
+          "首字超时",
+          "创作设定工作台与记忆库入口"
+        ],
+        "list": {
+          "x": 405,
+          "y": 228,
+          "width": 464,
+          "height": 188,
+          "top": 228,
+          "right": 869,
+          "bottom": 416,
+          "left": 405
+        },
+        "viewport": [
+          1280,
+          800
+        ],
+        "overflow": false,
+        "inert": true
+      }
+    },
+    {
+      "name": "1280-light搜索“补写”布局",
+      "ok": true,
+      "data": {
+        "titles": [
+          "二轮补写",
+          "三轮摘要补写",
+          "模块模型分配｜续写补写",
+          "模块模型分配｜AI总结"
+        ],
+        "list": {
+          "x": 405,
+          "y": 228,
+          "width": 464,
+          "height": 188,
+          "top": 228,
+          "right": 869,
+          "bottom": 416,
+          "left": 405
+        },
+        "viewport": [
+          1280,
+          800
+        ],
+        "overflow": false,
+        "inert": true
+      }
+    },
+    {
+      "name": "1280-light点击 上下箭头 → reader-navigation",
+      "ok": true,
+      "data": {
+        "target": "settings-search-reader-navigation",
+        "tab": "auxiliary",
+        "panel": "settings-panel-auxiliary",
+        "teamRoutes": false,
+        "query": "",
+        "focused": false,
+        "inert": false,
+        "visible": true,
+        "flash": true,
+        "box": {
+          "x": 405,
+          "y": 494.5,
+          "width": 464,
+          "height": 60,
+          "top": 494.5,
+          "right": 869,
+          "bottom": 554.5,
+          "left": 405
+        },
+        "shell": {
+          "x": 385,
+          "y": 156,
+          "width": 510,
+          "height": 531,
+          "top": 156,
+          "right": 895,
+          "bottom": 687,
+          "left": 385
+        },
+        "overflow": false,
+        "flashed": true,
+        "buttonHeight": 44
+      }
+    },
+    {
+      "name": "1280-light点击 接口网址 → api-profiles",
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n"
+    }
+  ],
+  "errors": [],
+  "consoleErrors": []
+}

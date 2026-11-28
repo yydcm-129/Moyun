@@ -71,6 +71,22 @@ const MOYUN_FIRST_RUN_GUIDE = Object.freeze({
 /* 网页更新公告：历史原文按发布日期从新到旧保留，新手说明不参与翻阅。 */
 const WEB_UPDATE_ANNOUNCEMENTS = Object.freeze([
   Object.freeze({
+    id: 'web-2026-11-28-1128-memory-guide',
+    badge: '公测更新',
+    title: '1128更新',
+    publishedAt: '2026-11-28',
+    message: '新版记忆使用方法与设置入口已补齐。旧书可继续读取原有记忆，也可单独建立向量索引。',
+    sections: Object.freeze([
+      Object.freeze({key:'memory-start',title:'1. 打开记忆库',body:'打开你的书，从“全局设置 → 上下文”进入记忆库，启用记忆。基础模式使用已有逐章记忆；需要按原文细节查找时选择“增强记忆”。旧书不会在打开时自动补录整本。'}),
+      Object.freeze({key:'embedding-connection',title:'2. 配置向量连接和模型',body:'在“全局设置 → 连接中心”新建 API 配置，填写服务商地址与密钥，获取模型或测试指定向量模型后保存。不必改变默认写作连接。回到“记忆库 → 增强记忆”，选择“向量连接”，获取模型或手动填写服务商的完整 embedding 模型名。'}),
+      Object.freeze({key:'embedding-index',title:'3. 建立索引并核对效果',body:'点击“建立 / 更新向量索引”，只调用向量模型，不调用总结模型；可停止后继续，已完成的块不重复建立。之后生成正文或续写时会召回相关片段，可在记忆库查看“上次召回”。用早期伏笔、物品归属等已知事实核对来源；索引与查询会向所选服务发送相关文字并产生费用。'}),
+      Object.freeze({key:'memory-summary-guide',title:'总结与向量是两个任务',body:'“补录缺失记忆”需要能生成文本的总结模型；只有 embedding 的接口不能总结或写正文。向量不可用时保留本地关键词检索并提示。外部重排另需支持 /rerank 的服务，默认关闭。不确定来源的旧记忆请先核对，不会自动认回章节。'}),
+      Object.freeze({key:'auxiliary-guide',title:'辅助功能集中到新分区',body:'补写、评论、阅读导航、流式输出、超时、思维链、用量显示和各模块模型分配，已移到“全局设置 → 辅助功能”；上下文页保留模型参考资料与字数预算。原设置值保留，搜索可直接定位新位置。'}),
+      Object.freeze({key:'image-worldbook-guide',title:'生图世界书可以编辑了',body:'“全局设置 → 生图”尾部可调整插图格式、画面优先级、标签与权重、角色一致性和自定义补充。这些规则随当前书保存；下方两项标签提取模板仍是全局配置。生图关闭时也能编辑。'})
+    ]),
+    acknowledge: '我知道了'
+  }),
+  Object.freeze({
     id: 'web-2026-11-28-1128-update',
     badge: '公测更新',
     title: '1128更新',
@@ -4199,7 +4215,7 @@ createApp({
       generationTruncationEnabled: true,
       saveRegenSnapshots: true,
       geminiTestInput: false, showTokenUsage: false, preventTruncation:false,
-      temperature:1, reasoningEffort:'', memoryEmbeddingModel:null,
+      temperature:1, reasoningEffort:'', memoryEmbeddingModel:null, memoryEmbeddingProfileId:'',
       moduleModels: {
         writing: '', settings: '', character: '', imagetext: '',
         outline: '', suggestion: '', review: '', summary: '',
@@ -4415,7 +4431,7 @@ createApp({
     }
 
     function openTeamBookRouteSettings() {
-      activeSettingsTab.value = 'context'; teamBookRoutesOpen.value = true; showSettings_modal.value = true;
+      activeSettingsTab.value = 'auxiliary'; teamBookRoutesOpen.value = true; showSettings_modal.value = true;
     }
 
     // v0.0.13 req2：续写补写模块「跟随正文模块」时在 UI 上显示实际跟随的配置。
@@ -4665,6 +4681,12 @@ createApp({
         const adapterId = String(draft.adapterId || '');
         const baseUrl = getApiBaseUrl(draft.baseUrl);
         const request = { ok:true, adapterId, url:(adapterId === 'openai-chat' || adapterId === 'openai-compatible') ? (baseUrl + '/chat/completions') : baseUrl, apiKey:key, model:String(draft.defaultModel || '').trim() };
+        if (/embed/i.test(request.model)) {
+          const [vector]=await fetchMemoryEmbeddings({...request,url:baseUrl},['向量连接验证']);
+          connectionProfileModelTestResult.value={status:'ok',model:request.model,at:Date.now(),detail:'向量模型验证通过：'+vector.dims+' 维'};
+          connectionProfileTestResult.value={status:'ok',at:Date.now(),detail:'向量连接验证通过'};
+          return true;
+        }
         const adapterInit = buildAdapterRequest(request, [{ role:'user', content:'模型验证：请仅回复 OK' }], { stream:true, temperature:0, maxTokens:16, useGlobalSettings:false });
         const resp = await fetch(adapterInit.url, { method:'POST', headers:adapterInit.headers, body:JSON.stringify(adapterInit.body) });
         if (!resp.ok) throw new Error('API ' + resp.status);
@@ -7107,7 +7129,7 @@ createApp({
       return builtinSystemPromptCards.filter(card => card.key === 'nsfwCore' || card.key === 'nsfwPrelude');
     }
     function getNonNsfwBuiltinPromptCards() {
-      return builtinSystemPromptCards.filter(card => card.key !== 'nsfwCore' && card.key !== 'nsfwPrelude');
+      return builtinSystemPromptCards.filter(card => !['nsfwCore','nsfwPrelude','image','avatar'].includes(card.key));
     }
     function restoreBuiltinSystemPrompt(key) {
       const card = builtinSystemPromptCards.find(item => item.key === key);
@@ -7558,7 +7580,7 @@ function copyLastChapterContextText() {
     const priorityRequirement = computed({get:()=>String(novel.value.composerDraft?.priorityRequirement||''),set:value=>{novel.value.composerDraft={...novel.value.composerDraft,priorityRequirement:String(value||'')};saveData();}});
     const composerCollapsed=ref(false), priorityReviewBusy=ref(false);
     let priorityReviewRun=null;
-    function togglePriorityRequirement(){if(priorityEnabled.value)showToast('发送后，将额外产生一次审查员的费用，审查员可在「上下文」→「团队开书」中调整。','info');}
+    function togglePriorityRequirement(){if(priorityEnabled.value)showToast('发送后，将额外产生一次审查员的费用，审查员可在「辅助功能」→「团队开书」中调整。','info');}
     function requestComposerAction(action){
       const apply=choice=>{if(choice==='clear'){nextChapterPrompt.value='';priorityRequirement.value='';priorityEnabled.value=false;showFullscreenInput.value=false;composerCollapsed.value=true;}else if(choice==='collapse'){showFullscreenInput.value=false;composerCollapsed.value=true;}else if(action==='clear'){nextChapterPrompt.value='';priorityRequirement.value='';priorityEnabled.value=false;}else if(action==='close')showFullscreenInput.value=false;else composerCollapsed.value=true;};
       if((nextChapterPrompt.value+priorityRequirement.value).length>=10)openConfirm({title:'保留输入内容',message:'输入中有尚未发送的内容，请选择如何处理。',choices:[{id:'clear',label:'清空关闭'},{id:'collapse',label:'只是暂时收起'},{id:'cancel',label:'取消',tone:'neutral'}]},choice=>{if(choice!=='cancel')apply(choice);});
@@ -8084,7 +8106,7 @@ function copyLastChapterContextText() {
       if (!pendingRows.length) { showToast('所有团队区块都已完成，无需重试','info'); return false; }
       const requiredKeys = [...new Set(pendingRows.map(item => getTeamBlockRequestKey(item.id)))];
       const missing = requiredKeys.filter(key => !getModuleRequestConfig(key).ok);
-      if (missing.length) { showToast('团队开书 API 未就绪：' + missing.map(key => TEAM_BOOK_ROUTE_CONFIG.find(item => item.key === key)?.name || key).join('、') + '。可先调整“全局设置 → 上下文 → 团队开书”配置','error'); return false; }
+      if (missing.length) { showToast('团队开书 API 未就绪：' + missing.map(key => TEAM_BOOK_ROUTE_CONFIG.find(item => item.key === key)?.name || key).join('、') + '。可先调整“全局设置 → 辅助功能 → 团队开书”配置','error'); return false; }
       if (!(await confirmStorageHeadroom('一段话开书'))) return false;
       const runId = ++_teamRunId; _teamAbort = new AbortController(); const controller = _teamAbort;
       teamPhase.value = 'generating'; oneKeyPhase.value = 'generating'; teamReview.value = null;
@@ -8293,17 +8315,21 @@ function copyLastChapterContextText() {
     const memoryLibrary = ref(normalizeMemoryLibrary());
     const memoryEmbeddingDiscovery=ref({loading:false,models:[],error:'',siteKey:''});
     let memoryEmbeddingDiscoverySerial=0;
-    const memoryEmbeddingSiteLabel=computed(()=>getEffectiveDefaultConnectionProfile()?.name || '未配置可用默认连接');
+    function getMemoryEmbeddingProfile() {
+      const id=String(settings.value.memoryEmbeddingProfileId||'');
+      return id ? connectionCenter.value.profiles.find(profile=>profile.id===id) : getEffectiveDefaultConnectionProfile();
+    }
+    const memoryEmbeddingSiteLabel=computed(()=>getMemoryEmbeddingProfile()?.name || '未配置可用向量连接');
     const memoryEmbeddingModelOptions=computed(()=>[...new Set([String(settings.value.memoryEmbeddingModel || ''),...(memoryEmbeddingDiscovery.value.siteKey===memoryDefaultSiteKey() ? memoryEmbeddingDiscovery.value.models : [])].filter(Boolean))]);
     function memoryDefaultSiteKey() {
-      const p=getEffectiveDefaultConnectionProfile();
+      const p=getMemoryEmbeddingProfile();
       return p ? JSON.stringify([p.id,p.adapterId,p.baseUrl,getConnectionCredential(p.id)]) : '';
     }
     async function fetchMemoryEmbeddingModels() {
       const serial=++memoryEmbeddingDiscoverySerial;
-      const siteKey=memoryDefaultSiteKey(), profile=getEffectiveDefaultConnectionProfile();
-      if(!profile){memoryEmbeddingDiscovery.value={loading:false,models:[],error:'请先配置并测试默认全局 API',siteKey};return false;}
-      if(profile.adapterId==='anthropic-messages'){memoryEmbeddingDiscovery.value={loading:false,models:[],error:'默认 API 的 Anthropic 协议没有向量接口，请在连接中心选择支持向量的默认 API',siteKey};return false;}
+      const siteKey=memoryDefaultSiteKey(), profile=getMemoryEmbeddingProfile();
+      if(!profile||!getConnectionProfileStatus(profile).ok){memoryEmbeddingDiscovery.value={loading:false,models:[],error:'请先在连接中心配置并测试向量连接，再在这里选择它',siteKey};return false;}
+      if(profile.adapterId==='anthropic-messages'){memoryEmbeddingDiscovery.value={loading:false,models:[],error:'Anthropic 协议没有向量接口，请选择 OpenAI 兼容或 Gemini 向量连接',siteKey};return false;}
       const controller=new AbortController(),timer=setTimeout(()=>controller.abort(new DOMException('获取模型超时','TimeoutError')),normalizeNoOutputTimeout(settings.value.noOutputTimeoutSec)*1000);
       const state={loading:true,models:[],error:'',siteKey};memoryEmbeddingDiscovery.value=state;
       try {
@@ -8363,8 +8389,8 @@ function copyLastChapterContextText() {
     }
     function getMemoryRequest(kind) {
       if(kind==='embedding'){
-        const profile=getEffectiveDefaultConnectionProfile(),model=String(settings.value.memoryEmbeddingModel || '').trim();
-        if(!profile)throw Error('请先配置并测试默认全局 API');
+        const profile=getMemoryEmbeddingProfile(),model=String(settings.value.memoryEmbeddingModel || '').trim();
+        if(!profile||!getConnectionProfileStatus(profile).ok)throw Error('请先在连接中心配置并测试向量连接，再在记忆库选择它');
         if(!model)throw Error('请在记忆库获取并选择全局向量模型');
         return {ok:true,profile,apiKey:getConnectionCredential(profile.id),model,adapterId:profile.adapterId,url:getApiBaseUrl(profile.baseUrl)};
       }
@@ -8463,7 +8489,7 @@ function copyLastChapterContextText() {
       const controller=new AbortController();memoryController=controller;
       const assertScope=()=>{if(controller.signal.aborted || memoryController!==controller || String(currentBookId.value)!==bookId || String(activeBranchId.value)!==branchId || memorySettingsKey()!==settingsKey)throw new DOMException('记忆任务已过期','AbortError');};
       const valid=new Map(getValidMemoryRows(source).map(m=>[m.chapterId,m]));
-      const jobs=source.map((ch,i)=>({ch,no:i+1,hash:memoryChapterHash(ch)})).filter(j=>String(j.ch.content || '').trim() && (String(j.ch.id)===options.forceChapterId || !valid.has(String(j.ch.id))) && !memoryFailures.value[j.ch.id+':'+j.hash]);
+      const jobs=options.indexOnly?[]:source.map((ch,i)=>({ch,no:i+1,hash:memoryChapterHash(ch)})).filter(j=>String(j.ch.content || '').trim() && (String(j.ch.id)===options.forceChapterId || !valid.has(String(j.ch.id))) && !memoryFailures.value[j.ch.id+':'+j.hash]);
       memoryProgress.value={busy:true,done:0,total:jobs.length,phase:'逐章记录',error:''};
       try {
         const req=jobs.length ? getMemoryRequest('classic') : null;
@@ -8500,6 +8526,7 @@ function copyLastChapterContextText() {
           const indexContext=options.automatic?jobs.map(job=>source.find(ch=>String(ch.id)===String(job.ch.id))).filter(Boolean):source;
           await indexMemoryRows(indexContext,controller.signal,assertScope,options.manualIndex===true);
         }
+        if(options.indexOnly){if(!await saveDataNow('保存向量索引'))throw Error('向量索引保存失败，请导出备份后重试');return;}
         memoryProgress.value.phase='合并旧记忆';
         const limit=Math.max(0,source.length-25);
         for(let start=0;start+5<=limit;start+=5){
@@ -8610,10 +8637,15 @@ function copyLastChapterContextText() {
         for(const doc of ranked){const chapterNo=order.get(doc.chapterId),text=String(doc.text||'').trim();if(!chapterNo||!text)continue;if(doc.kind==='parent'&&selectedParents.has(doc.id)||doc.kind==='child'&&usedParents.has('block:'+doc.parentId)){omitted.push({no:chapterNo,reason:'已由同一场景的材料覆盖'});continue;}let fragment='【第'+chapterNo+'章 '+(doc.kind==='child'?'原文片段':doc.kind==='parent'?'相邻场景':'逐章记忆')+'】\n'+text,expandedParent='';
           const evidence=normalizeEvidence(doc.sourceText||text);
           if(coveredTexts.some(previous=>previous.includes(evidence))){omitted.push({no:chapterNo,reason:'相同事实已在前文或已选材料中'});continue;}
+          // 片段命中后补回同章已核对记忆，保留跨段落的因果与结果；每章只带一次，仍计入原预算。
+          const chapterMemory=doc.kind!=='chapter'&&docs.find(row=>row.kind==='chapter'&&row.chapterId===doc.chapterId),memoryEvidence=chapterMemory?normalizeEvidence(chapterMemory.text):'';
+          let includedMemory='';
+          if(memoryEvidence&&!coveredTexts.some(previous=>previous.includes(memoryEvidence))){const expanded=fragment+'\n【本章已核对记忆】\n'+chapterMemory.text;if(recallChars+expanded.length+2<=cap){fragment=expanded;includedMemory=memoryEvidence;}}
           if(doc.kind==='child'&&doc.parentId){const parent=docs.find(row=>row.id==='block:'+doc.parentId);if(parent){const contextText=String(parent.text||'').replace(text,'').trim(),expanded=fragment+'\n【相邻段落】\n'+contextText;if(contextText&&recallChars+expanded.length+2<=cap){fragment=expanded;expandedParent=parent.id;}}}
           if(recallChars+fragment.length+2>cap){omitted.push({no:chapterNo,reason:'超过本次召回预算'});continue;}
           if(doc.kind==='parent')usedParents.add(doc.id);if(expandedParent)usedParents.add(expandedParent);if(doc.parentId)selectedParents.add('block:'+doc.parentId);if(doc.kind==='parent')selectedParents.add(doc.id);
           coveredTexts.push(normalizeEvidence(expandedParent?docs.find(row=>row.id===expandedParent)?.sourceText:evidence));
+          if(includedMemory)coveredTexts.push(includedMemory);
           hits.push({...doc,chapterNo,fragment});recallChars+=fragment.length+2;if(hits.length>=10)break;}
         const engine=(vectorError?'本地关键词':'关键词与外部向量融合')+' · '+(externalRerank?'外部重排':'本地排序');
         memoryLastRecall.value=hits.map(hit=>({chapterId:hit.chapterId,no:hit.chapterNo,score:hit.score,kind:hit.kind,reason:externalRerank?'外部重排优先':hit.keyword&&hit.vectorScore?'关键词与语义共同命中':hit.vectorScore?'语义命中':'关键词命中',engine,chars:opening.length+hits.map(row=>row.fragment).join('\n\n').length+closing.length,omitted:omitted.slice(0,10)}));
@@ -9518,8 +9550,8 @@ function copyLastChapterContextText() {
           // v0.0.13 req3：默认渠道已是「增强」(rphub)；旧存档只要显式记录过渠道（包括 canary）都视为用户选择，按原值恢复。
           if (data.naiCallMode === 'canary' || data.naiCallMode === 'rphub') naiCallMode.value = data.naiCallMode;
           if (data.coverImage) coverImage.value = data.coverImage;
-          if (data.imagePromptTemplate) imagePromptTemplate.value = data.imagePromptTemplate;
-          if (data.avatarPromptTemplate) avatarPromptTemplate.value = data.avatarPromptTemplate;
+          if (typeof data.imagePromptTemplate === 'string') imagePromptTemplate.value = data.imagePromptTemplate;
+          if (typeof data.avatarPromptTemplate === 'string') avatarPromptTemplate.value = data.avatarPromptTemplate;
           if (data.imageSize) imageSize.value = data.imageSize;
           if (data.imageCountPerChapter !== undefined) imageCountPerChapter.value = normalizeImageCount(data.imageCountPerChapter);
 		  
@@ -34890,6 +34922,36 @@ function getWritingModelLabel() {
       return 'https://std.loliyc.com';
     }
 	
+    const IMAGE_WORLDBOOK_FIELDS = Object.freeze([
+      {"key":"format","title":"插图格式与数量","text":"【自动插图】每次回复的正文中必须在合适的位置穿插且只穿插{{imageCount}}张图。每张图必须独占一行，严格格式: [IMG: comma_separated_english_tags]\n禁止把多个[IMG:]写在同一行，禁止省略结尾的 ]，禁止把[IMG:]放进摘要/书评，禁止在[IMG:]之后继续输出标签说明。\n使用绘画tag对场景人物进行特写，全英文逗号分隔tag，禁止中文。\n注意：始终使用逗号分隔条目，保证同一角色的特征（发色、瞳孔颜色、体态、外貌）的一致性。\n如为nsfw场景，tag最开头必须带上nsfw标签。\n\n"},
+      {"key":"priorities","title":"画面描述优先级","text":"### Tag生成8维度优先级指南：\n第一重要：人物特点 - 例如：white hair, 性别：1girl/1boy, 特色：mesugaki, ojousama, 服装特色：china_dress, gothic, glasses, 表情动作：smile, crying, angry\n第二：人物姿势 - 基础站姿：standing, on back, on stomach, kneeling；做事情：bathing, cooking, fighting, sleeping\n第三：动作细节 - 例如：hands_on_own_chest, arms_behind_back, finger_to_mouth, hands_on_lap, clothes_lift\n第四：环境交互 - 例如：spread legs, sitting_in_tree, sitting_on_rock, partially_submerged\n第五：衣物细节 - 例如：XX半脱，露出XX\n第六：镜头描写 - 从XX往XX看，上半身还是下半身。例如：lower_body, between_legs, pantyshot, looking_at_viewer\n第七：人物位置 - 例如：diningroom, gym, bedroom, indoors, beach, forest\n第八：当前时间 - morning, noon, night，强调光线情况\n\n"},
+      {"key":"tags","title":"标签规则","text":"### Tag核心规范：\n- 禁用中文，禁止人物卡的英文角色名称和拼音\n- 拆解复合词：如\"月下\"→moonlight, night\n- 排除元素用\"no+Tag\"：如穿衣但不穿胸罩→no bra\n- 画面限制：仅描述画面中客观存在的人/物/背景及正在发生的物理动作，严禁加入内心想法、回忆、幻想、比喻等非视觉化内容\n- 构图变化时同步更新Tag：如全身→仅下半身→移除shirt/expression等上半身Tag\n- 人物视线变化：正面→背对→移除eye color等面部Tag→添加from behind\n\n"},
+      {"key":"weights","title":"标签权重","text":"### Tag权重调整：\n- 增强权重：{Tag}，突出核心Tag，最多叠加6层（1层≈1.1倍，6层≈1.77倍）\n- 分配优先级：特征>动作>服饰>表情>特效。如红发→{{{red hair}}}\n- 涉及人物特征（发色、瞳色等）的提示词必须增加权重\n- 减弱权重：[Tag]，弱化次要Tag，最多叠加2层。如背景花瓶→[vase]\n\n"},
+      {"key":"consistency","title":"角色与场景一致性","text":"### 核心一致性规范（极其重要）：\n- 上下文一致性：必须精准保留角色当前的外貌、着装状态、环境光影。一旦上文改变了状态，后续生图Tag必须绝对保持一致\n- 同一角色的固定外观一致性：对常驻特征（如特定发型、异色瞳、专属装饰物等）加最高权重{{{Tag}}}\n- 出现主角参与的场景，禁止出现主角的人物形象（脸部、头部），必须使用第一视角(POV)相关提示词\n"},
+      {"key":"custom","title":"自定义补充","text":""}
+    ]);
+    function getImageWorldbookValue(key) {
+      const value=novel.value.imageWorldbook?.[key];
+      if (key==='enabled'||key==='includeCharacters') return value!==false;
+      return typeof value==='string'?value:(IMAGE_WORLDBOOK_FIELDS.find(row=>row.key===key)?.text||'');
+    }
+    function setImageWorldbookValue(key,value) {
+      if (!['enabled','includeCharacters',...IMAGE_WORLDBOOK_FIELDS.map(row=>row.key)].includes(key)) return;
+      novel.value.imageWorldbook={...novel.value.imageWorldbook,[key]:value};saveData();
+    }
+    function restoreImageWorldbookField(key) {
+      openConfirm({title:'恢复默认生图规则',message:'仅恢复这一项，其他自定义内容保留。',confirmText:'恢复默认'},()=>{const next={...novel.value.imageWorldbook};delete next[key];novel.value.imageWorldbook=next;saveData();});
+    }
+    function buildImageWorldbookInstruction() {
+      if (!getImageWorldbookValue('enabled')) return '';
+      let text=IMAGE_WORLDBOOK_FIELDS.filter(row=>row.key!=='custom').map(row=>getImageWorldbookValue(row.key)).join('').replaceAll('{{imageCount}}',String(normalizeImageCount(imageCountPerChapter.value)));
+      if (getImageWorldbookValue('custom')) text+='\n\n'+getImageWorldbookValue('custom');
+      if (getImageWorldbookValue('includeCharacters')) {
+        const reference=structuredCharacters.value.filter(c=>c.avatarPrompt).map(c=>c.name+'的视觉特征: '+c.avatarPrompt+'\n').join('');
+        if (reference) text+='\n\n【角色外貌参考（生图时必须保持一致性）】\n'+reference;
+      }
+      return text;
+    }
     const imagePromptTemplate = ref('Generate English visual tags for NovelAI image generation.\nFocus on: scene composition, lighting, atmosphere, character appearance, action, environment.\nBased on the novel context, output ONLY comma-separated English tags, nothing else.');
     const avatarPromptTemplate = ref('Based on the following character description, generate English visual tags for NovelAI image generation.\nFocus on: gender, hair color, eye color, hairstyle, body type, clothing, expression, pose, background.\nOutput ONLY comma-separated English tags, nothing else.');
     const imageSize = ref('竖图');
@@ -36385,52 +36447,10 @@ function getWritingModelLabel() {
         }
       }
 
-      // 生图指令
-      // 生图指令（完整版）
+      // 当前书的生图世界书仅进入开启生图时的插图指令。
       if (imageGenEnabled.value && imageGenKey.value) {
-        let charVisualRef = '';
-        structuredCharacters.value.forEach(c => {
-          if (c.avatarPrompt) {
-            charVisualRef += c.name + '的视觉特征: ' + c.avatarPrompt + '\n';
-          }
-        });
-
-        let imgInstruction = '【自动插图】每次回复的正文中必须在合适的位置穿插且只穿插' + normalizeImageCount(imageCountPerChapter.value) + '张图。每张图必须独占一行，严格格式: [IMG: comma_separated_english_tags]\n禁止把多个[IMG:]写在同一行，禁止省略结尾的 ]，禁止把[IMG:]放进摘要/书评，禁止在[IMG:]之后继续输出标签说明。\n使用绘画tag对场景人物进行特写，全英文逗号分隔tag，禁止中文。\n注意：始终使用逗号分隔条目，保证同一角色的特征（发色、瞳孔颜色、体态、外貌）的一致性。\n如为nsfw场景，tag最开头必须带上nsfw标签。\n\n';
-
-        imgInstruction += '### Tag生成8维度优先级指南：\n';
-        imgInstruction += '第一重要：人物特点 - 例如：white hair, 性别：1girl/1boy, 特色：mesugaki, ojousama, 服装特色：china_dress, gothic, glasses, 表情动作：smile, crying, angry\n';
-        imgInstruction += '第二：人物姿势 - 基础站姿：standing, on back, on stomach, kneeling；做事情：bathing, cooking, fighting, sleeping\n';
-        imgInstruction += '第三：动作细节 - 例如：hands_on_own_chest, arms_behind_back, finger_to_mouth, hands_on_lap, clothes_lift\n';
-        imgInstruction += '第四：环境交互 - 例如：spread legs, sitting_in_tree, sitting_on_rock, partially_submerged\n';
-        imgInstruction += '第五：衣物细节 - 例如：XX半脱，露出XX\n';
-        imgInstruction += '第六：镜头描写 - 从XX往XX看，上半身还是下半身。例如：lower_body, between_legs, pantyshot, looking_at_viewer\n';
-        imgInstruction += '第七：人物位置 - 例如：diningroom, gym, bedroom, indoors, beach, forest\n';
-        imgInstruction += '第八：当前时间 - morning, noon, night，强调光线情况\n\n';
-
-        imgInstruction += '### Tag核心规范：\n';
-        imgInstruction += '- 禁用中文，禁止人物卡的英文角色名称和拼音\n';
-        imgInstruction += '- 拆解复合词：如"月下"→moonlight, night\n';
-        imgInstruction += '- 排除元素用"no+Tag"：如穿衣但不穿胸罩→no bra\n';
-        imgInstruction += '- 画面限制：仅描述画面中客观存在的人/物/背景及正在发生的物理动作，严禁加入内心想法、回忆、幻想、比喻等非视觉化内容\n';
-        imgInstruction += '- 构图变化时同步更新Tag：如全身→仅下半身→移除shirt/expression等上半身Tag\n';
-        imgInstruction += '- 人物视线变化：正面→背对→移除eye color等面部Tag→添加from behind\n\n';
-
-        imgInstruction += '### Tag权重调整：\n';
-        imgInstruction += '- 增强权重：{Tag}，突出核心Tag，最多叠加6层（1层≈1.1倍，6层≈1.77倍）\n';
-        imgInstruction += '- 分配优先级：特征>动作>服饰>表情>特效。如红发→{{{red hair}}}\n';
-        imgInstruction += '- 涉及人物特征（发色、瞳色等）的提示词必须增加权重\n';
-        imgInstruction += '- 减弱权重：[Tag]，弱化次要Tag，最多叠加2层。如背景花瓶→[vase]\n\n';
-
-        imgInstruction += '### 核心一致性规范（极其重要）：\n';
-        imgInstruction += '- 上下文一致性：必须精准保留角色当前的外貌、着装状态、环境光影。一旦上文改变了状态，后续生图Tag必须绝对保持一致\n';
-        imgInstruction += '- 同一角色的固定外观一致性：对常驻特征（如特定发型、异色瞳、专属装饰物等）加最高权重{{{Tag}}}\n';
-        imgInstruction += '- 出现主角参与的场景，禁止出现主角的人物形象（脸部、头部），必须使用第一视角(POV)相关提示词\n';
-
-        if (charVisualRef) {
-          imgInstruction += '\n\n【角色外貌参考（生图时必须保持一致性）】\n' + charVisualRef;
-        }
-
-        msgs.push({ role: 'user', content: imgInstruction });
+        const instruction=buildImageWorldbookInstruction();
+        if(instruction)msgs.push({role:'user',content:instruction});
       }
       if (!options.skipPromptComposer) { const composed=applyPromptComposer(msgs); if(composed!==msgs) msgs.splice(0,msgs.length,...composed); }
       if (options.printLog !== false) {
@@ -36698,7 +36718,7 @@ function getWritingModelLabel() {
     function getWritingGenerationPrerequisites(showMessage = true, moduleKey = 'writing') {
       const request = getModuleRequestConfig(moduleKey);
       if (!request.ok) {
-        if (showMessage) showToast('请先在“全局设置 → 上下文”配置并分配模型：' + (getHostModuleModelConfig(moduleKey)?.name || '正文生成'), 'error');
+        if (showMessage) showToast('请先在“全局设置 → 辅助功能”配置并分配模型：' + (getHostModuleModelConfig(moduleKey)?.name || '正文生成'), 'error');
         return null;
       }
       return { url:request.url, model:request.model, apiKey:request.apiKey, adapterId:request.adapterId, profile:request.profile };
@@ -39504,6 +39524,7 @@ function getWritingModelLabel() {
     const settingsTabs = [
       {id:'api', name:'连接中心'},
       {id:'context', name:'上下文'},
+      {id:'auxiliary', name:'辅助功能'},
       {id:'editable', name:'书籍与提示词'},
       {id:'mods', name:'插件'},
       {id:'image', name:'生图'},
@@ -39554,13 +39575,13 @@ function getWritingModelLabel() {
       {tab:'api',target:'settings-search-global-controls',title:'全局温度与思考强度',keywords:'采样 温度创造性 随机性 推理等级 思考预算 创意 发散 稳定性 思考深度 推理强度 思考档位 随机程度 reasoning effort temperature wendu sikao qiangdu quanju'},
       {tab:'api',target:'settings-search-anti-truncation',title:'Gemini 抗截断',keywords:'output reply 完整回复 工具续写 保留正文 回复不完整 输出不完整 被截断 断流 截断保护 防截断 回复中断 接着输出 工具回复 function call kangjieduan jiemi gemini'},
       {tab:'context',target:'settings-search-context-intro',title:'上下文设置说明',keywords:'提示 配置说明 模型模块 正文资料 章节历史上下文 上下文是什么 发送什么 AI参考内容 模块说明 shangxiawen'},
-      {tab:'context',target:'settings-search-team-book',title:'团队开书｜统一 API 配置',keywords:'团队开书 一句话开书 一段话开书 一键开书 自动开书 开书团队 策划员 设定员 角色员 大纲员 细纲员 审查员 API 模型 同一API 默认配置 开书模型 统一模型 开书接口'},
-      {tab:'context',target:'settings-search-team-planner',teamBookRoutes:true,title:'团队开书｜策划员 API',keywords:'一句话开书 一段话开书 拆分方案 策划员 开书策划 灵感拆解 策划模型 策划接口 API 模型 单独调用 team planner'},
-      {tab:'context',target:'settings-search-team-settings',teamBookRoutes:true,title:'团队开书｜设定员 API',keywords:'团队开书 设定生成 设定员 世界观生成 设定员模型 设定员接口 开书设定 API 模型 worldview'},
-      {tab:'context',target:'settings-search-team-character',teamBookRoutes:true,title:'团队开书｜角色员 API',keywords:'团队开书 角色生成 人物角色 角色员 开书角色 角色员模型 角色员接口 人物团队 API 模型'},
-      {tab:'context',target:'settings-search-team-outline',teamBookRoutes:true,title:'团队开书｜大纲与细纲员 API',keywords:'团队开书 大纲生成 卷纲 细纲章节 大纲员 细纲员 开书卷纲 纲要员模型 细纲员模型 规划员 API 模型'},
-      {tab:'context',target:'settings-search-team-review',teamBookRoutes:true,title:'团队开书｜审查员 API',keywords:'团队开书 开书验收审查 审查员 冲突判断 关键事件 审核模型 审查模型 审查员模型 优先要求 最高优先要求 审查费用 API 模型'},
-      {tab:'context',target:'settings-search-team-book-existing-routes',teamBookRoutes:true,title:'团队开书｜已有书籍模型联动',keywords:'已有书籍 角色生成 大纲细纲 设定补充 微调模型 联动开关 是否启用 老书模型 旧书联动 微调开关 团队配置复用 补充设定模型'},
+      {tab:'auxiliary',target:'settings-search-team-book',title:'团队开书｜统一 API 配置',keywords:'团队开书 一句话开书 一段话开书 一键开书 自动开书 开书团队 策划员 设定员 角色员 大纲员 细纲员 审查员 API 模型 同一API 默认配置 开书模型 统一模型 开书接口'},
+      {tab:'auxiliary',target:'settings-search-team-planner',teamBookRoutes:true,title:'团队开书｜策划员 API',keywords:'一句话开书 一段话开书 拆分方案 策划员 开书策划 灵感拆解 策划模型 策划接口 API 模型 单独调用 team planner'},
+      {tab:'auxiliary',target:'settings-search-team-settings',teamBookRoutes:true,title:'团队开书｜设定员 API',keywords:'团队开书 设定生成 设定员 世界观生成 设定员模型 设定员接口 开书设定 API 模型 worldview'},
+      {tab:'auxiliary',target:'settings-search-team-character',teamBookRoutes:true,title:'团队开书｜角色员 API',keywords:'团队开书 角色生成 人物角色 角色员 开书角色 角色员模型 角色员接口 人物团队 API 模型'},
+      {tab:'auxiliary',target:'settings-search-team-outline',teamBookRoutes:true,title:'团队开书｜大纲与细纲员 API',keywords:'团队开书 大纲生成 卷纲 细纲章节 大纲员 细纲员 开书卷纲 纲要员模型 细纲员模型 规划员 API 模型'},
+      {tab:'auxiliary',target:'settings-search-team-review',teamBookRoutes:true,title:'团队开书｜审查员 API',keywords:'团队开书 开书验收审查 审查员 冲突判断 关键事件 审核模型 审查模型 审查员模型 优先要求 最高优先要求 审查费用 API 模型'},
+      {tab:'auxiliary',target:'settings-search-team-book-existing-routes',teamBookRoutes:true,title:'团队开书｜已有书籍模型联动',keywords:'已有书籍 角色生成 大纲细纲 设定补充 微调模型 联动开关 是否启用 老书模型 旧书联动 微调开关 团队配置复用 补充设定模型'},
       {tab:'context',target:'settings-search-context-workbench',title:'创作设定工作台与记忆库入口',keywords:'记忆库 逐章总结 自动总结 手动总结 关闭自动总结 总结替换 原文替换 保留原文 旧记忆 人设 性格 人物关系 项目总览 世界观 时间线 资料条目 上下文包 吃书 忘剧情 忘记设定 人物记忆 历史记忆 记忆检索 向量 向量模型 向量接口 嵌入模型 embedding story bible memory jiyiku'},
       {tab:'context',target:'settings-search-context-sources',title:'正文参考资料开关',keywords:'最近正文 完整正文 章节摘要 长期总结 细纲 最终校验 正文上下文 参考开关 参考资料 发送资料 携带内容 AI读什么 zhengwen zhaiyao'},
       {tab:'context',target:'settings-search-context-full-text',title:'发送最近正文',keywords:'完整正文 最近章节全文 正文上下文 发送前文 参考原文 携带正文 历史正文 body full text zhengwen quanwen'},
@@ -39568,34 +39589,36 @@ function getWritingModelLabel() {
       {tab:'context',target:'settings-search-context-range-summary',title:'发送长期总结',keywords:'范围总结 早期章节摘要 长期上下文 历史总结 长篇总结 旧剧情回顾 长期记忆 range summary changqi zongjie'},
       {tab:'context',target:'settings-search-context-outline',title:'发送细纲',keywords:'当前章节安排 章节大纲 注入剧情计划 参考细纲 携带细纲 按纲写作 剧情范围 outline detailed outline dagang xigang'},
       {tab:'context',target:'settings-search-context-final-check',title:'最终校验上下文',keywords:'最终检查 校验角色和剧情设定 设定核对 剧情检查 人物一致性 防跑偏 final check zhongjian jiaoyan'},
-      {tab:'context',target:'settings-search-auto-timeline',title:'事件时间线自动补录',keywords:'章节 事件 自动提取 时间线 事件记录 自动记事 剧情年表 时间顺序 shijian zhuanxie'},
+      {tab:'auxiliary',target:'settings-search-auto-timeline',title:'事件时间线自动补录',keywords:'章节 事件 自动提取 时间线 事件记录 自动记事 剧情年表 时间顺序 shijian zhuanxie'},
       {tab:'context',target:'settings-search-compact-mode',title:'省 Token 模式',keywords:'上下文小窗口 限制章节 字数 token 省钱 省费用 节约费用 精简上下文 减少输入 小窗口 compact sheng token'},
-      {tab:'context',target:'settings-search-second-round',title:'二轮补写',keywords:'字数不足 追加续写 再生成 摘要缺少 补写 字数不够 没写够 补足字数 自动补写 第二轮 二次生成 续写后自动补写 补摘要 补全摘要 补写费用 erlun buxie'},
-      {tab:'context',target:'settings-search-third-round',title:'三轮摘要补写',keywords:'二轮后补摘要 额外模型请求 补写 补摘要 补全摘要 摘要缺失 没有摘要 第三轮 三次生成 摘要补录 补写费用 sanlun zhaiyao'},
-      {tab:'context',target:'settings-search-generation-truncation',title:'截断设置',keywords:'生成截断 输出截断 超长 超字数 字数超标 字数截断 失控保护 2.5倍 保留全文 不截断 取消截断 停止接收 正文字数限制 runaway truncation jieduan'},
-      {tab:'context',target:'settings-search-regen-retention',title:'保存后续重生成请求快照',keywords:'首次注入 重生成 请求快照 不保存 快照保留 存储 清理 regen snapshot'},
-      {tab:'context',target:'settings-search-gemini-input',title:'Gemini 测试输入',keywords:'混淆输入 输入改写 Gemini输入改写 用户输入改写 输入混淆 实验功能 gemini ceshi shuru'},
+      {tab:'auxiliary',target:'settings-search-second-round',title:'二轮补写',keywords:'字数不足 追加续写 再生成 摘要缺少 补写 字数不够 没写够 补足字数 自动补写 第二轮 二次生成 续写后自动补写 补摘要 补全摘要 补写费用 erlun buxie'},
+      {tab:'auxiliary',target:'settings-search-third-round',title:'三轮摘要补写',keywords:'二轮后补摘要 额外模型请求 补写 补摘要 补全摘要 摘要缺失 没有摘要 第三轮 三次生成 摘要补录 补写费用 sanlun zhaiyao'},
+      {tab:'auxiliary',target:'settings-search-generation-truncation',title:'截断设置',keywords:'生成截断 输出截断 超长 超字数 字数超标 字数截断 失控保护 2.5倍 保留全文 不截断 取消截断 停止接收 正文字数限制 runaway truncation jieduan'},
+      {tab:'auxiliary',target:'settings-search-regen-retention',title:'保存后续重生成请求快照',keywords:'首次注入 重生成 请求快照 不保存 快照保留 存储 清理 regen snapshot'},
+      {tab:'auxiliary',target:'settings-search-gemini-input',title:'Gemini 测试输入',keywords:'混淆输入 输入改写 Gemini输入改写 用户输入改写 输入混淆 实验功能 gemini ceshi shuru'},
       {tab:'context',target:'settings-search-full-chapters',title:'最近正文的章节数',keywords:'发送最近N章 几章全文 全文章数 前文章数 参考几章 正文章数 携带几章 最近几章 chapters zhangjie quanwen'},
       {tab:'context',target:'settings-search-summary-chapters',title:'章节摘要数量',keywords:'更早章节 标题摘要 摘要章数 摘要几章 参考多少章 总结章数 前情章数 summary zhangshu'},
       {tab:'context',target:'settings-search-context-limits',title:'上下文截断上限',keywords:'单章正文上限 摘要上限 世界观 角色信息 大纲细纲 字符数 token 截断 单章字数限制 摘要字数限制 世界观长度 角色长度 设定字数 发送长度 xianzhi'},
-      {tab:'context',target:'settings-search-auto-scroll',title:'生成开始时定位',keywords:'自动滚动 自动定位 写作页 跳到最新章节 跳转正文 生成时跳转 滚动位置 scroll dingwei'},
-      {tab:'context',target:'settings-search-reader-navigation',title:'正文上下跳转按钮',keywords:'上下箭头 上下顶按钮 回到顶部 返回顶部 到底部 页首 页尾 滚动导航 翻页 滑动 显示时间 隐藏时间 自动消失 秒数 开关 scroll'},
-      {tab:'context',target:'settings-search-reviewer',title:'书评团功能',keywords:'自动评论 读者模拟 书评团点评全书 开启书评 关闭书评 自动书评 作品评价 读者反馈 review tuan pinglun'},
-      {tab:'context',target:'settings-search-inline-comment',title:'评论与正文合并生成',keywords:'书评随正文生成 评论和正文合并 同次 API 节省调用 同时评论 合并书评 随文点评 一次请求 inline comment suizhengwen'},
-      {tab:'context',target:'settings-search-auto-comment',title:'评论自动跟随生成',keywords:'自动评论 自动书评 关闭自动评论 写完生成评论 正文之后 自动跟随 评论跟随 评论开关 生成后点评 紧接生成 auto comment'},
-      {tab:'context',target:'settings-search-comment-count',title:'每章模拟评论数量',keywords:'书评数量 读者评论条数 自动评论数量 评论几条 读者人数 评论条数 点评数量 零条 0条 不生成评论 comment count pinglun shuliang'},
-      {tab:'context',target:'settings-search-stream',title:'流式输出',keywords:'关闭流式 非流式 请求方式 边写边显示 逐字显示 实时输出 一次性返回 流式开关 stream streaming shuchu'},
-      {tab:'context',target:'settings-search-timeout',title:'首字超时',keywords:'等待 首次输出 无响应 超时秒数 时间 等待时间 首字等待 超时时间 不出字 没反应 卡住 一直转圈 响应时间 秒数 timeout first token shouzi chaoshi'},
-      {tab:'context',target:'settings-search-thinking',title:'显示思维链',keywords:'推理过程 思考过程 思维过程 思考显示 隐藏思考 推理可见 reasoning cot deepseek thinking sikao'},
-      {tab:'context',target:'settings-search-token-usage',title:'显示 Token 用量',keywords:'输入 输出 缓存命中 用量 消耗 花费 费用统计 输入输出 缓存用量 令牌 token统计 usage shujuliang'},
-      {tab:'context',target:'settings-search-word-count',title:'AI 生成文本的字数参考',keywords:'大纲细纲建议角色目标长度 不影响正文长度 字数控制 生成长度 目标字数 输出字数 word count zishu'},
-      {tab:'context',target:'settings-search-outline-word-count',title:'大纲字数参考',keywords:'全书大纲生成长度 大纲长度 总纲字数 大纲目标字数 dagang zishu'},
-      {tab:'context',target:'settings-search-detailed-outline-word-count',title:'细纲字数参考',keywords:'所有章节细纲总长度 按批次平摊 细纲长度 章纲字数 细纲目标字数 xigang zishu'},
-      {tab:'context',target:'settings-search-suggestion-word-count',title:'建议字数参考',keywords:'AI建议方向长度 建议长度 灵感长度 建议目标字数 suggestion jianyi zishu'},
-      {tab:'context',target:'settings-search-character-word-count',title:'角色资料字数参考',keywords:'人物角色设定长度 人设长度 角色字数 人物资料长度 character renwu zishu'},
+      {tab:'auxiliary',target:'settings-search-auto-scroll',title:'生成开始时定位',keywords:'自动滚动 自动定位 写作页 跳到最新章节 跳转正文 生成时跳转 滚动位置 scroll dingwei'},
+      {tab:'auxiliary',target:'settings-search-reader-navigation',title:'正文上下跳转按钮',keywords:'上下箭头 上下顶按钮 回到顶部 返回顶部 到底部 页首 页尾 滚动导航 翻页 滑动 显示时间 隐藏时间 自动消失 秒数 开关 scroll'},
+      {tab:'auxiliary',target:'settings-search-reviewer',title:'书评团功能',keywords:'自动评论 读者模拟 书评团点评全书 开启书评 关闭书评 自动书评 作品评价 读者反馈 review tuan pinglun'},
+      {tab:'auxiliary',target:'settings-search-inline-comment',title:'评论与正文合并生成',keywords:'书评随正文生成 评论和正文合并 同次 API 节省调用 同时评论 合并书评 随文点评 一次请求 inline comment suizhengwen'},
+      {tab:'auxiliary',target:'settings-search-auto-comment',title:'评论自动跟随生成',keywords:'自动评论 自动书评 关闭自动评论 写完生成评论 正文之后 自动跟随 评论跟随 评论开关 生成后点评 紧接生成 auto comment'},
+      {tab:'auxiliary',target:'settings-search-comment-count',title:'每章模拟评论数量',keywords:'书评数量 读者评论条数 自动评论数量 评论几条 读者人数 评论条数 点评数量 零条 0条 不生成评论 comment count pinglun shuliang'},
+      {tab:'auxiliary',target:'settings-search-stream',title:'流式输出',keywords:'关闭流式 非流式 请求方式 边写边显示 逐字显示 实时输出 一次性返回 流式开关 stream streaming shuchu'},
+      {tab:'auxiliary',target:'settings-search-timeout',title:'首字超时',keywords:'等待 首次输出 无响应 超时秒数 时间 等待时间 首字等待 超时时间 不出字 没反应 卡住 一直转圈 响应时间 秒数 timeout first token shouzi chaoshi'},
+      {tab:'auxiliary',target:'settings-search-thinking',title:'显示思维链',keywords:'推理过程 思考过程 思维过程 思考显示 隐藏思考 推理可见 reasoning cot deepseek thinking sikao'},
+      {tab:'auxiliary',target:'settings-search-token-usage',title:'显示 Token 用量',keywords:'输入 输出 缓存命中 用量 消耗 花费 费用统计 输入输出 缓存用量 令牌 token统计 usage shujuliang'},
+      {tab:'auxiliary',target:'settings-search-word-count',title:'AI 生成文本的字数参考',keywords:'大纲细纲建议角色目标长度 不影响正文长度 字数控制 生成长度 目标字数 输出字数 word count zishu'},
+      {tab:'auxiliary',target:'settings-search-outline-word-count',title:'大纲字数参考',keywords:'全书大纲生成长度 大纲长度 总纲字数 大纲目标字数 dagang zishu'},
+      {tab:'auxiliary',target:'settings-search-detailed-outline-word-count',title:'细纲字数参考',keywords:'所有章节细纲总长度 按批次平摊 细纲长度 章纲字数 细纲目标字数 xigang zishu'},
+      {tab:'auxiliary',target:'settings-search-suggestion-word-count',title:'建议字数参考',keywords:'AI建议方向长度 建议长度 灵感长度 建议目标字数 suggestion jianyi zishu'},
+      {tab:'auxiliary',target:'settings-search-character-word-count',title:'角色资料字数参考',keywords:'人物角色设定长度 人设长度 角色字数 人物资料长度 character renwu zishu'},
       {tab:'context',target:'settings-search-history-limit',title:'前文字数上限',keywords:'截断 省费用 旧章节 摘要 记忆 前文预算 补摘要 前文长度 前文限制 历史字数 吃书 少带前文 省钱 上下文预算'},
       {tab:'context',target:'settings-search-outline-range',title:'细纲注入范围',keywords:'前文章数 后文章数 当前章节附近 细纲范围 前后细纲 后续章节 后续预告 提前写 抢跑 剧透 参考细纲范围 zhigang注入'},
-      ...moduleModelConfig.map(mod=>({tab:'context',target:'settings-search-route-'+mod.key,title:'模块模型分配｜'+mod.name,keywords:mod.name+' '+mod.desc+' API 模型 路由 分配 连接 luyou fenpei '+(settingsModuleSearchKeywords[mod.key]||'')})),
+      ...moduleModelConfig.map(mod=>({tab:'auxiliary',target:'settings-search-route-'+mod.key,title:'模块模型分配｜'+mod.name,keywords:mod.name+' '+mod.desc+' API 模型 路由 分配 连接 luyou fenpei '+(settingsModuleSearchKeywords[mod.key]||'')})),
+      {tab:'image',target:'settings-search-image-worldbook',title:'生图世界书',keywords:'插图规则 图片提示词 tag 格式 权重 画面优先级 角色外貌一致性 POV 自定义 RPHUB 世界书'},
+      {tab:'image',target:'settings-search-image-templates',title:'生图标签提取模板',keywords:'封面模板 插图模板 立绘模板 提示词 模板 标签 生成图片'},
       {tab:'editable',target:'settings-search-editable-preview',title:'发送预览',keywords:'查看实际请求内容 真实上下文 实际上下文 请求体 发给模型 发给AI 提示词预览 最近请求 最近发送 编辑来源 自定义楼层 prompt system user assistant tijian tishi'},
       {tab:'editable',target:'settings-search-book-edit',title:'书籍设定与世界观',keywords:'书名 简介 负面词 题材 修改书名 作品介绍 背景设定 禁止内容 负面提示词 novel 世界观 synopsis shushe'},
       {tab:'editable',target:'settings-search-suggestion-persona',title:'AI 建议人设',keywords:'建议提示词 生成方向 自定义身份 建议助手 建议身份 灵感助手 建议人设 suggestion persona jianyi renwu'},
@@ -42179,7 +42202,7 @@ function getWritingModelLabel() {
       bible.updatedAt = Date.now();
     }
 
-    // v0.0.11 新功能6：自动补录开关的计算属性与切换函数；事件工作台与设置-上下文页两处 UI 共用同一状态。
+    // 自动补录开关：事件工作台与辅助功能设置共用同一状态。
     const autoTimelineSupplementOn = computed(() => settings.value.autoTimelineSupplement !== false);
     function toggleAutoTimelineSupplement() {
       settings.value.autoTimelineSupplement = !(settings.value.autoTimelineSupplement !== false);
@@ -42654,6 +42677,7 @@ function getWritingModelLabel() {
       summaries, visibleSummaries, summaryStart, summaryEnd, isGeneratingSummary,
       generateSummaryRange, deleteSummary,
       // ── Part 3: 图片 ──
+      IMAGE_WORLDBOOK_FIELDS, getImageWorldbookValue, setImageWorldbookValue, restoreImageWorldbookField, buildImageWorldbookInstruction,
       imageGenEnabled, imageGenKey, imageSize, imageCountPerChapter, normalizeImageCount, naiCallMode, getNaiBaseUrl, coverImage, isGeneratingCover, generateCoverImage, imagePromptTemplate, avatarPromptTemplate,
       coverPromptTags, isGeneratingCoverTags, generateCoverTags, generateCoverFromTags,isGeneratingAvatarTags, generateCharAvatarTags, generateCharAvatarImage,
       imageProfiles, activeProfileId, getActiveProfile,

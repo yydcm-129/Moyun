@@ -1,0 +1,12 @@
+{
+  "calls": 572,
+  "limit": 1000,
+  "finalRunsStatuses": {
+    "200": 155
+  },
+  "inputs": 5471,
+  "model": "[官]gemini-embedding-2",
+  "protocol": "OpenAI compatible",
+  "endpoint": "https://sta1n.ai/v1/embeddings",
+  "noOtherProviderCalls": true
+}

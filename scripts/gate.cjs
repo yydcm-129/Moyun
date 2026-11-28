@@ -31,6 +31,7 @@ const steps = [
   { id: 'v20', title: 'v0.0.20 功能回归', args: ['--test', ...fs.readdirSync(path.join(ROOT,'scripts')).filter(name => /^v20-.*\.test\.cjs$/.test(name)).sort().map(name => 'scripts/' + name)] }
 ];
 const browserSteps = [
+  { id: 'v20-settings-worldbook', title: '辅助设置、生图世界书与独立向量连接（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--settings-worldbook'], browser: true },
   { id: 'v19-ai-input-retention', title: 'AI输入错误返回、手动返回与重新打开（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--ai-input-retention'], browser: true },
   { id: 'v19-comment-truncation', title: '评论费用开关、超长全文保存与响应布局（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--comment-truncation'], browser: true },
   { id: 'v19-chapter-settings', title: '全文章数保存、刷新和实际前文请求（浏览器）', args: ['scripts/v19-outline-review-browser.cjs', '--chapter-settings'], browser: true },

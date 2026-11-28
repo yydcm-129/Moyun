@@ -45,7 +45,7 @@ test('审查网络失败/坏JSON/错误字段只询问，不默许放行；明�
 });
 
 test('审查员未单配时回默认模型，显式分区覆盖默认；费用提示对应真实可搜索设置',async()=>{
- const r=runtime();r.c.connectionCenter.value.moduleRoutes={'writing':{profileId:'writing'}};await r.c.startGeneration();assert.equal(r.requests[0].request.model,'gemini-default');assert.equal(r.requests[1].request.model,'gemini-writer');r.api.togglePriorityRequirement();assert.ok(r.toasts.some(row=>row[0]==='发送后，将额外产生一次审查员的费用，审查员可在「上下文」→「团队开书」中调整。'));assert.match(source,/target:'settings-search-team-review'.*审查员 API/);assert.match(source,/settings-search-.*route[.]key/);
+ const r=runtime();r.c.connectionCenter.value.moduleRoutes={'writing':{profileId:'writing'}};await r.c.startGeneration();assert.equal(r.requests[0].request.model,'gemini-default');assert.equal(r.requests[1].request.model,'gemini-writer');r.api.togglePriorityRequirement();assert.ok(r.toasts.some(row=>row[0]==='发送后，将额外产生一次审查员的费用，审查员可在「辅助功能」→「团队开书」中调整。'));assert.match(source,/target:'settings-search-team-review'.*审查员 API/);assert.match(source,/settings-search-.*route[.]key/);
 });
 
 test('确认框关闭、被替换、切书、signal中止都会结束等待，释放watcher且不发正文',async()=>{

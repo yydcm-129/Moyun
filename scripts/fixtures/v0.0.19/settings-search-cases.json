@@ -66,5 +66,7 @@
   {"target":"review-personas","queries":["读者人设","书评口吻","点评风格"]},
   {"target":"plugin-manager","queries":["插件安装","扩展功能","插件权限"]},
   {"target":"image","queries":["画图","生图接口","画师预设","生图余额","图片缓存"]},
-  {"target":"regen-retention","queries":["首次注入","快照保留","不保存","重生成请求快照"]}
+  {"target":"regen-retention","queries":["首次注入","快照保留","不保存","重生成请求快照"]},
+  {"target":"image-worldbook","queries":["生图世界书","画面优先级","角色外貌一致性"]},
+  {"target":"image-templates","queries":["生图标签提取模板","立绘模板","封面模板"]}
 ]

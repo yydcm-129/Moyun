@@ -19,7 +19,7 @@ module.exports=async function(c,check,shot){
   await openSettings('api');
   await check('搜索目录锚点：静态与团队动态目标都存在且排除关于',async()=>{
    const targets=[...catalogSource.matchAll(/target:'([^']+)'/g)].map(match=>match[1]).filter(target=>target!=='settings-search-route-');
-   const dynamic=await c.ev(async()=>{__s.activeSettingsTab='context';__s.teamBookRoutesOpen=true;await Vue.nextTick();return __s.teamBookRouteConfig.map(route=>({id:'settings-search-'+route.key,exists:!!document.getElementById('settings-search-'+route.key)}));});
+   const dynamic=await c.ev(async()=>{__s.activeSettingsTab='auxiliary';__s.teamBookRoutesOpen=true;await Vue.nextTick();return __s.teamBookRouteConfig.map(route=>({id:'settings-search-'+route.key,exists:!!document.getElementById('settings-search-'+route.key)}));});
    assert.ok(dynamic.every(row=>row.exists),JSON.stringify(dynamic));
    const missing=targets.filter(target=>!source.includes('id="'+target+'"')&&!dynamic.some(row=>row.id===target));assert.deepEqual(missing,[]);
    await c.ev(()=>{__s.teamBookRoutesOpen=false;});assert.equal(catalogSource.includes("tab:'changelog'"),false);assert.match(source,/:id="'settings-search-route-'\+mod\.key"/);return{targets:targets.length,dynamic,includesAbout:false};
@@ -37,9 +37,8 @@ module.exports=async function(c,check,shot){
   await check('设置搜索：只查全局设置，不包含关于',async()=>{const d=await search('关于');assert.deepEqual(d.titles,[]);assert.match(d.empty,/没有找到/);assert.notEqual(await c.ev(()=>__s.activeSettingsTab),'changelog');return{results:d.titles,empty:d.empty};});
   await check('设置搜索：Enter 跳到首字超时控件',async()=>{
    await search('首字超时');
-   await c.ev(()=>{const input=document.querySelector('[data-settings-search-area] input');input.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));input.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowUp',bubbles:true,cancelable:true}));input.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));});await delay(180);
-   const d=await c.ev(()=>({tab:__s.activeSettingsTab,query:__s.settingsSearchQuery,focused:__s.settingsSearchFocused,target:document.getElementById('settings-search-timeout')?.classList.contains('settings-search-target-flash')}));
-   assert.equal(d.tab,'context');assert.equal(d.query,'');assert.equal(d.focused,false);assert.equal(d.target,true);return d;
+   const d=await c.ev(async()=>{const input=document.querySelector('[data-settings-search-area] input');input.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));input.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowUp',bubbles:true,cancelable:true}));input.dispatchEvent(new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));await Vue.nextTick();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));return{tab:__s.activeSettingsTab,query:__s.settingsSearchQuery,focused:__s.settingsSearchFocused,target:document.getElementById('settings-search-timeout')?.classList.contains('settings-search-target-flash')};});
+   assert.equal(d.tab,'auxiliary');assert.equal(d.query,'');assert.equal(d.focused,false);assert.equal(d.target,true,JSON.stringify(d));return d;
   });
   await check('设置搜索：生图结果落在可见开关，不落到隐藏锚点',async()=>{
    await openSettings('api');const matches=await search('生图设置');assert.ok(matches.titles.includes('生图设置'),JSON.stringify(matches));
@@ -47,8 +46,8 @@ module.exports=async function(c,check,shot){
    const d=await c.ev(()=>{const target=document.getElementById('settings-search-image');const panel=document.querySelector('[data-moyun-modal="settings"] [data-moyun-modal-panel]');return{tab:__s.activeSettingsTab,visible:!!target&&getComputedStyle(target).display!=='none',label:target?.textContent.trim(),scrolled:panel?.scrollTop>0};});
    assert.equal(d.tab,'image');assert.equal(d.visible,true);assert.match(d.label,/生图功能/);return d;
   });
-  await check('上下文模块入口：描述齐全，黄色链接逐项抵达对应页面',async()=>{
-   await openSettings('context');
+  await check('辅助模块与上下文资料入口：黄色链接逐项抵达对应页面',async()=>{
+   await openSettings('auxiliary');
    const expectedLinkColor=await c.ev(()=>{const probe=document.createElement('span');probe.style.color='var(--warn)';document.body.appendChild(probe);const color=getComputedStyle(probe).color;probe.remove();return color;});
    const modules=await c.ev(()=>__s.moduleModelConfig.map(mod=>({key:mod.key,name:mod.name,desc:mod.desc,locations:__s.settingsModuleLocations[mod.key]||[],route:!!document.getElementById('settings-search-route-'+mod.key)})));
    const sidebarTabIds=await c.ev(()=>__s.sidebarTabs.map(tab=>tab.id));
@@ -60,8 +59,9 @@ module.exports=async function(c,check,shot){
    for(const mod of modules){for(const location of mod.locations){
     const color=await c.ev((key,label)=>{const root=document.getElementById('settings-search-route-'+key);const button=[...root.querySelectorAll('.settings-module-location')].find(item=>item.textContent.includes(label));if(!button)throw Error('缺少页面跳转标签：'+key+' '+label);const value=getComputedStyle(button).color;button.click();return value;},mod.key,location.label);
     assert.equal(color,expectedLinkColor,mod.key+': '+location.label+' 未使用黄色主题色');
-    await delay(160);const state=await c.ev(()=>({modal:__s.showSettings_modal,tab:__s.currentTab,workbench:__s.showStoryBibleWorkbench,section:__s.storyBibleWorkbenchSection}));assert.equal(state.modal,false);if(location.workbenchSection){assert.equal(state.workbench,true,mod.key+': '+location.label+' 未打开创作设定工作台');assert.equal(state.section,location.workbenchSection,mod.key+': '+location.label+' 未打开对应栏目');}else assert.equal(state.tab,location.tab,mod.key+': '+location.label);destinations.push(mod.name+'→'+location.label);checked++;await openSettings('context');
+    await delay(160);const state=await c.ev(()=>({modal:__s.showSettings_modal,tab:__s.currentTab,workbench:__s.showStoryBibleWorkbench,section:__s.storyBibleWorkbenchSection}));assert.equal(state.modal,false);if(location.workbenchSection){assert.equal(state.workbench,true,mod.key+': '+location.label+' 未打开创作设定工作台');assert.equal(state.section,location.workbenchSection,mod.key+': '+location.label+' 未打开对应栏目');}else assert.equal(state.tab,location.tab,mod.key+': '+location.label);destinations.push(mod.name+'→'+location.label);checked++;await openSettings('auxiliary');
    }}
+   await openSettings('context');
    const workbenchLocations=await c.ev(()=>__s.settingsContextWorkbenchLocations);let workbenchChecked=0;
    for(const location of workbenchLocations){
     const color=await c.ev(label=>{const root=document.getElementById('settings-search-context-workbench');const button=[...root.querySelectorAll('.settings-module-location')].find(item=>item.textContent.includes(label));if(!button)throw Error('缺少工作台入口：'+label);const value=getComputedStyle(button).color;button.click();return value;},location.label);

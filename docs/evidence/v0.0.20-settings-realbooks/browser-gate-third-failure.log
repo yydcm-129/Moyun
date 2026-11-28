@@ -1,0 +1,87 @@
+
+> moyun-web@0.0.20 gate:browser
+> node scripts/gate.cjs --browser
+
+[gate] 共 32 步（含浏览器回归）
+[gate] 构建 … PASS（0.1 秒）
+[gate] 生成脚本语法检查 … PASS（0.2 秒）
+[gate] 结构审计 … PASS（0.2 秒）
+[gate] 关键逻辑回归 … PASS（0.4 秒）
+[gate] AI 协议回归（本地 mock） … PASS（0.3 秒）
+[gate] 启动资源检查 … PASS（0.2 秒）
+[gate] 预设与上下文回归 … PASS（0.4 秒）
+[gate] 记忆库回归 … PASS（0.1 秒）
+[gate] v0.0.19 功能回归 … PASS（5.9 秒）
+[gate] v0.0.20 功能回归 … PASS（0.5 秒）
+[gate] 辅助设置、生图世界书与独立向量连接（浏览器） … PASS（38.1 秒）
+[gate] AI输入错误返回、手动返回与重新打开（浏览器） … PASS（27.8 秒）
+[gate] 评论费用开关、超长全文保存与响应布局（浏览器） … PASS（47.8 秒）
+[gate] 全文章数保存、刷新和实际前文请求（浏览器） … PASS（195.5 秒）
+[gate] 角色持久化、旧格式导入、文风与阅读导航、开书选项（浏览器） … PASS（128.5 秒）
+[gate] 作者设定、旧记忆默认只读与完整备份（浏览器） … PASS（39.1 秒）
+[gate] 角色阵营、关系状态色与上下文统计（浏览器） … PASS（29.2 秒）
+[gate] 站点标识、关于入口与公告（本地浏览器） … PASS（51.4 秒）
+[gate] 重生成快照查看、清理与保存回滚（浏览器） … PASS（44.1 秒）
+[gate] 百万字旧书导入、记忆发送与启动迁移（浏览器） … PASS（63.6 秒）
+[gate] 手机开关、设置固定栏与可视区域（浏览器） … PASS（72.9 秒）
+[gate] 平板双栏底部可视区域（浏览器） … PASS（21.5 秒）
+[gate] 浏览器回归（桌面与手机尺寸） … FAIL（52.7 秒）
+    PASS SVG角色头像及节点可访问名称 1366 {"node":"选择角色 林舟","image":"林舟头像","role":"img"}
+    PASS 系统动态效果切换 1366 no-preference {"calls":[{"method":"scrollBy","behavior":"smooth"},{"method":"scrollBy","behavior":"smooth"},{"method":"scrollIntoView","behavior":"smooth"},{"method":"scrollTo","behavior":"smooth"}],"main":"smooth","transition":"0.2s, 0.2s","animation":"0.6s","iterations":"infinite"}
+    PASS 系统动态效果切换 1366 reduce {"calls":[{"method":"scrollBy","behavior":"auto"},{"method":"scrollBy","behavior":"auto"},{"method":"scrollIntoView","behavior":"auto"},{"method":"scrollTo","behavior":"auto"}],"main":"auto","transition":"1e-05s","animation":"1e-05s","iterations":"1"}
+    PASS 系统动态效果切换 1366 no-preference {"calls":[{"method":"scrollBy","behavior":"smooth"},{"method":"scrollBy","behavior":"smooth"},{"method":"scrollIntoView","behavior":"smooth"},{"method":"scrollTo","behavior":"smooth"}],"main":"smooth","transition":"0.2s, 0.2s","animation":"0.6s","iterations":"infinite"}
+    PASS 图片替代文字与布局 390 {"avatar":"林舟头像","portrait":"林舟立绘，点击放大","cover":"《键盘验收》封面，点击放大","overflow":false}
+    PASS 键盘图片预览、Tab与Escape焦点还原 立绘 390 {"opened":{"open":true,"focus":true,"label":"图片预览","height":44,"inside":true},"closed":{"closed":true,"restored":true,"outline":"solid"}}
+    PASS 键盘图片预览、Tab与Escape焦点还原 封面 390 {"opened":{"open":true,"focus":true,"label":"图片预览","height":44,"inside":true},"closed":{"closed":true,"restored":true,"outline":"solid"}}
+    PASS SVG角色头像及节点可访问名称 390 {"node":"选择角色 林舟","image":"林舟头像","role":"img"}
+    PASS 系统动态效果切换 390 no-preference {"calls":[{"method":"scrollBy","behavior":"smooth"},{"method":"scrollBy","behavior":"smooth"},{"method":"scrollIntoView","behavior":"smooth"},{"method":"scrollTo","behavior":"smooth"}],"main":"smooth","transition":"0.2s, 0.2s","animation":"0.6s","iterations":"infinite"}
+    PASS 系统动态效果切换 390 reduce {"calls":[{"method":"scrollBy","behavior":"auto"},{"method":"scrollBy","behavior":"auto"},{"method":"scrollIntoView","behavior":"auto"},{"method":"scrollTo","behavior":"auto"}],"main":"auto","transition":"1e-05s","animation":"1e-05s","iterations":"1"}
+    PASS 系统动态效果切换 390 no-preference {"calls":[{"method":"scrollBy","behavior":"smooth"},{"method":"scrollBy","behavior":"smooth"},{"method":"scrollIntoView","behavior":"smooth"},{"method":"scrollTo","behavior":"smooth"}],"main":"smooth","transition":"0.2s, 0.2s","animation":"0.6s","iterations":"infinite"}
+    PASS 新建书籍按钮的可访问名称 {"label":"新建书籍","text":"新建书籍","icon":"true"}
+    PASS max-width误报实际弹窗尺寸 book-review 1366 {"width":900,"left":233,"right":1133,"viewport":1366,"scrollWidth":900,"clientWidth":900,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 branch-panel 1366 {"width":520,"left":423,"right":943,"viewport":1366,"scrollWidth":518,"clientWidth":518,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 book-review 390 {"width":390,"left":0,"right":390,"viewport":390,"scrollWidth":390,"clientWidth":390,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 branch-panel 390 {"width":390,"left":0,"right":390,"viewport":390,"scrollWidth":388,"clientWidth":388,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 book-review 320 {"width":320,"left":0,"right":320,"viewport":320,"scrollWidth":320,"clientWidth":320,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 branch-panel 320 {"width":320,"left":0,"right":320,"viewport":320,"scrollWidth":318,"clientWidth":318,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 book-review 667 {"width":667,"left":0,"right":667,"viewport":667,"scrollWidth":667,"clientWidth":667,"overflow":false}
+    PASS max-width误报实际弹窗尺寸 branch-panel 667 {"width":667,"left":0,"right":667,"viewport":667,"scrollWidth":665,"clientWidth":665,"overflow":false}
+    PASS 搜索目录锚点：静态与团队动态目标都存在且排除关于 {"targets":57,"dynamic":[{"id":"settings-search-team-planner","exists":true},{"id":"settings-search-team-settings","exists":true},{"id":"settings-search-team-character","exists":true},{"id":"settings-search-team-outline","exists":true},{"id":"settings-search-team-review","exists":true}],"includesAbout":false}
+    PASS 设置搜索：中文单字、错序词、拼音与相邻换位容错 {"single":["全局温度与思考强度"],"reordered":["章节摘要数量","发送章节摘要","正文参考资料开关","发送长期总结"],"pinyin":["全局温度与思考强度","连接中心｜API 配置","发送最近正文"],"transposed":["全局温度与思考强度","连接中心｜API 配置","发送最近正文"],"multi":["全局温度与思考强度"],"memory":["创作设定工作台与记忆库入口","模块模型分配｜AI总结","前文字数上限"],"typo":["首字超时"]}
+    PASS 设置搜索：只查全局设置，不包含关于 {"results":[],"empty":"没有找到相关设置。可尝试单字、错序关键词或拼音，例如“温”“章摘”“wednu”。这里只搜索全局设置，不包含“关于”。"}
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+    false !== true
+
+        at <workspace>\scripts\v18-r1-settings-search.cjs:42:98
+        at async check (<workspace>\scripts\v18-browser.cjs:19:47)
+        at async module.exports (<workspace>\scripts\v18-r1-settings-search.cjs:38:3)
+        at async module.exports (<workspace>\scripts\v18-scenarios.cjs:151:2)
+        at async main (<workspace>\scripts\v18-browser.cjs:49:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: 'strictEqual',
+      diff: 'simple'
+    }
+
+[gate] 浏览器回归（--legacy 对照） … PASS（128.3 秒）
+[gate] 通用规划解析与中断恢复（浏览器） … PASS（34.4 秒）
+[gate] 手动选择原文与分区填充（浏览器） … PASS（46.1 秒）
+[gate] 真实文本分卷、接受和刷新（浏览器本地重放） … PASS（136.1 秒）
+[gate] 三层分支实际请求隔离与1128公告（浏览器） … PASS（42.8 秒）
+[gate] 设置关联词搜索与定位（浏览器） … PASS（245.4 秒）
+[gate] 角色分类、批量预览和手机点击命中（浏览器） … PASS（21.2 秒）
+[gate] 父子块混合召回、重排和最终写作请求（浏览器本地 mock） … PASS（18.7 秒）
+[gate] 存储增量、编辑响应、切书与关闭性能（浏览器） … PASS（46.9 秒）
+
+[gate] 未覆盖：真实服务商的兼容性（本门禁只用本地 mock）；iOS Safari 与手机真机的键盘、手势行为；没有登记进本门禁的专项脚本（v16、v17 浏览器脚本、公告脚本等，需要手动启动 Edge 与本地服务）
+npm.cmd : [gate] 未通过：失败 v18-browser
+所在位置 行:2 字符: 1
++ npm.cmd run gate:browser *> .ui-check/v20-settings-browser-gate-final ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([gate] 未通过：失败 v18-browser:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[gate] 报告：.ui-check/gate-report.json

@@ -9,6 +9,14 @@ function runtime(extra={}){
 function run(c,...names){vm.runInContext(names.map(fn).join('\n'),c);}
 const chapter={id:'c1',branchId:'main',title:'初遇',content:Array.from({length:8},(_,i)=>'第'+(i+1)+'段。林岚将星图交给顾迟，线索'+(i+1)+'。').join(String.fromCharCode(10,10)),summary:'摘要事实'};
 
+test('命中场景原文时补回同章有效记忆，保留跨段结果且只发送一次',async()=>{
+ const ch={id:'context-scene',branchId:'main',title:'旧桥',content:'废弃石桥的桥墩矗立在雨里。',summary:''},memory={chapterId:'context-scene',text:'两人穿过暗渠离开，信物交由船夫保管。',sourceUserText:''};
+ const c=runtime({getValidMemoryRows:()=>[memory],fetchMemoryEmbeddings:async()=>{throw Error('offline');}});run(c,'memoryTextHash','memoryChapterHash','splitMemoryBlocks','getCurrentMemoryBlocks','memoryTokens','memoryKeywordScore','appendEnhancedMemoryRecall');
+ const messages=await c.appendEnhancedMemoryRecall([{role:'user',content:'核对去向'}],[ch],'废弃石桥');const history=messages.find(m=>m._moyunContextSlot==='history').content;
+ assert.ok(history.includes(ch.content));assert.ok(history.includes(memory.text));assert.equal(history.split(memory.text).length-1,1);assert.ok(history.length<=2500);
+ c.getValidMemoryRows=()=>[];const stale=await c.appendEnhancedMemoryRecall([{role:'user',content:'核对去向'}],[ch],'废弃石桥');assert.ok(!stale.some(m=>m.content.includes(memory.text)));
+});
+
 test('父子块保留原文位置和层级，分块不超过 900 字',()=>{
  const c=runtime();run(c,'memoryTextHash','memoryChapterHash','splitMemoryBlocks');const blocks=c.splitMemoryBlocks(chapter,1),parents=blocks.filter(b=>b.kind==='parent'),children=blocks.filter(b=>b.kind==='child');
  assert.ok(children.length>=3);assert.ok(parents.length>=1);assert.ok(children.every(b=>b.text.length<=900&&b.start<b.end&&chapter.content.slice(b.start,b.end)===b.sourceText));assert.ok(children.every(b=>parents.some(p=>p.id===b.parentId)));

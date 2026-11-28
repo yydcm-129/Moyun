@@ -1,0 +1,19 @@
+
+> moyun-web@0.0.20 gate
+> node scripts/gate.cjs
+
+[gate] 共 10 步（不含浏览器回归；加 --browser 运行）
+[gate] 构建 … PASS（0.2 秒）
+[gate] 生成脚本语法检查 … PASS（0.2 秒）
+[gate] 结构审计 … PASS（0.2 秒）
+[gate] 关键逻辑回归 … PASS（0.5 秒）
+[gate] AI 协议回归（本地 mock） … PASS（0.4 秒）
+[gate] 启动资源检查 … PASS（0.3 秒）
+[gate] 预设与上下文回归 … PASS（0.5 秒）
+[gate] 记忆库回归 … PASS（0.1 秒）
+[gate] v0.0.19 功能回归 … PASS（7.9 秒）
+[gate] v0.0.20 功能回归 … PASS（0.6 秒）
+
+[gate] 已执行的 10 步全部通过；在已覆盖范围内未发现问题。
+[gate] 未覆盖：真实服务商的兼容性（本门禁只用本地 mock）；iOS Safari 与手机真机的键盘、手势行为；没有登记进本门禁的专项脚本（v16、v17 浏览器脚本、公告脚本等，需要手动启动 Edge 与本地服务）；浏览器回归（本次没有加 --browser）
+[gate] 报告：.ui-check/gate-report.json

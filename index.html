@@ -10,7 +10,7 @@
 <script src="./assets/vendor/tailwind-3.4.17.js" defer></script>
 <script src="./assets/vendor/marked.umd.js"></script>
 <script src="./assets/vendor/diff_match_patch.js"></script>
-<link rel="stylesheet" href="./assets/css/moyun.css?v=df076d497538">
+<link rel="stylesheet" href="./assets/css/moyun.css?v=0748df90a71f">
 </head>
 
 <body class="flex overflow-hidden">
@@ -1558,8 +1558,10 @@
             </div>
             <div v-if="memoryLibrary.settings.mode==='enhanced'" data-memory-embedding class="space-y-3 min-w-0">
               <div class="flex items-center justify-between gap-3"><div class="min-w-0"><span class="label">自动索引正文块</span><p class="text-xs leading-relaxed" style="color:var(--tx3)">默认关闭。开启后，自动总结任务会为新生成或变化的章节调用向量 API；已有书不会因打开页面而整本重建。关闭时可继续用本地关键词搜索已保存材料。</p></div><button type="button" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="memoryLibrary.settings.autoIndexBlocks" aria-label="自动索引正文块" @click="memoryLibrary.settings.autoIndexBlocks=!memoryLibrary.settings.autoIndexBlocks;memorySettingsChanged()"><span class="toggle-track" :class="memoryLibrary.settings.autoIndexBlocks?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button></div>
-              <div class="flex flex-wrap items-center justify-between gap-2"><div class="text-xs break-words min-w-0" style="color:var(--tx3)">全局向量设置 · 默认 API：{{ memoryEmbeddingSiteLabel }}</div><button type="button" @click="fetchMemoryEmbeddingModels" :disabled="memoryEmbeddingDiscovery.loading" class="btn-ghost text-xs px-3 py-2">{{ memoryEmbeddingDiscovery.loading ? '获取中…' : '获取默认 API 模型' }}</button></div>
-              <label class="block space-y-1"><span class="label">向量模型（全局）</span><select v-model="settings.memoryEmbeddingModel" @change="memorySettingsChanged" class="select-field w-full" data-memory-embedding-model><option value="">请选择向量模型</option><option v-for="id in memoryEmbeddingModelOptions" :key="id" :value="id">{{ id }}</option></select></label>
+              <label class="block space-y-1"><span class="label">向量连接（全局）</span><select v-model="settings.memoryEmbeddingProfileId" @change="memorySettingsChanged" class="select-field w-full min-h-[44px]" aria-label="向量连接"><option value="">跟随默认连接</option><option v-for="profile in connectionCenter.profiles.filter(row=>row.adapterId!=='anthropic-messages')" :key="profile.id" :value="profile.id">{{ profile.name || profile.defaultModel }}</option></select></label>
+              <p class="text-xs leading-relaxed" style="color:var(--tx3)">先在“全局设置 → 连接中心”新建向量 API 配置，获取模型后保存；在此选择该连接，不必改动默认写作模型。只有向量模型的接口请不要用于总结、正文或外部重排。</p>
+              <div class="flex flex-wrap items-center justify-between gap-2"><div class="text-xs break-words min-w-0" style="color:var(--tx3)">全局向量设置 · 当前 API：{{ memoryEmbeddingSiteLabel }}</div><button type="button" @click="fetchMemoryEmbeddingModels" :disabled="memoryEmbeddingDiscovery.loading" class="btn-ghost text-xs px-3 min-h-[44px]">{{ memoryEmbeddingDiscovery.loading ? '获取中…' : '获取向量连接模型' }}</button></div>
+              <label class="block space-y-1"><span class="label">向量模型（全局，可手动填写）</span><input v-model.trim="settings.memoryEmbeddingModel" @change="memorySettingsChanged" list="memory-embedding-models" class="input-field w-full min-h-[44px]" data-memory-embedding-model aria-label="向量模型" placeholder="填写服务商的完整 embedding 模型名" autocomplete="off"><datalist id="memory-embedding-models"><option v-for="id in memoryEmbeddingModelOptions" :key="id" :value="id"></option></datalist></label>
               <p v-if="memoryEmbeddingDiscovery.error" class="text-xs break-words" role="alert" style="color:var(--err)">{{ memoryEmbeddingDiscovery.error }}</p>
               <p class="text-xs leading-relaxed" style="color:var(--tx3)">索引包含逐章记忆和原文父子片段；检索先在本地按中文关键词找候选，再用选定的 embeddings API 做语义匹配并融合排序，最多发送 10 条。关键词可在向量不可用时单独工作。手动补录会对待建块调用向量 API；打开书和普通输入不会重建全书索引。</p>
               <div class="flex items-center justify-between gap-3"><div><span class="label">外部重排</span><p class="text-xs leading-relaxed" style="color:var(--tx3)">默认使用本地排序。开启后，每次生成额外发送最多 20 条候选到重排服务；需支持 Cohere 兼容的 /rerank 接口。失败时保留本地排序并提示。</p></div><button type="button" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="memoryLibrary.settings.rerankEnabled" aria-label="外部重排" @click="memoryLibrary.settings.rerankEnabled=!memoryLibrary.settings.rerankEnabled;memorySettingsChanged()"><span class="toggle-track" :class="memoryLibrary.settings.rerankEnabled?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button></div>
@@ -1570,10 +1572,13 @@
             </div>
             <div class="text-xs leading-relaxed" style="color:var(--tx3)">已有记忆及合并记录继续保留。下方补录按钮只执行本次手动任务；自动总结关闭时不在后台重写。手动补录或开启自动总结后，超过最近 25 章的记忆可每 5 章合并，原逐章记录仍保留。</div>
             <div class="flex flex-wrap items-center gap-3">
-              <button type="button" @click="runMemoryBackfill({manualIndex:true})" :disabled="memoryProgress.busy || isGenerating" class="btn-primary text-xs px-4 py-2">补录缺失记忆 / 手动重建索引</button>
+              <button type="button" @click="runMemoryBackfill()" :disabled="memoryProgress.busy || isGenerating" class="btn-primary text-xs px-4 min-h-[44px]">补录缺失记忆</button>
+              <button v-if="memoryLibrary.settings.mode==='enhanced'" type="button" @click="runMemoryBackfill({indexOnly:true})" :disabled="memoryProgress.busy || isGenerating" class="btn-ghost text-xs px-4 min-h-[44px]" data-memory-index-only>建立 / 更新向量索引</button>
+              <button v-if="memoryLibrary.settings.mode==='enhanced'" type="button" @click="openConfirm({title:'重建全部向量索引',message:'将重新发送当前分支的全部正文块给向量服务，产生额外费用。仅补充缺失索引请使用“建立 / 更新向量索引”。',confirmText:'重建全部索引'},()=>runMemoryBackfill({indexOnly:true,manualIndex:true}))" :disabled="memoryProgress.busy || isGenerating" class="btn-ghost text-xs px-4 min-h-[44px]">重建全部索引</button>
               <button v-if="memoryProgress.busy" type="button" @click="cancelMemoryWork" class="btn-ghost text-xs px-4 py-2">停止</button>
               <span class="text-xs" style="color:var(--tx3)" role="status">{{ memoryProgress.phase }} {{ memoryProgress.total ? memoryProgress.done + '/' + memoryProgress.total : '' }}</span>
             </div>
+            <p class="text-xs leading-relaxed" style="color:var(--tx3)">“补录缺失记忆”使用总结模型，增强模式还会补建向量；“建立 / 更新向量索引”只调用向量模型，不补总结。已有索引不重复请求。长书首次建立需要较多调用，可随时停止，之后继续补建。</p>
             <p v-if="memoryProgress.error" class="text-xs break-words" style="color:var(--err)" role="alert">{{ memoryProgress.error }}</p>
             <details v-if="memoryLastRecall.length" class="text-xs" style="color:var(--tx2)">
               <summary class="cursor-pointer py-2">上次召回：已发送 {{ memoryLastRecall.length }} 条，按相关度排列</summary>
@@ -5575,8 +5580,8 @@
             </div>
           </div>
           <div class="p-3 rounded-xl text-[10px] leading-relaxed flex items-center justify-between gap-2" style="background:var(--bg-inset);border:1px dashed var(--bd);color:var(--tx3)">
-            <span>配好模型后，别忘了到「上下文」页签底部，为正文 / 大纲 / 总结等模块分别分配模型。</span>
-            <button type="button" @click="activeSettingsTab='context'" class="btn-ghost text-[10px] px-2 py-1 shrink-0" style="color:var(--accent)">去分配模块 →</button>
+            <span>配好模型后，可到「辅助功能」页签底部，为正文 / 大纲 / 总结等模块分别分配模型。</span>
+            <button type="button" @click="activeSettingsTab='auxiliary'" class="btn-ghost text-[10px] px-2 py-1 shrink-0" style="color:var(--accent)">去分配模块 →</button>
           </div>
           <section id="settings-search-global-controls" data-global-generation-settings class="p-3 rounded-xl space-y-3 min-w-0" style="background:var(--bg-inset);border:1px solid var(--bd)">
             <div><h4 class="text-sm font-bold" style="color:var(--tx)">温度与思考强度</h4><p class="text-xs mt-1 leading-relaxed" style="color:var(--tx3)">全局设置，应用于所有书籍及模块；默认强度由模型决定。</p></div>
@@ -5588,35 +5593,11 @@
 
         <!-- ═══ 上下文与功能 ═══ -->
         <div v-show="activeSettingsTab==='context'" id="settings-panel-context" role="tabpanel" aria-labelledby="settings-tab-context" class="space-y-4">
-          <div v-if="teamBookRoutesOpen" id="settings-search-team-book-routes" class="space-y-4">
-            <div class="flex items-start justify-between gap-3 p-3 rounded-xl" style="background:var(--accent-soft);border:1px solid var(--bd)">
-              <div><div class="text-sm font-bold" style="color:var(--tx)">团队开书 · 逐项 API 配置</div><p class="text-[10px] mt-1 leading-relaxed" style="color:var(--tx3)">每位成员可单独选 API。留空时跟随上方的统一配置；若统一配置也未指定，则沿用原来的设定、角色、大纲模块配置。</p></div>
-              <button type="button" class="btn-ghost text-xs px-3 py-2 shrink-0" @click="teamBookRoutesOpen=false">返回上下文</button>
-            </div>
-            <div id="settings-search-team-book-existing-routes" class="p-3 rounded-xl flex items-start justify-between gap-3" style="background:var(--bg-inset);border:1px solid var(--bd)">
-              <div class="min-w-0"><div class="text-xs font-bold" style="color:var(--tx)">让单独微调的模型用于已有书籍</div><p class="text-[10px] mt-1 leading-relaxed" style="color:var(--tx3)">开启后，团队开书里单独指定给设定员、角色员、大纲与细纲员的 API，也会用于已有书籍对应的设定、角色、大纲和细纲生成。关闭后，这些选择只用于团队开书。</p></div>
-              <button type="button" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.teamBookApplyRoutesToExisting!==false" aria-label="团队开书模型用于已有书籍同类生成" @click="setTeamBookApplyRoutesToExisting(settings.teamBookApplyRoutesToExisting===false)"><span class="toggle-track" :class="settings.teamBookApplyRoutesToExisting!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
-            </div>
-            <fieldset v-for="route in teamBookRouteConfig" :key="route.key" :id="'settings-search-'+route.key" class="p-3 rounded-xl space-y-2" style="background:var(--bg-inset);border:1px solid var(--bd)">
-              <legend class="px-1 text-xs font-bold" style="color:var(--tx)">{{ route.name }}</legend>
-              <div class="text-[10px] leading-relaxed" style="color:var(--tx3)">{{ route.description }}<span v-if="route.key==='team-outline'"> 章节细纲也使用这项配置。</span></div>
-              <label class="flex items-center gap-2 p-2 rounded cursor-pointer" style="border:1px solid var(--bd)">
-                <input type="radio" :name="'team-route-'+route.key" value="" :checked="getModuleRouteProfileId(route.key)===''" @change="setModuleRouteProfile(route.key,'')">
-                <span class="text-[10px]" style="color:var(--tx)">跟随上方统一配置</span><span class="ml-auto text-[9px] text-right" style="color:var(--tx3)">{{ getTeamBookRouteSummary(route.key) }}</span>
-              </label>
-              <label v-for="profile in getAssignableConnectionProfiles()" :key="profile.id" class="flex items-center gap-2 p-2 rounded cursor-pointer" style="border:1px solid var(--bd)">
-                <input type="radio" :name="'team-route-'+route.key" :value="profile.id" :checked="getModuleRouteProfileId(route.key)===profile.id" @change="setModuleRouteProfile(route.key,profile.id)">
-                <span class="text-[10px] font-bold" style="color:var(--tx)">{{ profile.name }}</span><span class="ml-auto text-[9px]" style="color:var(--tx3)">{{ profile.defaultModel }}</span>
-              </label>
-              <div v-if="getAssignableConnectionProfiles().length===0" class="text-[9px]" style="color:var(--tx3)">暂无已测试可用配置，请先在“连接中心”测试并保存。</div>
-            </fieldset>
-          </div>
-          <div v-else class="space-y-4">
           <!-- 中文注释：上下文省 token 配置直接影响正文生成请求，可按模型窗口大小选择是否发送全文/摘要/长期总结。 -->
           <div id="settings-search-context-intro" class="p-3 rounded-xl space-y-2" style="background:var(--accent-soft);border:1px solid var(--bd)">
-            <div class="text-xs font-bold" style="color:var(--tx)">这些设置决定模型本次能参考什么、由哪个模型处理</div>
-            <p class="text-[10px] leading-relaxed m-0" style="color:var(--tx2)">正文、章节摘要、长期总结和细纲控制“发送哪些资料”；截断上限控制“每类资料最多发送多少字”；模型分配控制“每类任务使用哪个 API 配置”。这些选项只影响发给模型的参考内容，不会删除书稿。二轮/三轮补写和书评评论可能增加模型请求次数。</p>
-            <p class="text-[10px] leading-relaxed m-0" style="color:var(--tx3)">黄色模块标签表示该模型模块实际出现的页面入口；点击后会关闭全局设置并跳转到对应页面。</p>
+            <div class="text-xs font-bold" style="color:var(--tx)">这些设置决定模型本次能参考什么</div>
+            <p class="text-[10px] leading-relaxed m-0" style="color:var(--tx2)">正文、章节摘要、长期总结和细纲控制“发送哪些资料”；截断上限控制“每类资料最多发送多少字”。这些选项只影响发给模型的参考内容，不会删除书稿。补写、评论、阅读显示和模型分配已移到“辅助功能”。</p>
+            <p class="text-[10px] leading-relaxed m-0" style="color:var(--tx3)">下方黄色标签可直接打开创作资料和记忆库；向量连接与模型在记忆库的“增强记忆”中配置。</p>
           </div>
           <div id="settings-search-context-workbench" class="p-3 rounded-xl space-y-2" style="background:var(--bg-inset);border:1px solid var(--bd)">
             <div class="text-xs font-bold" style="color:var(--tx)">创作设定工作台入口</div>
@@ -5626,11 +5607,6 @@
             </div>
           </div>
           <div id="settings-search-context-sources" class="p-3 rounded-xl space-y-3" style="background:var(--bg-inset);border:1px solid var(--bd)">
-            <!-- v0.0.11 新功能6：自动补录开关同步放进设置-上下文页，与事件工作台入口共用同一 settings.autoTimelineSupplement。 -->
-            <div id="settings-search-auto-timeline" class="flex items-center justify-between py-1">
-              <div><span class="text-sm font-bold" style="color:var(--tx)">事件时间线自动补录</span><br><span class="text-[10px]" style="color:var(--tx3)">需先在记忆库手动开启「自动总结与后台维护」，此开关才生效；关闭后仅手动整理，不修改角色档案</span></div>
-              <div @click="toggleAutoTimelineSupplement()" class="toggle-track" :class="autoTimelineSupplementOn?'toggle-on':'toggle-off'" role="switch" :aria-checked="autoTimelineSupplementOn?'true':'false'" aria-label="事件时间线自动补录" data-settings-auto-timeline><div class="toggle-thumb"></div></div>
-            </div>
             <div id="settings-search-compact-mode" class="flex items-center justify-between py-1">
               <div><span class="text-sm font-bold" style="color:var(--tx)">省 token 模式</span><br><span class="text-[10px]" style="color:var(--tx3)">请求时最多带 2 章原文并收紧单章长度；保留填写的设置，关闭后恢复使用</span></div>
               <div @click="settings.contextCompactMode=!settings.contextCompactMode;saveData()"
@@ -5659,29 +5635,6 @@
               </div>
             </div>
           </div>
-          <!-- v0.0.13 req2：二轮补写全局开关。默认开启；关闭后首轮字数不足直接落盘，不再追加第二次请求。 -->
-          <div id="settings-search-second-round" class="flex items-center justify-between py-2" data-settings-second-round-toggle>
-            <div>
-              <span class="text-sm font-bold" style="color:var(--tx)">二轮补写</span><br>
-              <span class="text-[10px]" style="color:var(--tx3)">首轮字数不足或摘要缺失时补写；缺摘要会先弹窗提醒</span><br>
-              <span class="text-[10px]" style="color:var(--warn)">按次进行付费调用的用户请谨慎选择</span>
-            </div>
-            <button type="button" @click="toggleSecondRoundSupplement()" class="moyun-toggle-hitbox shrink-0" role="switch"
-                 :aria-checked="(settings.secondRoundSupplementEnabled!==false)?'true':'false'" aria-label="二轮补写开关"
-                 ><span aria-hidden="true" class="toggle-track" :class="(settings.secondRoundSupplementEnabled!==false)?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
-          </div>
-          <div id="settings-search-third-round" class="flex items-center justify-between py-2" data-settings-third-round-toggle>
-            <div><span class="text-sm font-bold" style="color:var(--tx)">三轮摘要补写</span><br><span class="text-[10px]" style="color:var(--tx3)">二轮补写后仍缺摘要时，再额外补写一次</span><br><span class="text-[10px]" style="color:var(--warn)">会额外发起一次模型请求</span></div><button type="button" @click="toggleThirdRoundSupplement()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.thirdRoundSupplementEnabled!==false?'true':'false'" aria-label="三轮摘要补写开关"><span aria-hidden="true" class="toggle-track" :class="settings.thirdRoundSupplementEnabled!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
-          </div>
-          <div id="settings-search-generation-truncation" class="flex items-center justify-between gap-3 py-2">
-            <div class="min-w-0"><span class="text-sm font-bold" style="color:var(--tx)">截断设置</span><br><span class="text-[10px]" style="color:var(--tx3)">开启后，正文流式输出超过目标字数的 2.5 倍（最低 1200 字）时中止并保留草稿；当前为 {{ getChapterRunawayCeiling() }} 字。关闭后保留超长全文，不按字数拦截保存；服务商自身输出上限仍有效。</span></div>
-            <button type="button" @click="settings.generationTruncationEnabled=settings.generationTruncationEnabled===false;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.generationTruncationEnabled!==false" aria-label="截断设置"><span aria-hidden="true" class="toggle-track" :class="settings.generationTruncationEnabled!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
-          </div>
-          <div id="settings-search-regen-retention" class="flex items-center justify-between gap-3 py-2">
-            <div class="min-w-0"><span class="text-sm font-bold" style="color:var(--tx)">保存后续重生成请求快照</span><br><span class="text-[10px]" style="color:var(--tx3)">默认开启。关闭后，新章节不再保存首次请求，不能复用首次注入；仍可按当前配置重写。只影响后续生成，已有快照保留，可在快照历史中手动清理。</span></div>
-            <button type="button" @click="settings.saveRegenSnapshots=settings.saveRegenSnapshots===false;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.saveRegenSnapshots!==false" aria-label="保存后续重生成请求快照"><span aria-hidden="true" class="toggle-track" :class="settings.saveRegenSnapshots!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
-          </div>
-          <div id="settings-search-gemini-input" class="flex items-center justify-between gap-3" data-settings-gemini-input><div><span class="text-sm font-bold" style="color:var(--tx)">Gemini测试输入</span><br><span class="text-[10px]" style="color:var(--tx3)">实验功能</span></div><button type="button" @click="settings.geminiTestInput=!settings.geminiTestInput;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="!!settings.geminiTestInput" aria-label="Gemini测试输入开关"><span class="toggle-track" :class="settings.geminiTestInput?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button></div>
           <div id="settings-search-full-chapters" class="flex items-center justify-between py-2">
             <div class="min-w-0"><span class="text-sm font-bold" style="color:var(--tx)">全文章数</span><br><span class="text-[10px]" style="color:var(--tx3)">最近 N 章的原文数量上限，0 为不发送原文；仍受下方字数上限限制</span><br><span v-if="settings.contextCompactMode" class="text-[10px]" style="color:var(--warn)">省 token 模式开启：实际最多带 2 章原文</span><span v-else-if="settings.contextUseFullText===false" class="text-[10px]" style="color:var(--warn)">“发送最近正文”已关闭：本次不发送原文</span><span v-if="memoryLibrary.settings.enabled && memoryLibrary.settings.replaceHistoryWithSummaries" class="block text-[10px]" style="color:var(--warn)">已主动开启记忆替换：同时受记忆库“保留最近章节”限制</span></div>
             <!-- 中文注释：章数输入立即走原保存队列，避免手机未失焦或快速刷新时仍留下旧值。 -->
@@ -5732,6 +5685,78 @@
           </div>
           <div class="divider"></div>
 
+
+          <label id="settings-search-history-limit" class="block text-xs">前文字数上限<input v-model.number="settings.contextHistoryCharLimit" @change="normalizeContextSettings();saveData()" type="number" min="0" step="1000" class="input-field text-center mt-1" aria-label="前文字数上限" style="min-height:44px"></label>
+          <p class="text-[11px]" style="color:var(--tx3)">上限越小越省费用，但越依赖摘要和记忆。前文原文、章节摘要、记忆、范围总结与卷末交接共同计入；当前细纲受各自上限约束。0 表示不带历史参考。</p>
+          <label id="settings-search-outline-range" class="label">细纲注入范围</label>
+          <div class="text-[10px] mb-2" style="color:var(--tx4)">AI写作时读取当前章前后几章的细纲（防止多章生成串味）</div>
+          <div class="flex gap-4">
+            <div class="flex-1">
+              <span class="text-[10px]" style="color:var(--tx3)">前文章数</span>
+              <input type="number" v-model.number="settings.contextOutlineBefore" @change="saveData()" min="0" max="10" class="input-field text-center mt-1" style="height:30px">
+            </div>
+            <div class="flex-1">
+              <span class="text-[10px]" style="color:var(--tx3)">后文章数</span>
+              <input type="number" v-model.number="settings.contextOutlineAfter" @change="saveData()" min="0" max="10" class="input-field text-center mt-1" style="height:30px">
+            </div>
+          </div>
+
+          <div class="divider"></div>
+        </div>
+        <div v-show="activeSettingsTab==='auxiliary'" id="settings-panel-auxiliary" role="tabpanel" aria-labelledby="settings-tab-auxiliary" class="space-y-4">
+          <div v-if="teamBookRoutesOpen" id="settings-search-team-book-routes" class="space-y-4">
+            <div class="flex items-start justify-between gap-3 p-3 rounded-xl" style="background:var(--accent-soft);border:1px solid var(--bd)">
+              <div><div class="text-sm font-bold" style="color:var(--tx)">团队开书 · 逐项 API 配置</div><p class="text-[10px] mt-1 leading-relaxed" style="color:var(--tx3)">每位成员可单独选 API。留空时跟随上方的统一配置；若统一配置也未指定，则沿用原来的设定、角色、大纲模块配置。</p></div>
+              <button type="button" class="btn-ghost text-xs px-3 py-2 shrink-0" @click="teamBookRoutesOpen=false">返回辅助功能</button>
+            </div>
+            <div id="settings-search-team-book-existing-routes" class="p-3 rounded-xl flex items-start justify-between gap-3" style="background:var(--bg-inset);border:1px solid var(--bd)">
+              <div class="min-w-0"><div class="text-xs font-bold" style="color:var(--tx)">让单独微调的模型用于已有书籍</div><p class="text-[10px] mt-1 leading-relaxed" style="color:var(--tx3)">开启后，团队开书里单独指定给设定员、角色员、大纲与细纲员的 API，也会用于已有书籍对应的设定、角色、大纲和细纲生成。关闭后，这些选择只用于团队开书。</p></div>
+              <button type="button" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.teamBookApplyRoutesToExisting!==false" aria-label="团队开书模型用于已有书籍同类生成" @click="setTeamBookApplyRoutesToExisting(settings.teamBookApplyRoutesToExisting===false)"><span class="toggle-track" :class="settings.teamBookApplyRoutesToExisting!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+            </div>
+            <fieldset v-for="route in teamBookRouteConfig" :key="route.key" :id="'settings-search-'+route.key" class="p-3 rounded-xl space-y-2" style="background:var(--bg-inset);border:1px solid var(--bd)">
+              <legend class="px-1 text-xs font-bold" style="color:var(--tx)">{{ route.name }}</legend>
+              <div class="text-[10px] leading-relaxed" style="color:var(--tx3)">{{ route.description }}<span v-if="route.key==='team-outline'"> 章节细纲也使用这项配置。</span></div>
+              <label class="flex items-center gap-2 p-2 rounded cursor-pointer" style="border:1px solid var(--bd)">
+                <input type="radio" :name="'team-route-'+route.key" value="" :checked="getModuleRouteProfileId(route.key)===''" @change="setModuleRouteProfile(route.key,'')">
+                <span class="text-[10px]" style="color:var(--tx)">跟随上方统一配置</span><span class="ml-auto text-[9px] text-right" style="color:var(--tx3)">{{ getTeamBookRouteSummary(route.key) }}</span>
+              </label>
+              <label v-for="profile in getAssignableConnectionProfiles()" :key="profile.id" class="flex items-center gap-2 p-2 rounded cursor-pointer" style="border:1px solid var(--bd)">
+                <input type="radio" :name="'team-route-'+route.key" :value="profile.id" :checked="getModuleRouteProfileId(route.key)===profile.id" @change="setModuleRouteProfile(route.key,profile.id)">
+                <span class="text-[10px] font-bold" style="color:var(--tx)">{{ profile.name }}</span><span class="ml-auto text-[9px]" style="color:var(--tx3)">{{ profile.defaultModel }}</span>
+              </label>
+              <div v-if="getAssignableConnectionProfiles().length===0" class="text-[9px]" style="color:var(--tx3)">暂无已测试可用配置，请先在“连接中心”测试并保存。</div>
+            </fieldset>
+          </div>
+          <div v-else class="space-y-4">
+          <p class="text-xs leading-relaxed" style="color:var(--tx3)">管理补写、评论、阅读显示与模型分配。参考资料、记忆和输入预算仍在“上下文”。</p>
+            <!-- 与事件工作台入口共用原有开关。 -->
+            <div id="settings-search-auto-timeline" class="flex items-center justify-between py-1">
+              <div><span class="text-sm font-bold" style="color:var(--tx)">事件时间线自动补录</span><br><span class="text-[10px]" style="color:var(--tx3)">需先在记忆库手动开启「自动总结与后台维护」，此开关才生效；关闭后仅手动整理，不修改角色档案</span></div>
+              <div @click="toggleAutoTimelineSupplement()" class="toggle-track" :class="autoTimelineSupplementOn?'toggle-on':'toggle-off'" role="switch" :aria-checked="autoTimelineSupplementOn?'true':'false'" aria-label="事件时间线自动补录" data-settings-auto-timeline><div class="toggle-thumb"></div></div>
+            </div>
+          <!-- v0.0.13 req2：二轮补写全局开关。默认开启；关闭后首轮字数不足直接落盘，不再追加第二次请求。 -->
+          <div id="settings-search-second-round" class="flex items-center justify-between py-2" data-settings-second-round-toggle>
+            <div>
+              <span class="text-sm font-bold" style="color:var(--tx)">二轮补写</span><br>
+              <span class="text-[10px]" style="color:var(--tx3)">首轮字数不足或摘要缺失时补写；缺摘要会先弹窗提醒</span><br>
+              <span class="text-[10px]" style="color:var(--warn)">按次进行付费调用的用户请谨慎选择</span>
+            </div>
+            <button type="button" @click="toggleSecondRoundSupplement()" class="moyun-toggle-hitbox shrink-0" role="switch"
+                 :aria-checked="(settings.secondRoundSupplementEnabled!==false)?'true':'false'" aria-label="二轮补写开关"
+                 ><span aria-hidden="true" class="toggle-track" :class="(settings.secondRoundSupplementEnabled!==false)?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+          </div>
+          <div id="settings-search-third-round" class="flex items-center justify-between py-2" data-settings-third-round-toggle>
+            <div><span class="text-sm font-bold" style="color:var(--tx)">三轮摘要补写</span><br><span class="text-[10px]" style="color:var(--tx3)">二轮补写后仍缺摘要时，再额外补写一次</span><br><span class="text-[10px]" style="color:var(--warn)">会额外发起一次模型请求</span></div><button type="button" @click="toggleThirdRoundSupplement()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.thirdRoundSupplementEnabled!==false?'true':'false'" aria-label="三轮摘要补写开关"><span aria-hidden="true" class="toggle-track" :class="settings.thirdRoundSupplementEnabled!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+          </div>
+          <div id="settings-search-generation-truncation" class="flex items-center justify-between gap-3 py-2">
+            <div class="min-w-0"><span class="text-sm font-bold" style="color:var(--tx)">截断设置</span><br><span class="text-[10px]" style="color:var(--tx3)">开启后，正文流式输出超过目标字数的 2.5 倍（最低 1200 字）时中止并保留草稿；当前为 {{ getChapterRunawayCeiling() }} 字。关闭后保留超长全文，不按字数拦截保存；服务商自身输出上限仍有效。</span></div>
+            <button type="button" @click="settings.generationTruncationEnabled=settings.generationTruncationEnabled===false;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.generationTruncationEnabled!==false" aria-label="截断设置"><span aria-hidden="true" class="toggle-track" :class="settings.generationTruncationEnabled!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+          </div>
+          <div id="settings-search-regen-retention" class="flex items-center justify-between gap-3 py-2">
+            <div class="min-w-0"><span class="text-sm font-bold" style="color:var(--tx)">保存后续重生成请求快照</span><br><span class="text-[10px]" style="color:var(--tx3)">默认开启。关闭后，新章节不再保存首次请求，不能复用首次注入；仍可按当前配置重写。只影响后续生成，已有快照保留，可在快照历史中手动清理。</span></div>
+            <button type="button" @click="settings.saveRegenSnapshots=settings.saveRegenSnapshots===false;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="settings.saveRegenSnapshots!==false" aria-label="保存后续重生成请求快照"><span aria-hidden="true" class="toggle-track" :class="settings.saveRegenSnapshots!==false?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+          </div>
+          <div id="settings-search-gemini-input" class="flex items-center justify-between gap-3" data-settings-gemini-input><div><span class="text-sm font-bold" style="color:var(--tx)">Gemini测试输入</span><br><span class="text-[10px]" style="color:var(--tx3)">实验功能</span></div><button type="button" @click="settings.geminiTestInput=!settings.geminiTestInput;saveData()" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-checked="!!settings.geminiTestInput" aria-label="Gemini测试输入开关"><span class="toggle-track" :class="settings.geminiTestInput?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button></div>
           <div id="settings-search-auto-scroll" class="flex items-center justify-between py-2">
             <div><span class="text-sm font-bold" style="color:var(--tx)">生成开始时定位</span><br><span class="text-[10px]" style="color:var(--tx3)">只定位到生成内容开头，不再持续追到页面底部</span></div>
             <div @click="settings.autoScroll=!settings.autoScroll;saveData()"
@@ -5822,22 +5847,6 @@
             </div>
           </div>
 
-          <div class="divider"></div>
-          <label id="settings-search-outline-range" class="label">细纲注入范围</label>
-          <label id="settings-search-history-limit" class="block text-xs">前文字数上限<input v-model.number="settings.contextHistoryCharLimit" @change="normalizeContextSettings();saveData()" type="number" min="0" step="1000" class="input-field text-center mt-1" aria-label="前文字数上限" style="min-height:44px"></label>
-          <p class="text-[11px]" style="color:var(--tx3)">上限越小越省费用，但越依赖摘要和记忆。只限制前文原文，摘要、卷纲、卷末交接和当前细纲不计入；0 表示不带前文原文。</p>
-          <div class="text-[10px] mb-2" style="color:var(--tx4)">AI写作时读取当前章前后几章的细纲（防止多章生成串味）</div>
-          <div class="flex gap-4">
-            <div class="flex-1">
-              <span class="text-[10px]" style="color:var(--tx3)">前文章数</span>
-              <input type="number" v-model.number="settings.contextOutlineBefore" @change="saveData()" min="0" max="10" class="input-field text-center mt-1" style="height:30px">
-            </div>
-            <div class="flex-1">
-              <span class="text-[10px]" style="color:var(--tx3)">后文章数</span>
-              <input type="number" v-model.number="settings.contextOutlineAfter" @change="saveData()" min="0" max="10" class="input-field text-center mt-1" style="height:30px">
-            </div>
-          </div>
-		  
           <div class="divider"></div>
           <section id="settings-search-team-book" class="p-3 rounded-xl space-y-2" style="background:var(--bg-inset);border:1px solid var(--bd)">
             <div><div class="text-xs font-bold" style="color:var(--tx)">团队开书</div><p class="text-[10px] mt-1 leading-relaxed" style="color:var(--tx3)">策划员、设定员、角色员、大纲与细纲员、审查员共同完成“一句话开书”。可在这里让整个团队共用一个 API、使用全局默认 API，或沿用原有模块配置；进入下一页后还能逐个调整。</p></div>
@@ -6445,22 +6454,6 @@
 
             <div class="divider"></div>
 
-            <!-- 生图提示词模板 -->
-            <div>
-              <label class="label">插图提示词模板</label>
-              <div class="text-[9px] mb-1" style="color:var(--tx4)">AI提取图片标签时使用的指令模板</div>
-              <textarea v-model="imagePromptTemplate" @change="saveData()" rows="3"
-                        class="textarea-field text-[10px]" style="line-height:1.4"></textarea>
-            </div>
-            <div>
-              <label class="label">角色立绘提示词模板</label>
-              <div class="text-[9px] mb-1" style="color:var(--tx4)">AI提取角色立绘标签时使用的指令模板</div>
-              <textarea v-model="avatarPromptTemplate" @change="saveData()" rows="3"
-                        class="textarea-field text-[10px]" style="line-height:1.4"></textarea>
-            </div>
-
-            <div class="divider"></div>
-
             <!-- 配置管理 -->
             <div>
               <div class="flex items-center justify-between mb-2">
@@ -6552,6 +6545,40 @@
               </template>
             </div>
           </div>
+          <section id="settings-search-image-worldbook" class="card p-4 space-y-3 min-w-0">
+            <h3 class="text-sm font-bold">生图世界书 · 当前书籍</h3>
+            <p class="text-xs leading-relaxed" style="color:var(--tx3)">控制正文中自动插图的格式、画面描述和角色一致性。修改随当前书保存、备份和导入；关闭生图时仍可编辑。实际生成图片还需要上方生图开关与有效连接。</p>
+            <div v-for="option in [{key:'enabled',label:'使用生图世界书'},{key:'includeCharacters',label:'带入角色外貌参考'}]" :key="option.key" class="flex items-center justify-between gap-3">
+              <span class="text-sm">{{ option.label }}</span>
+              <button type="button" class="moyun-toggle-hitbox shrink-0" role="switch" :aria-label="option.label" :aria-checked="getImageWorldbookValue(option.key)" @click="setImageWorldbookValue(option.key,!getImageWorldbookValue(option.key))"><span class="toggle-track" :class="getImageWorldbookValue(option.key)?'toggle-on':'toggle-off'"><span class="toggle-thumb"></span></span></button>
+            </div>
+            <p class="text-xs leading-relaxed" style="color:var(--tx3)">插图识别依赖 [IMG: English tags] 格式，请在格式规则中保留它。数量占位符 <code v-text="'{{imageCount}}'"></code> 使用上方“每章图片”的值。清空某项会停止发送该段规则。</p>
+            <details v-for="field in IMAGE_WORLDBOOK_FIELDS" :key="field.key" class="min-w-0" :data-image-worldbook="field.key">
+              <summary class="cursor-pointer min-h-[44px] py-3 text-sm font-bold" style="display:list-item">{{ field.title }}</summary>
+              <textarea :value="getImageWorldbookValue(field.key)" @input="setImageWorldbookValue(field.key,$event.target.value)" :aria-label="field.title" rows="6" class="textarea-field w-full text-xs leading-relaxed"></textarea>
+              <button type="button" @click="restoreImageWorldbookField(field.key)" class="btn-ghost text-xs min-h-[44px]">恢复此项默认</button>
+            </details>
+          </section>
+          <section id="settings-search-image-templates" class="card p-4 space-y-3 min-w-0">
+            <h3 class="text-sm font-bold">标签提取模板 · 全局</h3>
+            <p class="text-xs leading-relaxed" style="color:var(--tx3)">用于封面、插图标签修正与角色立绘的标签提取。沿用原全局配置，对所有书生效；单本书的备份不包含这两项。</p>
+            <!-- 生图提示词模板 -->
+            <div>
+              <label class="label">插图提示词模板</label>
+              <div class="text-[9px] mb-1" style="color:var(--tx4)">AI提取图片标签时使用的指令模板</div>
+              <textarea v-model="imagePromptTemplate" @change="saveData()" rows="3" aria-label="插图提示词模板"
+                        class="textarea-field text-[10px]" style="line-height:1.4"></textarea>
+              <button type="button" @click="restoreBuiltinSystemPrompt('image')" data-restore-image-template class="btn-ghost text-xs min-h-[44px]">恢复插图模板默认</button>
+            </div>
+            <div>
+              <label class="label">角色立绘提示词模板</label>
+              <div class="text-[9px] mb-1" style="color:var(--tx4)">AI提取角色立绘标签时使用的指令模板</div>
+              <textarea v-model="avatarPromptTemplate" @change="saveData()" rows="3" aria-label="角色立绘提示词模板"
+                        class="textarea-field text-[10px]" style="line-height:1.4"></textarea>
+              <button type="button" @click="restoreBuiltinSystemPrompt('avatar')" data-restore-avatar-template class="btn-ghost text-xs min-h-[44px]">恢复立绘模板默认</button>
+            </div>
+          </section>
+
         </div>
 
         <!-- ═══ 关于/更新公告 ═══ -->
@@ -6973,7 +7000,7 @@
 <!-- PART_1_END -->
 </div><!-- #app 结束 -->
 
-<script src="./assets/js/moyun.js?v=bdae38353e13"></script>
+<script src="./assets/js/moyun.js?v=f3f68c154bb5"></script>
 <!-- PART_1_END -->
 </body>
 </html>

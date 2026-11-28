@@ -1,0 +1,120 @@
+
+> moyun-web@0.0.20 gate:browser
+> node scripts/gate.cjs --browser
+
+[gate] 共 32 步（含浏览器回归）
+[gate] 构建 … PASS（0.1 秒）
+[gate] 生成脚本语法检查 … PASS（0.2 秒）
+[gate] 结构审计 … PASS（0.2 秒）
+[gate] 关键逻辑回归 … PASS（0.5 秒）
+[gate] AI 协议回归（本地 mock） … PASS（0.4 秒）
+[gate] 启动资源检查 … PASS（0.3 秒）
+[gate] 预设与上下文回归 … PASS（0.6 秒）
+[gate] 记忆库回归 … PASS（0.1 秒）
+[gate] v0.0.19 功能回归 … PASS（7.6 秒）
+[gate] v0.0.20 功能回归 … PASS（0.5 秒）
+[gate] 辅助设置、生图世界书与独立向量连接（浏览器） … PASS（38.1 秒）
+[gate] AI输入错误返回、手动返回与重新打开（浏览器） … PASS（26.4 秒）
+[gate] 评论费用开关、超长全文保存与响应布局（浏览器） … PASS（44 秒）
+[gate] 全文章数保存、刷新和实际前文请求（浏览器） … PASS（190.4 秒）
+[gate] 角色持久化、旧格式导入、文风与阅读导航、开书选项（浏览器） … PASS（129.8 秒）
+[gate] 作者设定、旧记忆默认只读与完整备份（浏览器） … PASS（39.1 秒）
+[gate] 角色阵营、关系状态色与上下文统计（浏览器） … PASS（29.5 秒）
+[gate] 站点标识、关于入口与公告（本地浏览器） … FAIL（10.2 秒）
+    PASS 部署入口和全部启动文件与对应发布基准逐字节一致 {"baseline":"工作目录原始字节","files":[{"file":"index.html","status":200,"bytes":809449,"sha256":"e707f5a4d22bb2ff2f8a85e4597f354c72f755003f03bb1a01521d40bc7e563c"},{"file":"./assets/favicon/moyun.svg","status":200,"bytes":973,"sha256":"cd1942003aaaec0f82fe73155fac5be70ef378594e5a8c3358576acf2ddf5a61"},{"file":"./assets/vendor/vue.global.js","status":200,"bytes":596415,"sha256":"b191cf809aa83452971804f9df2d8c67de65de34caa40f0fcf828c508c7099e2"},{"file":"./assets/vendor/tailwind-3.4.17.js","status":200,"bytes":407279,"sha256":"176e894661aa9cdc9a5cba6c720044cbbf7b8bd80d1c9a142a7c24b1b6c50d15"},{"file":"./assets/vendor/marked.umd.js","status":200,"bytes":73384,"sha256":"d7931d1cd7bf727dd756c871637edcc9e0f8538003b927368400ec1ee47a9dd9"},{"file":"./assets/vendor/diff_match_patch.js","status":200,"bytes":19192,"sha256":"aac7655a215d8448d95d9871e8d8a40ac3d9aaf38d81ab2ccc43c1cd267b8fa3"},{"file":"./assets/css/moyun.css?v=0748df90a71f","status":200,"bytes":146839,"sha256":"b21d441a85a775991a226d3a5179fb95fb1630b9c2e3fc6e689a2ebc131816df"},{"file":"./assets/js/moyun.js?v=16b39288bd1a","status":200,"bytes":2754712,"sha256":"3d1a8399332077c019818ae7db3a615d13d3054df58a1fe9ff70f427870378f6"}]}
+    PASS 页面品牌图标实际解码成功 [{"src":"./assets/favicon/moyun.svg","loaded":true},{"src":"./assets/favicon/moyun.svg","loaded":true},{"src":"./assets/favicon/moyun.svg","loaded":true},{"src":"./assets/favicon/moyun.svg","loaded":true}]
+    AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+      assert.ok(data.text.includes('长篇记忆与混合检索')&&data.text.includes('角色分类与批量修改'))
+
+        at <workspace>\scripts\v19-release-smoke.cjs:50:83
+        at async check (<workspace>\scripts\v19-release-smoke.cjs:8:48)
+        at async module.exports (<workspace>\scripts\v19-release-smoke.cjs:47:4)
+        at async main (<workspace>\scripts\v19-outline-review-browser.cjs:65:50)
+
+[gate] 重生成快照查看、清理与保存回滚（浏览器） … PASS（44.5 秒）
+[gate] 百万字旧书导入、记忆发送与启动迁移（浏览器） … PASS（62.2 秒）
+[gate] 手机开关、设置固定栏与可视区域（浏览器） … PASS（74 秒）
+[gate] 平板双栏底部可视区域（浏览器） … FAIL（8 秒）
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+    + actual - expected
+
+    + 43.92584228515625
+    - 44
+
+        at <workspace>\scripts\v19-mobile-layout-browser.cjs:21:72
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async check (<workspace>\scripts\v19-mobile-layout-browser.cjs:7:48)
+        at async module.exports (<workspace>\scripts\v19-mobile-layout-browser.cjs:18:4)
+        at async main (<workspace>\scripts\v19-outline-review-browser.cjs:66:50)
+
+[gate] 浏览器回归（桌面与手机尺寸） … FAIL（25.2 秒）
+    PASS 记忆：旧章替换总结、最新原文保留、召回最多10条按相关度排序并注入历史上下文 {"hits":10,"summary":true,"relevanceOrdered":true,"historySlot":true}
+    PASS 记忆：正文重写立即失效、停用回退原文、支线隔离 {"staleExcluded":true,"disabledUsesOriginal":true,"branchIds":[]}
+    PASS 记忆：切书取消在途请求，书籍/Token/模型互不覆盖 {"fresh":{"memory":0,"usage":null},"restored":31,"usage":{"at":1795841926700,"prompt":240,"completion":160,"cached":80,"total":400,"reasoning":null},"model":"v18-summary","sameModel":true}
+    PASS 自定义字数：桌面双击、小数保存、固定档位仍可选 {"value":1234.5,"editing":false}
+    PASS 记忆工作台布局 1366 {"overflow":false,"width":738,"left":598,"right":1336,"inner":1366}
+    PASS 记忆工作台布局 390 {"overflow":false,"width":352,"left":16,"right":368,"inner":390}
+    PASS 手机长按字数：显示输入框且获得焦点 {"focused":true,"value":876.25}
+    PASS 自动记录与真实写作请求接线：记忆和自定义字数进入请求，token更新 {"chapters":4,"recorded":4,"usage":{"at":1795841930574,"prompt":240,"completion":160,"cached":80,"total":400,"reasoning":null},"volumeHandoffIncluded":true,"geminiInputExcludedFromOpenAI":true}
+    PASS Token SSE：跨字节分段、累计快照不重复相加、缺失用量不冒充合计 {"result":"测试分段","cumulative":{"at":1795841931936,"prompt":120,"completion":80,"cached":40,"total":200,"reasoning":null},"missing":{"at":1795841931944,"prompt":null,"completion":null,"cached":null,"total":null,"reasoning":null},"gemini":{"prompt":100,"completion":50,"cached":null,"total":150,"reasoning":30}}
+    PASS 记忆失败与停止：自动不重复重试、手动可补录，停止或换模型后旧结果不写入 {"failed":{"calls":1,"rows":0,"error":"API 503: 测试临时失败"},"automatic":1,"retried":1,"stopped":0,"changed":0,"busy":false}
+    PASS 记忆换向量模型：召回不混用旧索引，手动重建坏向量 {"staleModels":["[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-vector\"]"],"badVectorKept":true,"recalled":true,"models":["[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-vector-next\"]"],"blockCount":8,"vectorCount":8}
+    PASS 字数输入边界：空值、非数字和越界不覆盖原值，固定选项可恢复 {"prior":300.5,"results":[{"value":300.5,"editing":true},{"value":300.5,"editing":true},{"value":300.5,"editing":true},{"value":300.5,"editing":true}],"fixed":1500}
+    PASS 后卷真实写作：携带上一卷交接和本卷边界，自动记忆与自定义字数进入请求 {"count":3,"recorded":3,"handoffRows":2,"usage":{"at":1795841932321,"prompt":120,"completion":80,"cached":40,"total":200,"reasoning":null}}
+    PASS 中断续写：旧稿保留，增强记忆与原输入接入，保存后自动记录 {"chapterId":"id_1795841933256_5mc8qz8o","recorded":true,"volumeHandoffIncluded":true,"usage":{"at":1795841933267,"prompt":240,"completion":160,"cached":80,"total":400,"reasoning":null}}
+    PASS 书籍导入：记忆随追加章节重映射、重复导入不叠加、全局模型连接不被改号 {"first":{"chapters":4,"rows":4,"settings":{"enabled":false,"autoSummarize":false,"autoIndexBlocks":false,"rerankEnabled":false,"rerankProfileId":"","rerankModel":"","replaceHistoryWithSummaries":false,"mode":"classic","classicProfileId":"","classicModel":"","summaryKeepChapters":10,"classicConcurrency":5},"ids":["id_1795841934197_8a8jsclc","id_1795841934197_25uvs9kj","id_1795841934197_h87pkwjm","id_1795841934197_k4kb5921"]},"count":34,"second":{"count":34,"valid":4},"replaced":{"classic":"v18-profile","embedding":"v18-vector-next","valid":4,"ids":["v18-profile","memory-2","id_1795841932331_llfhqh5c","id_1795841933256_5mc8qz8o"]},"created":{"classic":"v18-profile","embedding":"v18-vector-next","valid":4,"ids":["v18-profile","memory-2","id_1795841932331_llfhqh5c","id_1795841933256_5mc8qz8o"]},"expected":4}
+    PASS 章节迁移、最近N章原文与目标章节范围，不读取未来章节 {"keep":7,"chapters":5,"recentOriginal":2}
+    PASS 全局向量模型获取：使用默认API，手选保留，切站旧结果不污染新列表，错误可重试 {"defaultSite":true,"manualSelection":true,"staleExcluded":true,"retried":true}
+    PASS 向量失败和重复索引不阻断写作，关键词召回仍保留原输入；取消仍抛出 {"fallbackHit":true,"duplicateHit":true,"fallbackInput":true,"duplicateInput":true,"blocksUnchanged":true,"aborted":true}
+    PASS 抗截断进入实际写作与记忆总结，工具外壳不进入章节，全局采样覆盖固定值 {"saved":true,"recorded":true,"temperature":0.36,"effort":"low"}
+    PASS 记忆模型按钮与手选：加载状态、全局保存、切书不丢且无串书 {"loading":true,"selected":"v18-ui-vector","other":{"model":"v18-ui-vector","mixed":false},"returned":"v18-ui-vector","rows":0}
+    PASS 记忆补录按钮：两章正文各自总结并创建向量索引 {"busy":false,"error":"","memories":[{"id":"ui-chapter-1","text":"记忆1：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。","vector":false},{"id":"ui-chapter-2","text":"记忆2：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。","vector":false}],"blocks":[{"chapterId":"ui-chapter-1","kind":"parent","vector":true,"model":"[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"},{"chapterId":"ui-chapter-1","kind":"child","vector":true,"model":"[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"},{"chapterId":"ui-chapter-2","kind":"parent","vector":true,"model":"[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"},{"chapterId":"ui-chapter-2","kind":"child","vector":true,"model":"[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"}],"labels":["第1章 按钮测试1 可用于写作停用重新记录","第2章 按钮测试2 可用于写作停用重新记录"]}
+    PASS 记忆编辑、停用/启用与重新记录按钮：写作上下文实时更新 {"edited":"【前文剧情与长期记忆】\n【逐章记忆】\nUI_EDITED_MEMORY：阿雪保管钥匙。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。","cleared":true,"disabled":"【前文剧情与长期记忆】\n第1章 按钮测试1 摘要：\nUI_SUMMARY_1：铜钥匙由阿雪保管。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。","enabled":"【前文剧情与长期记忆】\n【逐章记忆】\nUI_EDITED_MEMORY：阿雪保管钥匙。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。","recorded":"记忆1：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。","error":""}
+    AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+    false !== true
+
+        at <workspace>\scripts\v18-memory-ui.cjs:62:93
+        at async check (<workspace>\scripts\v18-browser.cjs:19:47)
+        at async module.exports (<workspace>\scripts\v18-memory-ui.cjs:54:3)
+        at async module.exports (<workspace>\scripts\v18-optimization.cjs:67:2)
+        at async module.exports (<workspace>\scripts\v18-scenarios.cjs:148:2)
+        at async main (<workspace>\scripts\v18-browser.cjs:49:3) {
+      generatedMessage: true,
+      code: 'ERR_ASSERTION',
+      actual: false,
+      expected: true,
+      operator: 'strictEqual',
+      diff: 'simple'
+    }
+
+[gate] 浏览器回归（--legacy 对照） … PASS（122.7 秒）
+[gate] 通用规划解析与中断恢复（浏览器） … PASS（28.4 秒）
+[gate] 手动选择原文与分区填充（浏览器） … PASS（41.6 秒）
+[gate] 真实文本分卷、接受和刷新（浏览器本地重放） … PASS（127.6 秒）
+[gate] 三层分支实际请求隔离与1128公告（浏览器） … FAIL（7.9 秒）
+    AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+      assert.ok(d.text.includes('前文预算与旧记忆核对'))
+
+        at <workspace>\scripts\v19-branch-context-browser.cjs:16:111
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async check (<workspace>\scripts\v19-branch-context-browser.cjs:7:48)
+        at async module.exports (<workspace>\scripts\v19-branch-context-browser.cjs:14:4)
+        at async main (<workspace>\scripts\v19-outline-review-browser.cjs:70:51)
+
+[gate] 设置关联词搜索与定位（浏览器） … PASS（239.8 秒）
+[gate] 角色分类、批量预览和手机点击命中（浏览器） … PASS（20.5 秒）
+[gate] 父子块混合召回、重排和最终写作请求（浏览器本地 mock） … PASS（18.3 秒）
+[gate] 存储增量、编辑响应、切书与关闭性能（浏览器） … PASS（45.4 秒）
+
+npm.cmd : [gate] 未通过：失败 v19-release-local、v19-tablet-layout、v18-browser、v19-branch-context
+所在位置 行:6 字符: 1
++ npm.cmd run gate:browser *> .ui-check/v20-settings-browser-gate-final ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([gate] 未通过：失败 v...-branch-context:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[gate] 未覆盖：真实服务商的兼容性（本门禁只用本地 mock）；iOS Safari 与手机真机的键盘、手势行为；没有登记进本门禁的专项脚本（v16、v17 浏览器脚本、公告脚本等，需要手动启动 Edge 与本地服务）
+[gate] 报告：.ui-check/gate-report.json

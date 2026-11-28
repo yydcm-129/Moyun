@@ -1,0 +1,994 @@
+{
+  "passed": false,
+  "results": [
+    {
+      "name": "干净首开：首本空白书已装载全部新旧预设",
+      "ok": true,
+      "data": {
+        "books": 1,
+        "chapters": 0,
+        "total": 16,
+        "visible": 14,
+        "old": 11
+      }
+    },
+    {
+      "name": "旧版预设位于分区底部，编辑、开关、作用模块可用",
+      "ok": true,
+      "data": {
+        "cards": 11,
+        "bottom": true,
+        "content": "V18_LEGACY_SCOPE",
+        "enabled": true,
+        "scope": [
+          "writing",
+          "outline"
+        ],
+        "outline": "V18_LEGACY_SCOPE",
+        "character": ""
+      }
+    },
+    {
+      "name": "作用模块按钮保持紧凑尺寸、单行和选中状态",
+      "ok": true,
+      "data": {
+        "count": 5,
+        "listWidth": 319,
+        "buttons": [
+          {
+            "key": "writing",
+            "width": 38,
+            "height": 32,
+            "scrollWidth": 38,
+            "scrollHeight": 32,
+            "whiteSpace": "nowrap",
+            "flex": "0 0 auto",
+            "pressed": "true",
+            "selected": true
+          },
+          {
+            "key": "outline",
+            "width": 38,
+            "height": 32,
+            "scrollWidth": 38,
+            "scrollHeight": 32,
+            "whiteSpace": "nowrap",
+            "flex": "0 0 auto",
+            "pressed": "true",
+            "selected": true
+          },
+          {
+            "key": "character",
+            "width": 38,
+            "height": 32,
+            "scrollWidth": 38,
+            "scrollHeight": 32,
+            "whiteSpace": "nowrap",
+            "flex": "0 0 auto",
+            "pressed": "false",
+            "selected": false
+          },
+          {
+            "key": "suggestion",
+            "width": 38,
+            "height": 32,
+            "scrollWidth": 38,
+            "scrollHeight": 32,
+            "whiteSpace": "nowrap",
+            "flex": "0 0 auto",
+            "pressed": "false",
+            "selected": false
+          },
+          {
+            "key": "review",
+            "width": 38,
+            "height": 32,
+            "scrollWidth": 38,
+            "scrollHeight": 32,
+            "whiteSpace": "nowrap",
+            "flex": "0 0 auto",
+            "pressed": "false",
+            "selected": false
+          }
+        ],
+        "display": "flex",
+        "wrap": "wrap",
+        "overflow": false
+      }
+    },
+    {
+      "name": "启用勾选框外观方正且保留手机触控面积",
+      "ok": true,
+      "data": {
+        "mobile": false,
+        "rows": [
+          {
+            "label": "防跑偏",
+            "button": {
+              "width": 20,
+              "height": 20,
+              "minWidth": "20px",
+              "minHeight": "20px"
+            },
+            "indicator": {
+              "width": 20,
+              "height": 20,
+              "text": "✓"
+            },
+            "checked": "true"
+          },
+          {
+            "label": "防神化",
+            "button": {
+              "width": 20,
+              "height": 20,
+              "minWidth": "20px",
+              "minHeight": "20px"
+            },
+            "indicator": {
+              "width": 20,
+              "height": 20,
+              "text": "✓"
+            },
+            "checked": "true"
+          },
+          {
+            "label": "人格内核",
+            "button": {
+              "width": 20,
+              "height": 20,
+              "minWidth": "20px",
+              "minHeight": "20px"
+            },
+            "indicator": {
+              "width": 20,
+              "height": 20,
+              "text": "✓"
+            },
+            "checked": "true"
+          }
+        ]
+      }
+    },
+    {
+      "name": "作用模块切换写入全局预设并在刷新后保留",
+      "ok": true,
+      "data": {
+        "before": {
+          "applyTo": [
+            "writing",
+            "outline"
+          ]
+        },
+        "toggled": {
+          "applyTo": [
+            "writing",
+            "outline",
+            "character"
+          ]
+        },
+        "toggledUi": {
+          "pressed": "true"
+        },
+        "after": {
+          "applyTo": [
+            "writing",
+            "outline",
+            "character"
+          ],
+          "pressed": "true"
+        }
+      }
+    },
+    {
+      "name": "预设布局与作用模块按钮 1366x900",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "legacyWidth": 345,
+        "left": 16,
+        "right": 361,
+        "viewport": 1366,
+        "listWidth": 319,
+        "buttons": [
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          }
+        ],
+        "toggles": [
+          {
+            "width": 20,
+            "height": 20,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 20,
+            "height": 20,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 20,
+            "height": 20,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "启用开关触控区域边缘可点且状态可逆 1366x900",
+      "ok": true,
+      "data": {
+        "point": {
+          "x": 32,
+          "y": 558,
+          "before": "true"
+        },
+        "before": "true",
+        "changed": "false",
+        "restored": "true"
+      }
+    },
+    {
+      "name": "预设布局与作用模块按钮 390x844",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "legacyWidth": 284.6875,
+        "left": 16,
+        "right": 300.6875,
+        "viewport": 390,
+        "listWidth": 258.6875,
+        "buttons": [
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          }
+        ],
+        "toggles": [
+          {
+            "width": 44,
+            "height": 44.000030517578125,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "启用开关触控区域边缘可点且状态可逆 390x844",
+      "ok": true,
+      "data": {
+        "point": {
+          "x": 32,
+          "y": 520.9481201171875,
+          "before": "true"
+        },
+        "before": "true",
+        "changed": "false",
+        "restored": "true"
+      }
+    },
+    {
+      "name": "预设布局与作用模块按钮 320x568",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "legacyWidth": 226.59375,
+        "left": 16,
+        "right": 242.59375,
+        "viewport": 320,
+        "listWidth": 200.59375,
+        "buttons": [
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          }
+        ],
+        "toggles": [
+          {
+            "width": 44,
+            "height": 43.999969482421875,
+            "indicatorWidth": 20,
+            "indicatorHeight": 19.999969482421875
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "启用开关触控区域边缘可点且状态可逆 320x568",
+      "ok": true,
+      "data": {
+        "point": {
+          "x": 32,
+          "y": 391.3916320800781,
+          "before": "true"
+        },
+        "before": "true",
+        "changed": "false",
+        "restored": "true"
+      }
+    },
+    {
+      "name": "预设布局与作用模块按钮 667x375",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "legacyWidth": 345,
+        "left": 16,
+        "right": 361,
+        "viewport": 667,
+        "listWidth": 319,
+        "buttons": [
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          },
+          {
+            "width": 38,
+            "height": 32,
+            "flex": "0 0 auto",
+            "whiteSpace": "nowrap",
+            "scrollHeight": 32
+          }
+        ],
+        "toggles": [
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          },
+          {
+            "width": 44,
+            "height": 44,
+            "indicatorWidth": 20,
+            "indicatorHeight": 20
+          }
+        ]
+      }
+    },
+    {
+      "name": "启用开关触控区域边缘可点且状态可逆 667x375",
+      "ok": true,
+      "data": {
+        "point": {
+          "x": 32,
+          "y": 286.75,
+          "before": "true"
+        },
+        "before": "true",
+        "changed": "false",
+        "restored": "true"
+      }
+    },
+    {
+      "name": "真实请求：旧预设作用模块开启才注入",
+      "ok": true,
+      "data": {
+        "enabledInjected": true,
+        "disabledExcluded": true
+      }
+    },
+    {
+      "name": "卷纲：三段衔接完整保存，超过2000字不截断",
+      "ok": true,
+      "data": {
+        "length": 2539,
+        "chapterLinesInSummary": true,
+        "second": true
+      }
+    },
+    {
+      "name": "Gemini测试输入仅作用于Gemini模型与原生协议，并只搬移本轮作者要求",
+      "ok": true,
+      "data": {
+        "adapters": [
+          "openai-compatible",
+          "anthropic-messages",
+          "gemini-generate"
+        ],
+        "geminiOnly": true,
+        "randomPrefix": false,
+        "manualOnly": true
+      }
+    },
+    {
+      "name": "Token真实用量：三种接口、0与缺失、多请求合计",
+      "ok": true,
+      "data": {
+        "samples": [
+          {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 0,
+            "total": 0,
+            "reasoning": null
+          },
+          {
+            "prompt": 120,
+            "completion": null,
+            "cached": 30,
+            "total": null,
+            "reasoning": null
+          },
+          {
+            "prompt": 200,
+            "completion": 90,
+            "cached": 100,
+            "total": 290,
+            "reasoning": null
+          }
+        ],
+        "usage": {
+          "at": 1795841926700,
+          "prompt": 240,
+          "completion": 160,
+          "cached": 80,
+          "total": 400,
+          "reasoning": null
+        }
+      }
+    },
+    {
+      "name": "记忆：历史章补录、并发、增强向量与旧记忆合并保留源细节",
+      "ok": true,
+      "data": {
+        "total": 31,
+        "blocks": 62,
+        "vectors": 62,
+        "groups": 1,
+        "originals": 5
+      }
+    },
+    {
+      "name": "记忆：旧章替换总结、最新原文保留、召回最多10条按相关度排序并注入历史上下文",
+      "ok": true,
+      "data": {
+        "hits": 10,
+        "summary": true,
+        "relevanceOrdered": true,
+        "historySlot": true
+      }
+    },
+    {
+      "name": "记忆：正文重写立即失效、停用回退原文、支线隔离",
+      "ok": true,
+      "data": {
+        "staleExcluded": true,
+        "disabledUsesOriginal": true,
+        "branchIds": []
+      }
+    },
+    {
+      "name": "记忆：切书取消在途请求，书籍/Token/模型互不覆盖",
+      "ok": true,
+      "data": {
+        "fresh": {
+          "memory": 0,
+          "usage": null
+        },
+        "restored": 31,
+        "usage": {
+          "at": 1795841926700,
+          "prompt": 240,
+          "completion": 160,
+          "cached": 80,
+          "total": 400,
+          "reasoning": null
+        },
+        "model": "v18-summary",
+        "sameModel": true
+      }
+    },
+    {
+      "name": "自定义字数：桌面双击、小数保存、固定档位仍可选",
+      "ok": true,
+      "data": {
+        "value": 1234.5,
+        "editing": false
+      }
+    },
+    {
+      "name": "记忆工作台布局 1366",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "width": 738,
+        "left": 598,
+        "right": 1336,
+        "inner": 1366
+      }
+    },
+    {
+      "name": "记忆工作台布局 390",
+      "ok": true,
+      "data": {
+        "overflow": false,
+        "width": 352,
+        "left": 16,
+        "right": 368,
+        "inner": 390
+      }
+    },
+    {
+      "name": "手机长按字数：显示输入框且获得焦点",
+      "ok": true,
+      "data": {
+        "focused": true,
+        "value": 876.25
+      }
+    },
+    {
+      "name": "自动记录与真实写作请求接线：记忆和自定义字数进入请求，token更新",
+      "ok": true,
+      "data": {
+        "chapters": 4,
+        "recorded": 4,
+        "usage": {
+          "at": 1795841930574,
+          "prompt": 240,
+          "completion": 160,
+          "cached": 80,
+          "total": 400,
+          "reasoning": null
+        },
+        "volumeHandoffIncluded": true,
+        "geminiInputExcludedFromOpenAI": true
+      }
+    },
+    {
+      "name": "Token SSE：跨字节分段、累计快照不重复相加、缺失用量不冒充合计",
+      "ok": true,
+      "data": {
+        "result": "测试分段",
+        "cumulative": {
+          "at": 1795841931936,
+          "prompt": 120,
+          "completion": 80,
+          "cached": 40,
+          "total": 200,
+          "reasoning": null
+        },
+        "missing": {
+          "at": 1795841931944,
+          "prompt": null,
+          "completion": null,
+          "cached": null,
+          "total": null,
+          "reasoning": null
+        },
+        "gemini": {
+          "prompt": 100,
+          "completion": 50,
+          "cached": null,
+          "total": 150,
+          "reasoning": 30
+        }
+      }
+    },
+    {
+      "name": "记忆失败与停止：自动不重复重试、手动可补录，停止或换模型后旧结果不写入",
+      "ok": true,
+      "data": {
+        "failed": {
+          "calls": 1,
+          "rows": 0,
+          "error": "API 503: 测试临时失败"
+        },
+        "automatic": 1,
+        "retried": 1,
+        "stopped": 0,
+        "changed": 0,
+        "busy": false
+      }
+    },
+    {
+      "name": "记忆换向量模型：召回不混用旧索引，手动重建坏向量",
+      "ok": true,
+      "data": {
+        "staleModels": [
+          "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-vector\"]"
+        ],
+        "badVectorKept": true,
+        "recalled": true,
+        "models": [
+          "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-vector-next\"]"
+        ],
+        "blockCount": 8,
+        "vectorCount": 8
+      }
+    },
+    {
+      "name": "字数输入边界：空值、非数字和越界不覆盖原值，固定选项可恢复",
+      "ok": true,
+      "data": {
+        "prior": 300.5,
+        "results": [
+          {
+            "value": 300.5,
+            "editing": true
+          },
+          {
+            "value": 300.5,
+            "editing": true
+          },
+          {
+            "value": 300.5,
+            "editing": true
+          },
+          {
+            "value": 300.5,
+            "editing": true
+          }
+        ],
+        "fixed": 1500
+      }
+    },
+    {
+      "name": "后卷真实写作：携带上一卷交接和本卷边界，自动记忆与自定义字数进入请求",
+      "ok": true,
+      "data": {
+        "count": 3,
+        "recorded": 3,
+        "handoffRows": 2,
+        "usage": {
+          "at": 1795841932321,
+          "prompt": 120,
+          "completion": 80,
+          "cached": 40,
+          "total": 200,
+          "reasoning": null
+        }
+      }
+    },
+    {
+      "name": "中断续写：旧稿保留，增强记忆与原输入接入，保存后自动记录",
+      "ok": true,
+      "data": {
+        "chapterId": "id_1795841933256_5mc8qz8o",
+        "recorded": true,
+        "volumeHandoffIncluded": true,
+        "usage": {
+          "at": 1795841933267,
+          "prompt": 240,
+          "completion": 160,
+          "cached": 80,
+          "total": 400,
+          "reasoning": null
+        }
+      }
+    },
+    {
+      "name": "书籍导入：记忆随追加章节重映射、重复导入不叠加、全局模型连接不被改号",
+      "ok": true,
+      "data": {
+        "first": {
+          "chapters": 4,
+          "rows": 4,
+          "settings": {
+            "enabled": false,
+            "autoSummarize": false,
+            "autoIndexBlocks": false,
+            "rerankEnabled": false,
+            "rerankProfileId": "",
+            "rerankModel": "",
+            "replaceHistoryWithSummaries": false,
+            "mode": "classic",
+            "classicProfileId": "",
+            "classicModel": "",
+            "summaryKeepChapters": 10,
+            "classicConcurrency": 5
+          },
+          "ids": [
+            "id_1795841934197_8a8jsclc",
+            "id_1795841934197_25uvs9kj",
+            "id_1795841934197_h87pkwjm",
+            "id_1795841934197_k4kb5921"
+          ]
+        },
+        "count": 34,
+        "second": {
+          "count": 34,
+          "valid": 4
+        },
+        "replaced": {
+          "classic": "v18-profile",
+          "embedding": "v18-vector-next",
+          "valid": 4,
+          "ids": [
+            "v18-profile",
+            "memory-2",
+            "id_1795841932331_llfhqh5c",
+            "id_1795841933256_5mc8qz8o"
+          ]
+        },
+        "created": {
+          "classic": "v18-profile",
+          "embedding": "v18-vector-next",
+          "valid": 4,
+          "ids": [
+            "v18-profile",
+            "memory-2",
+            "id_1795841932331_llfhqh5c",
+            "id_1795841933256_5mc8qz8o"
+          ]
+        },
+        "expected": 4
+      }
+    },
+    {
+      "name": "章节迁移、最近N章原文与目标章节范围，不读取未来章节",
+      "ok": true,
+      "data": {
+        "keep": 7,
+        "chapters": 5,
+        "recentOriginal": 2
+      }
+    },
+    {
+      "name": "全局向量模型获取：使用默认API，手选保留，切站旧结果不污染新列表，错误可重试",
+      "ok": true,
+      "data": {
+        "defaultSite": true,
+        "manualSelection": true,
+        "staleExcluded": true,
+        "retried": true
+      }
+    },
+    {
+      "name": "向量失败和重复索引不阻断写作，关键词召回仍保留原输入；取消仍抛出",
+      "ok": true,
+      "data": {
+        "fallbackHit": true,
+        "duplicateHit": true,
+        "fallbackInput": true,
+        "duplicateInput": true,
+        "blocksUnchanged": true,
+        "aborted": true
+      }
+    },
+    {
+      "name": "抗截断进入实际写作与记忆总结，工具外壳不进入章节，全局采样覆盖固定值",
+      "ok": true,
+      "data": {
+        "saved": true,
+        "recorded": true,
+        "temperature": 0.36,
+        "effort": "low"
+      }
+    },
+    {
+      "name": "记忆模型按钮与手选：加载状态、全局保存、切书不丢且无串书",
+      "ok": true,
+      "data": {
+        "loading": true,
+        "selected": "v18-ui-vector",
+        "other": {
+          "model": "v18-ui-vector",
+          "mixed": false
+        },
+        "returned": "v18-ui-vector",
+        "rows": 0
+      }
+    },
+    {
+      "name": "记忆补录按钮：两章正文各自总结并创建向量索引",
+      "ok": true,
+      "data": {
+        "busy": false,
+        "error": "",
+        "memories": [
+          {
+            "id": "ui-chapter-1",
+            "text": "记忆1：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。",
+            "vector": false
+          },
+          {
+            "id": "ui-chapter-2",
+            "text": "记忆2：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。",
+            "vector": false
+          }
+        ],
+        "blocks": [
+          {
+            "chapterId": "ui-chapter-1",
+            "kind": "parent",
+            "vector": true,
+            "model": "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"
+          },
+          {
+            "chapterId": "ui-chapter-1",
+            "kind": "child",
+            "vector": true,
+            "model": "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"
+          },
+          {
+            "chapterId": "ui-chapter-2",
+            "kind": "parent",
+            "vector": true,
+            "model": "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"
+          },
+          {
+            "chapterId": "ui-chapter-2",
+            "kind": "child",
+            "vector": true,
+            "model": "[\"openai-compatible\",\"https://v18.invalid/v1\",\"v18-ui-vector\"]"
+          }
+        ],
+        "labels": [
+          "第1章 按钮测试1 可用于写作停用重新记录",
+          "第2章 按钮测试2 可用于写作停用重新记录"
+        ]
+      }
+    },
+    {
+      "name": "记忆编辑、停用/启用与重新记录按钮：写作上下文实时更新",
+      "ok": true,
+      "data": {
+        "edited": "【前文剧情与长期记忆】\n【逐章记忆】\nUI_EDITED_MEMORY：阿雪保管钥匙。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。",
+        "cleared": true,
+        "disabled": "【前文剧情与长期记忆】\n第1章 按钮测试1 摘要：\nUI_SUMMARY_1：铜钥匙由阿雪保管。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。",
+        "enabled": "【前文剧情与长期记忆】\n【逐章记忆】\nUI_EDITED_MEMORY：阿雪保管钥匙。\n第2章 按钮测试2\nUI_CHAPTER_2：铜钥匙在阿雪手中。\n请继续写下一章。",
+        "recorded": "记忆1：林舟在旧仓库将铜钥匙交给阿雪，约定次日到东门，守门人尚不知情。",
+        "error": ""
+      }
+    },
+    {
+      "name": "记忆停止按钮：取消在途补录，晚到响应不写入",
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n"
+    }
+  ],
+  "errors": []
+}

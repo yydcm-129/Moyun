@@ -1,0 +1,11 @@
+{
+  "passed": false,
+  "results": [
+    {
+      "name": "1280-light公告显示、滚动和关闭入口",
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert.ok(d.text.includes('前文预算与旧记忆核对'))\n"
+    }
+  ],
+  "errors": []
+}

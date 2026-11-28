@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "before": false,
+  "results": [
+    {
+      "name": "1024x1366-light开关形状和滑块位置",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 43.92584228515625\n- 44\n\n    at <workspace>\\scripts\\v19-mobile-layout-browser.cjs:21:72\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async check (<workspace>\\scripts\\v19-mobile-layout-browser.cjs:7:48)\n    at async module.exports (<workspace>\\scripts\\v19-mobile-layout-browser.cjs:18:4)\n    at async main (<workspace>\\scripts\\v19-outline-review-browser.cjs:66:50)"
+    }
+  ],
+  "errors": [],
+  "consoleErrors": []
+}

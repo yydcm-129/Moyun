@@ -15,12 +15,12 @@ module.exports=async function(c,check){
   await check('记忆模型按钮与手选：加载状态、全局保存、切书不丢且无串书',async()=>{
    const d=await c.ev(async()=>{
     let release;window.fetch=async(url,opts)=>String(url).endsWith('/models')?new Promise(r=>release=r):__memoryUi.fetch(url,opts);
-    const button=[...document.querySelectorAll('[data-memory-embedding] button')].find(item=>item.textContent.includes('获取默认 API 模型'));button.click();for(let i=0;i<30&&!release;i++)await new Promise(r=>setTimeout(r,10));await Vue.nextTick();
+    const button=[...document.querySelectorAll('[data-memory-embedding] button')].find(item=>item.textContent.includes('获取向量连接模型'));button.click();for(let i=0;i<30&&!release;i++)await new Promise(r=>setTimeout(r,10));await Vue.nextTick();
     const loading=button.disabled;
     if(!release)throw Error('点击获取模型后没有发起模型列表请求');
     release(new Response(JSON.stringify({data:[{id:'v18-ui-vector'},{id:'v18-chat'}]})));
     for(let i=0;i<30&&__s.memoryEmbeddingDiscovery.loading;i++)await new Promise(r=>setTimeout(r,20));await Vue.nextTick();
-    const select=document.querySelector('[data-memory-embedding-model]');select.value='v18-ui-vector';select.dispatchEvent(new Event('change',{bubbles:true}));await Vue.nextTick();
+    const select=document.querySelector('[data-memory-embedding-model]');select.value='v18-ui-vector';select.dispatchEvent(new Event('input',{bubbles:true}));select.dispatchEvent(new Event('change',{bubbles:true}));await Vue.nextTick();
     const selected=__s.settings.memoryEmbeddingModel;__s.syncBookData();__s.loadBook(__memoryUi.book);
     const other={model:__s.settings.memoryEmbeddingModel,mixed:__s.chapters.some(ch=>ch.id.startsWith('ui-chapter-'))||__s.memoryLibrary.memories.some(m=>m.chapterId.startsWith('ui-chapter-'))};
     __s.loadBook('v18-memory-ui');__s.openStoryBibleWorkbench('memory');await Vue.nextTick();window.fetch=__memoryUi.fetch;
@@ -58,7 +58,7 @@ module.exports=async function(c,check){
     [...document.querySelector('[data-memory-library]').querySelectorAll('button')].find(b=>b.textContent.includes('补录缺失记忆')).click();for(let i=0;i<30&&!pending.length;i++)await new Promise(r=>setTimeout(r,10));await Vue.nextTick();if(!pending.length)throw Error('补录任务没有发起请求，无法验证停止中的晚到响应');
     const running=__s.memoryProgress.busy;[...document.querySelector('[data-memory-library]').querySelectorAll('button')].find(b=>b.textContent.trim()==='停止').click();await Vue.nextTick();
     for(const release of pending)release();await new Promise(r=>setTimeout(r,150));
-    window.fetch=__memoryUi.fetch;return{running,busy:__s.memoryProgress.busy,rows:__s.memoryLibrary.memories.length,stopped:!document.querySelector('[data-memory-library]').textContent.includes('停止')};
+    window.fetch=__memoryUi.fetch;return{running,busy:__s.memoryProgress.busy,rows:__s.memoryLibrary.memories.length,stopped:![...document.querySelector('[data-memory-library]').querySelectorAll('button')].some(button=>button.textContent.trim()==='停止')};
    });assert.equal(d.running,true);assert.equal(d.busy,false);assert.equal(d.rows,0);assert.equal(d.stopped,true);return d;
   });
  }finally{

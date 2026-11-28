@@ -4,7 +4,7 @@ module.exports=async function(c,check,shot){
  const delay=ms=>new Promise(r=>setTimeout(r,ms));
  for(const width of [1366,390]){
   await c.send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width<768});
-  await c.ev(()=>{__s.mobileSidebarOpen=false;__s.showStoryBibleWorkbench=false;__s.showCharacterWorkbench=false;__s.activeSettingsTab='context';__s.showSettings_modal=true;});await delay(300);
+  await c.ev(()=>{__s.mobileSidebarOpen=false;__s.showStoryBibleWorkbench=false;__s.showCharacterWorkbench=false;__s.activeSettingsTab='auxiliary';__s.showSettings_modal=true;});await delay(300);
   for(const [kind,prior,setting]of [['gemini','保存后续重生成请求快照','geminiTestInput'],['token','显示思维链','showTokenUsage']]){
    const selector=kind==='gemini'?'[data-settings-gemini-input]':'[data-settings-token-usage]';
    await check('设置开关位置与点击 '+kind+' '+width,async()=>{

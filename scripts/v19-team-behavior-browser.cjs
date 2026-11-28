@@ -100,7 +100,7 @@ async function runTeamBehaviorBrowserChecks() {
     assert(shared.ok,'Shared mock profile creation failed');
     const specialist=s.createConnectionProfile({name:'角色专用 API',templateId:'openai-compatible',baseUrl:'https://mock-v19-team.invalid/v1',defaultModel:'team-character-special',apiKey:'test-only',lastTest:{status:'ok'}});
     assert(specialist.ok,'Specialist mock profile creation failed');
-    s.showSettings_modal=true;s.activeSettingsTab='context';s.teamBookRoutesOpen=false;s.settingsSearchQuery='团队开书';s.settingsSearchFocused=true;await tick();
+    s.showSettings_modal=true;s.activeSettingsTab='auxiliary';s.teamBookRoutesOpen=false;s.settingsSearchQuery='团队开书';s.settingsSearchFocused=true;await tick();
     const teamSearch=s.settingsSearchResults.find(item=>item.target==='settings-search-team-book');assert(teamSearch,'Team Book search did not find the context section');s.navigateToSettingsSearchResult(teamSearch);await tick();
     const unifiedRadio=Array.from(document.querySelectorAll('input[name="team-book-unified-route"]')).find(input=>input.value===shared.profile.id);assert(unifiedRadio,'Unified API choice is missing from the settings page');unifiedRadio.click();await tick();assert(s.getModuleRequestConfig('team-planner').model==='team-shared','Unified route UI selection did not reach planner');
     button(document,'逐项调整团队开书 API →').click();await tick();

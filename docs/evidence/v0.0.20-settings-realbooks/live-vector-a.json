@@ -1,0 +1,202 @@
+{
+  "passed": true,
+  "realProvider": true,
+  "endpoint": "https://sta1n.ai/v1/embeddings",
+  "model": "[官]gemini-embedding-2",
+  "sourceHash": "1b50649aaca0a2016f1d81455ba0ff7e7f40bf5be777e57deddf74dec70e777e",
+  "selectedChapterNumbers": [
+    3,
+    19,
+    31,
+    47,
+    83,
+    91
+  ],
+  "totalOriginalChapters": 92,
+  "results": [
+    {
+      "name": "真实浏览器跨域向量索引，写作连接不变且只调用embedding",
+      "busy": false,
+      "error": "",
+      "blocks": 1053,
+      "dims": [
+        3072
+      ],
+      "defaultWriting": "writing-test",
+      "requests": 0
+    },
+    {
+      "name": "再次增量建立无新增请求",
+      "pass": true
+    },
+    {
+      "name": "改写事实问题 1",
+      "top5Chapter": true,
+      "targetSent": true,
+      "answerInHistory": true,
+      "chars": 2478,
+      "sent": 8,
+      "engines": [
+        "关键词与外部向量融合 · 本地排序"
+      ],
+      "top5": [
+        {
+          "chapter": 1,
+          "score": 0.030222663701573116
+        },
+        {
+          "chapter": 1,
+          "score": 0.029112691559524468
+        },
+        {
+          "chapter": 1,
+          "score": 0.028478484641984367
+        },
+        {
+          "chapter": 1,
+          "score": 0.02699599787311706
+        },
+        {
+          "chapter": 2,
+          "score": 0.02680886816618212
+        }
+      ],
+      "userKept": true
+    },
+    {
+      "name": "改写事实问题 2",
+      "top5Chapter": true,
+      "targetSent": true,
+      "answerInHistory": true,
+      "chars": 2497,
+      "sent": 8,
+      "engines": [
+        "关键词与外部向量融合 · 本地排序"
+      ],
+      "top5": [
+        {
+          "chapter": 3,
+          "score": 0.031075952024372785
+        },
+        {
+          "chapter": 2,
+          "score": 0.028303352244389547
+        },
+        {
+          "chapter": 2,
+          "score": 0.024473916306892506
+        },
+        {
+          "chapter": 3,
+          "score": 0.023440825374679956
+        },
+        {
+          "chapter": 2,
+          "score": 0.02214155014971146
+        }
+      ],
+      "userKept": true
+    },
+    {
+      "name": "改写事实问题 3",
+      "top5Chapter": true,
+      "targetSent": true,
+      "answerInHistory": true,
+      "chars": 2492,
+      "sent": 9,
+      "engines": [
+        "关键词与外部向量融合 · 本地排序"
+      ],
+      "top5": [
+        {
+          "chapter": 4,
+          "score": 0.028977764198253333
+        },
+        {
+          "chapter": 4,
+          "score": 0.028131630843506384
+        },
+        {
+          "chapter": 4,
+          "score": 0.027607956455510896
+        },
+        {
+          "chapter": 4,
+          "score": 0.026699627370031617
+        },
+        {
+          "chapter": 4,
+          "score": 0.02503212598012294
+        }
+      ],
+      "userKept": true
+    },
+    {
+      "name": "改写事实问题 4",
+      "top5Chapter": true,
+      "targetSent": true,
+      "answerInHistory": true,
+      "chars": 2480,
+      "sent": 9,
+      "engines": [
+        "关键词与外部向量融合 · 本地排序"
+      ],
+      "top5": [
+        {
+          "chapter": 5,
+          "score": 0.030427633620401743
+        },
+        {
+          "chapter": 5,
+          "score": 0.02778621785474204
+        },
+        {
+          "chapter": 2,
+          "score": 0.027296459190060057
+        },
+        {
+          "chapter": 2,
+          "score": 0.02727091050746183
+        },
+        {
+          "chapter": 5,
+          "score": 0.026083757764212193
+        }
+      ],
+      "userKept": true
+    },
+    {
+      "name": "上下文只允许前两章时不混入未来章节",
+      "onlyAllowed": true,
+      "sent": 10
+    }
+  ],
+  "traffic": [
+    {
+      "status": 200,
+      "inputs": 1,
+      "ms": 1225
+    },
+    {
+      "status": 200,
+      "inputs": 1,
+      "ms": 820
+    },
+    {
+      "status": 200,
+      "inputs": 1,
+      "ms": 792
+    },
+    {
+      "status": 200,
+      "inputs": 1,
+      "ms": 833
+    },
+    {
+      "status": 200,
+      "inputs": 1,
+      "ms": 823
+    }
+  ],
+  "cumulativeCalls": 422
+}

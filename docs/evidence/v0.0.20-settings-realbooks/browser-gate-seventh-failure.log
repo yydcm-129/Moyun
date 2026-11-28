@@ -1,0 +1,56 @@
+
+> moyun-web@0.0.20 gate:browser
+> node scripts/gate.cjs --browser
+
+[gate] 共 32 步（含浏览器回归）
+[gate] 构建 … PASS（0.1 秒）
+[gate] 生成脚本语法检查 … PASS（0.2 秒）
+[gate] 结构审计 … PASS（0.2 秒）
+[gate] 关键逻辑回归 … PASS（0.4 秒）
+[gate] AI 协议回归（本地 mock） … PASS（0.3 秒）
+[gate] 启动资源检查 … PASS（0.2 秒）
+[gate] 预设与上下文回归 … PASS（0.4 秒）
+[gate] 记忆库回归 … PASS（0.1 秒）
+[gate] v0.0.19 功能回归 … FAIL（6.1 秒）
+    ✔ 撤销不覆盖应用后手改细纲，生成时切书不弹迟到候选 (34.7267ms)
+    ✔ 普通一键开书的预设模块可以带入未完模式 (4.2943ms)
+    ✔ 工作台共用完整实时上下文，候选先审阅；拒绝不改变卷纲 (48.3288ms)
+    ✔ 接受后实时卷纲和交接更新，总纲不受损；并行修改不被候选覆盖 (36.8437ms)
+    ✔ 细纲批量输入也走卷纲候选审阅，提示明确普通修改范围 (9.6153ms)
+    ✔ 大纲/细纲没有正文时仍按文本章号推断卷纲范围 (33.3648ms)
+    ✔ 六章细纲优先于空白默认十章卷范围 (31.0937ms)
+    ✔ 大纲正文审阅完成后仍保留卷纲候选的第二次确认 (31.3945ms)
+    ✔ 卷纲整理提示明确只改卷纲且范围受已有章节约束 (5.8128ms)
+    ✔ 细纲工作台遇到无效 JSON 卷范围时仍识别同份原文的分卷标题 (42.1091ms)
+    ✔ 分支图按parentId显示三层独立路线，自有章节统计准确，损坏的父级不会递归卡死 (5.3236ms)
+    ✔ 细纲入口不再引用已删除撤销函数，四个入口共享一个分支面板 (19.9661ms)
+    ℹ tests 368
+    ℹ suites 0
+    ℹ pass 367
+    ℹ fail 1
+    ℹ cancelled 0
+    ℹ skipped 0
+    ℹ todo 0
+    ℹ duration_ms 6038.9741
+
+    ✖ failing tests:
+
+    test at scripts\v19-priority-input.test.cjs:47:1
+    ✖ 审查员未单配时回默认模型，显式分区覆盖默认；费用提示对应真实可搜索设置 (48.1592ms)
+      AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+        assert.ok(r.toasts.some(row=>row[0]==='发送后，将额外产生一次审查员的费用，审查员可在「上下文」→「团队开书」中调整。'))
+
+          at TestContext.<anonymous> (<workspace>\scripts\v19-priority-input.test.cjs:48:280)
+          at async Test.run (node:internal/test_runner/test:1208:7)
+          at async Test.processPendingSubtests (node:internal/test_runner/test:831:7) {
+        generatedMessage: true,
+        code: 'ERR_ASSERTION',
+        actual: false,
+        expected: true,
+        operator: '==',
+        diff: 'simple'
+      }
+
+[gate] v0.0.20 功能回归 … PASS（0.5 秒）
+[gate] 辅助设置、生图世界书与独立向量连接（浏览器） … PASS（37.2 秒）
